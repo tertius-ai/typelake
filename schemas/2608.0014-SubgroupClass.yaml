@@ -1,0 +1,22 @@
+id: scitype:2608.0014
+version: v1
+mnemonic: SubgroupClass
+title: Conjugacy class of subgroups
+categories: [math.GR]
+status: provisional
+identity:
+  defining: [ambient, representative_generators]
+  canonicalization: {method: canonical-form-under-ambient-conjugacy, kind: complete}
+fields:
+  ambient:                   {policy: primary, type: scitype:2608.0004}  # FiniteGroup
+  representative_generators: {policy: primary, type: "[[int]]", note: "in the ambient's canonical labelling"}
+  order:      {policy: derived-cheap, inputs: [representative_generators], type: decimal}
+  index:      {policy: derived-cheap, inputs: [ambient, representative_generators], type: decimal}
+  class_size: {policy: derived-cheap, inputs: [ambient, representative_generators], type: int}
+  is_normal:  {policy: derived-cheap, inputs: [ambient, representative_generators], type: bool}
+  is_sylow:   {policy: derived-cheap, inputs: [ambient, representative_generators], type: bool}
+relations:
+  - {kind: abstract-type, target: scitype:2608.0004}  # FiniteGroup
+note: >
+  Non-conjugate subgroups can be abstractly isomorphic, so a class cannot be
+  pinned by its isomorphism type. Identity depends on the ambient's canonical id.

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0025",
+  "title": "Linear code over a finite field",
+  "description": "A code is a subspace, but a generator matrix is a choice of basis, so identity cannot be the matrix. Even after row reduction, equivalence permutes (and under the monomial convention, scales) coordinates \u2014 which is why this is invariant-based, compared on length, dimension, minimum distance and weight enumerator. Minimum distance is NP-hard in general; expect it to be absent more often than present, which is what the coverage surface is for.",
+  "type": "object",
+  "properties": {
+    "base": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "params"
+      ],
+      "$comment": "inlined from scitype:2608.0006",
+      "description": "policy: primary."
+    },
+    "generator": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^-?(0|[1-9][0-9]*)$"
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "params"
+          ],
+          "$comment": "inlined from scitype:2608.0006"
+        },
+        "nrows": {
+          "type": "integer"
+        },
+        "ncols": {
+          "type": "integer"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "required": [
+        "base",
+        "entries",
+        "ncols",
+        "nrows"
+      ],
+      "$comment": "inlined from scitype:2608.0019",
+      "description": "k x n generator matrix of full rank k. policy: primary. convention: matrix-row-major, code-equivalence-permutation."
+    },
+    "length": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "dimension": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "minimum_distance": {
+      "type": "integer",
+      "description": "policy: derived-expensive."
+    },
+    "weight_enumerator": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^-?(0|[1-9][0-9]*)$"
+      },
+      "description": "policy: derived-expensive."
+    },
+    "is_self_dual": {
+      "type": "boolean",
+      "description": "policy: derived-expensive."
+    }
+  },
+  "required": [
+    "base",
+    "generator"
+  ]
+}

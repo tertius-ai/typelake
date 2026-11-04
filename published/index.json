@@ -1,0 +1,569 @@
+{
+  "authority": "scitype",
+  "generated_from": "schemas/",
+  "note": "Identity is the lineage id plus the defining fields, JCS-encoded (RFC 8785), hashed with sha256. See conformance/.",
+  "conventions": "published/conventions.json",
+  "schemas": [
+    {
+      "id": "scitype:2608.0001",
+      "version": "v1",
+      "mnemonic": "DAG",
+      "title": "Finite directed acyclic graph",
+      "categories": [
+        "math.CO"
+      ],
+      "status": "stable",
+      "defining": [
+        "n",
+        "arcs"
+      ],
+      "canonicalization": {
+        "method": "none",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0001-DAG.schema.json",
+      "source": "schemas/2608.0001-DAG.yaml"
+    },
+    {
+      "id": "scitype:2608.0002",
+      "version": "v1",
+      "mnemonic": "FinitePoset",
+      "title": "Finite poset",
+      "categories": [
+        "math.CO",
+        "math.AT"
+      ],
+      "status": "stable",
+      "defining": [
+        "covers"
+      ],
+      "canonicalization": {
+        "method": "canonical-labeling",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0002-FinitePoset.schema.json",
+      "source": "schemas/2608.0002-FinitePoset.yaml"
+    },
+    {
+      "id": "scitype:2608.0003",
+      "version": "v1",
+      "mnemonic": "NumberField",
+      "title": "Number field",
+      "categories": [
+        "math.NT"
+      ],
+      "status": "stable",
+      "defining": [
+        "coeffs"
+      ],
+      "canonicalization": {
+        "method": "polredabs",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0003-NumberField.schema.json",
+      "source": "schemas/2608.0003-NumberField.yaml"
+    },
+    {
+      "id": "scitype:2608.0004",
+      "version": "v1",
+      "mnemonic": "FiniteGroup",
+      "title": "Finite group up to isomorphism",
+      "categories": [
+        "math.GR"
+      ],
+      "status": "stable",
+      "defining": [
+        "degree",
+        "generators"
+      ],
+      "canonicalization": {
+        "method": "canonical-cayley-table",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0004-FiniteGroup.schema.json",
+      "source": "schemas/2608.0004-FiniteGroup.yaml"
+    },
+    {
+      "id": "scitype:2608.0005",
+      "version": "v1",
+      "mnemonic": "PermutationGroup",
+      "title": "Permutation group up to conjugacy in S_n",
+      "categories": [
+        "math.GR",
+        "math.CO"
+      ],
+      "status": "provisional",
+      "defining": [
+        "degree",
+        "generators"
+      ],
+      "canonicalization": {
+        "method": "canonical-form-under-Sn-conjugacy",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0005-PermutationGroup.schema.json",
+      "source": "schemas/2608.0005-PermutationGroup.yaml"
+    },
+    {
+      "id": "scitype:2608.0006",
+      "version": "v1",
+      "mnemonic": "Ring",
+      "title": "Coefficient ring",
+      "categories": [
+        "math.RA"
+      ],
+      "status": "stable",
+      "defining": [
+        "kind",
+        "params"
+      ],
+      "canonicalization": {
+        "method": "none",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0006-Ring.schema.json",
+      "source": "schemas/2608.0006-Ring.yaml"
+    },
+    {
+      "id": "scitype:2608.0007",
+      "version": "v1",
+      "mnemonic": "GradedAlgebra",
+      "title": "Graded algebra over a coefficient ring",
+      "categories": [
+        "math.RA",
+        "math.AT"
+      ],
+      "status": "provisional",
+      "defining": [
+        "base",
+        "generators",
+        "relations",
+        "commutativity"
+      ],
+      "canonicalization": {
+        "method": "invariant-hash",
+        "kind": "invariant-based"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0007-GradedAlgebra.schema.json",
+      "source": "schemas/2608.0007-GradedAlgebra.yaml"
+    },
+    {
+      "id": "scitype:2608.0008",
+      "version": "v1",
+      "mnemonic": "Rigor",
+      "title": "Rigor level and assumptions",
+      "categories": [
+        "scitype.meta"
+      ],
+      "status": "provisional",
+      "defining": [
+        "level",
+        "assumptions"
+      ],
+      "canonicalization": {
+        "method": "sort-assumptions",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0008-Rigor.schema.json",
+      "source": "schemas/2608.0008-Rigor.yaml"
+    },
+    {
+      "id": "scitype:2608.0009",
+      "version": "v1",
+      "mnemonic": "Provenance",
+      "title": "Provenance envelope",
+      "categories": [
+        "scitype.meta"
+      ],
+      "status": "provisional",
+      "defining": [],
+      "canonicalization": {
+        "method": "none",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0009-Provenance.schema.json",
+      "source": "schemas/2608.0009-Provenance.yaml"
+    },
+    {
+      "id": "scitype:2608.0010",
+      "version": "v1",
+      "mnemonic": "AbelianGroup",
+      "title": "Finitely generated abelian group",
+      "categories": [
+        "math.GR"
+      ],
+      "status": "stable",
+      "defining": [
+        "rank",
+        "invariant_factors"
+      ],
+      "canonicalization": {
+        "method": "invariant-factor-form",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0010-AbelianGroup.schema.json",
+      "source": "schemas/2608.0010-AbelianGroup.yaml"
+    },
+    {
+      "id": "scitype:2608.0011",
+      "version": "v1",
+      "mnemonic": "RealBall",
+      "title": "Real ball",
+      "categories": [
+        "math.NA"
+      ],
+      "status": "provisional",
+      "defining": [
+        "mid",
+        "rad"
+      ],
+      "canonicalization": {
+        "method": "none",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0011-RealBall.schema.json",
+      "source": "schemas/2608.0011-RealBall.yaml"
+    },
+    {
+      "id": "scitype:2608.0012",
+      "version": "v1",
+      "mnemonic": "NumberFieldElement",
+      "title": "Element of a number field",
+      "categories": [
+        "math.NT"
+      ],
+      "status": "provisional",
+      "defining": [
+        "num",
+        "den"
+      ],
+      "canonicalization": {
+        "method": "reduce-by-gcd",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0012-NumberFieldElement.schema.json",
+      "source": "schemas/2608.0012-NumberFieldElement.yaml"
+    },
+    {
+      "id": "scitype:2608.0013",
+      "version": "v1",
+      "mnemonic": "GradedAlgebraMap",
+      "title": "Map of graded algebras",
+      "categories": [
+        "math.RA",
+        "math.AT"
+      ],
+      "status": "draft",
+      "defining": [
+        "source",
+        "target",
+        "morphism_kind",
+        "images"
+      ],
+      "canonicalization": {
+        "method": "none",
+        "kind": "invariant-based"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0013-GradedAlgebraMap.schema.json",
+      "source": "schemas/2608.0013-GradedAlgebraMap.yaml"
+    },
+    {
+      "id": "scitype:2608.0014",
+      "version": "v1",
+      "mnemonic": "SubgroupClass",
+      "title": "Conjugacy class of subgroups",
+      "categories": [
+        "math.GR"
+      ],
+      "status": "provisional",
+      "defining": [
+        "ambient",
+        "representative_generators"
+      ],
+      "canonicalization": {
+        "method": "canonical-form-under-ambient-conjugacy",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0014-SubgroupClass.schema.json",
+      "source": "schemas/2608.0014-SubgroupClass.yaml"
+    },
+    {
+      "id": "scitype:2608.0015",
+      "version": "v1",
+      "mnemonic": "CompletenessCertificate",
+      "title": "Completeness certificate",
+      "categories": [
+        "scitype.meta"
+      ],
+      "status": "draft",
+      "defining": [
+        "collection",
+        "region",
+        "claim"
+      ],
+      "canonicalization": {
+        "method": "sort-region-atoms",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0015-CompletenessCertificate.schema.json",
+      "source": "schemas/2608.0015-CompletenessCertificate.yaml"
+    },
+    {
+      "id": "scitype:2608.0016",
+      "version": "v1",
+      "mnemonic": "Erratum",
+      "title": "Erratum",
+      "categories": [
+        "scitype.meta"
+      ],
+      "status": "draft",
+      "defining": [
+        "volume",
+        "object",
+        "field",
+        "superseding_fact"
+      ],
+      "canonicalization": {
+        "method": "none",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0016-Erratum.schema.json",
+      "source": "schemas/2608.0016-Erratum.yaml"
+    },
+    {
+      "id": "scitype:2608.0017",
+      "version": "v1",
+      "mnemonic": "Graph",
+      "title": "Finite simple undirected graph",
+      "categories": [
+        "math.CO"
+      ],
+      "status": "draft",
+      "defining": [
+        "n",
+        "edges"
+      ],
+      "canonicalization": {
+        "method": "canonical-labeling",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0017-Graph.schema.json",
+      "source": "schemas/2608.0017-Graph.yaml"
+    },
+    {
+      "id": "scitype:2608.0018",
+      "version": "v1",
+      "mnemonic": "SimplicialComplex",
+      "title": "Finite abstract simplicial complex",
+      "categories": [
+        "math.AT",
+        "math.CO"
+      ],
+      "status": "draft",
+      "defining": [
+        "n",
+        "facets"
+      ],
+      "canonicalization": {
+        "method": "canonical-labeling-of-incidence",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0018-SimplicialComplex.schema.json",
+      "source": "schemas/2608.0018-SimplicialComplex.yaml"
+    },
+    {
+      "id": "scitype:2608.0019",
+      "version": "v1",
+      "mnemonic": "Matrix",
+      "title": "Matrix over a coefficient ring",
+      "categories": [
+        "math.LA"
+      ],
+      "status": "draft",
+      "defining": [
+        "base",
+        "nrows",
+        "ncols",
+        "entries"
+      ],
+      "canonicalization": {
+        "method": "none",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0019-Matrix.schema.json",
+      "source": "schemas/2608.0019-Matrix.yaml"
+    },
+    {
+      "id": "scitype:2608.0020",
+      "version": "v1",
+      "mnemonic": "ChainComplex",
+      "title": "Bounded chain complex of free modules",
+      "categories": [
+        "math.AT",
+        "math.RA"
+      ],
+      "status": "draft",
+      "defining": [
+        "base",
+        "bottom_degree",
+        "ranks",
+        "differentials"
+      ],
+      "canonicalization": {
+        "method": "none",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0020-ChainComplex.schema.json",
+      "source": "schemas/2608.0020-ChainComplex.yaml"
+    },
+    {
+      "id": "scitype:2608.0021",
+      "version": "v1",
+      "mnemonic": "Partition",
+      "title": "Integer partition",
+      "categories": [
+        "math.CO"
+      ],
+      "status": "draft",
+      "defining": [
+        "parts"
+      ],
+      "canonicalization": {
+        "method": "sort-descending",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0021-Partition.schema.json",
+      "source": "schemas/2608.0021-Partition.yaml"
+    },
+    {
+      "id": "scitype:2608.0022",
+      "version": "v1",
+      "mnemonic": "EllipticCurve",
+      "title": "Elliptic curve over Q",
+      "categories": [
+        "math.NT",
+        "math.AG"
+      ],
+      "status": "draft",
+      "defining": [
+        "a_invariants"
+      ],
+      "canonicalization": {
+        "method": "minimal-weierstrass-model",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0022-EllipticCurve.schema.json",
+      "source": "schemas/2608.0022-EllipticCurve.yaml"
+    },
+    {
+      "id": "scitype:2608.0023",
+      "version": "v1",
+      "mnemonic": "QuadraticForm",
+      "title": "Integral quadratic form",
+      "categories": [
+        "math.NT"
+      ],
+      "status": "draft",
+      "defining": [
+        "gram"
+      ],
+      "canonicalization": {
+        "method": "invariant-hash",
+        "kind": "invariant-based"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0023-QuadraticForm.schema.json",
+      "source": "schemas/2608.0023-QuadraticForm.yaml"
+    },
+    {
+      "id": "scitype:2608.0024",
+      "version": "v1",
+      "mnemonic": "CartanMatrix",
+      "title": "Cartan matrix of a finite root system",
+      "categories": [
+        "math.RT",
+        "math.RA"
+      ],
+      "status": "draft",
+      "defining": [
+        "entries"
+      ],
+      "canonicalization": {
+        "method": "canonical-labeling-of-dynkin-diagram",
+        "kind": "complete"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0024-CartanMatrix.schema.json",
+      "source": "schemas/2608.0024-CartanMatrix.yaml"
+    },
+    {
+      "id": "scitype:2608.0025",
+      "version": "v1",
+      "mnemonic": "LinearCode",
+      "title": "Linear code over a finite field",
+      "categories": [
+        "math.IT",
+        "math.CO"
+      ],
+      "status": "draft",
+      "defining": [
+        "base",
+        "generator"
+      ],
+      "canonicalization": {
+        "method": "invariant-hash",
+        "kind": "invariant-based"
+      },
+      "sufficiency": null,
+      "json_schema": "published/2608.0025-LinearCode.schema.json",
+      "source": "schemas/2608.0025-LinearCode.yaml"
+    },
+    {
+      "id": "scitype:2608.0026",
+      "version": "v1",
+      "mnemonic": "Newform",
+      "title": "Classical modular newform",
+      "categories": [
+        "math.NT"
+      ],
+      "status": "draft",
+      "defining": [
+        "level",
+        "weight",
+        "character",
+        "coefficients"
+      ],
+      "canonicalization": {
+        "method": "none",
+        "kind": "complete"
+      },
+      "sufficiency": {
+        "check": "at-least-sturm-bound"
+      },
+      "json_schema": "published/2608.0026-Newform.schema.json",
+      "source": "schemas/2608.0026-Newform.yaml"
+    }
+  ]
+}

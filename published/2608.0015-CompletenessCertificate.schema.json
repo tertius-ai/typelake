@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0015",
+  "title": "Completeness certificate",
+  "description": "region is deliberately a weak language: a query must be able to intersect its own filter with the certificate set mechanically.",
+  "type": "object",
+  "properties": {
+    "collection": {
+      "type": "string",
+      "description": "policy: primary."
+    },
+    "region": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field",
+          "op",
+          "value"
+        ],
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "op": {
+            "type": "string"
+          },
+          "value": {}
+        }
+      },
+      "description": "conjunction of atoms. policy: primary."
+    },
+    "claim": {
+      "type": "string",
+      "description": "complete | sampled | none. policy: primary."
+    },
+    "method": {
+      "type": "string",
+      "description": "policy: primary."
+    },
+    "rigor": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "string"
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "assumptions",
+        "level"
+      ],
+      "$comment": "inlined from scitype:2608.0008",
+      "description": "policy: primary."
+    },
+    "expected_count": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "external check, e.g. an OEIS term. policy: primary."
+    },
+    "observed_count": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: primary."
+    },
+    "extremal": {
+      "type": "string",
+      "description": "minimal/maximal known object in the region. policy: primary."
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "agent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "version"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          }
+        },
+        "rigor": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "string"
+            },
+            "assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "assumptions",
+            "level"
+          ],
+          "$comment": "inlined from scitype:2608.0008"
+        },
+        "recreate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "language"
+          ],
+          "properties": {
+            "language": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            }
+          }
+        },
+        "origin": {
+          "type": "string"
+        },
+        "oracle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "agreed",
+            "name",
+            "version"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "agreed": {
+              "type": "boolean"
+            }
+          }
+        },
+        "cost": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "currency_micros",
+            "peak_bytes",
+            "wall_seconds"
+          ],
+          "properties": {
+            "wall_seconds": {
+              "type": "integer"
+            },
+            "peak_bytes": {
+              "type": "integer"
+            },
+            "currency_micros": {
+              "type": "integer"
+            }
+          }
+        },
+        "computed_at": {
+          "type": "string"
+        },
+        "submitter": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "agent",
+        "computed_at",
+        "cost",
+        "oracle",
+        "origin",
+        "recreate",
+        "rigor",
+        "source",
+        "submitter"
+      ],
+      "$comment": "inlined from scitype:2608.0009",
+      "description": "policy: primary."
+    }
+  },
+  "required": [
+    "claim",
+    "collection",
+    "region"
+  ]
+}

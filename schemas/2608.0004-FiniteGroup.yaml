@@ -1,0 +1,33 @@
+id: scitype:2608.0004
+version: v1
+mnemonic: FiniteGroup
+title: Finite group up to isomorphism
+categories: [math.GR]
+status: stable
+identity:
+  defining: [degree, generators]
+  canonicalization: {method: canonical-cayley-table, kind: complete}
+fields:
+  degree:     {policy: primary, type: int, note: "permutation degree"}
+  generators: {policy: primary, type: "[[int]]", note: "one-line notation, 0-indexed", convention: ['permutation-right-action']}
+  order:               {policy: derived-cheap, inputs: [degree, generators], type: decimal}
+  is_abelian:          {policy: derived-cheap, inputs: [degree, generators], type: bool}
+  exponent:            {policy: derived-cheap, inputs: [degree, generators], type: int}
+  center_order:        {policy: derived-cheap, inputs: [degree, generators], type: int}
+  n_conjugacy_classes: {policy: derived-cheap, inputs: [degree, generators], type: int}
+  is_nilpotent:        {policy: derived-cheap, inputs: [degree, generators], type: bool}
+  is_solvable:         {policy: derived-cheap, inputs: [degree, generators], type: bool}
+  derived_length:      {policy: derived-cheap, inputs: [degree, generators], type: int}
+  character_table:     {policy: derived-expensive, inputs: [degree, generators], type: opaque, convention: []}
+constraints:
+  - {check: faithful-action}                            # expensive tier: sampled recheck
+relations:
+  - {kind: subgroup, target: scitype:2608.0014}  # SubgroupClass
+  - {kind: quotient, target: scitype:2608.0004}  # FiniteGroup
+external_labels: [gap.SmallGroup, atlas]
+note: >
+  Defining data is a permutation representation, not a SmallGroup id: identity
+  must not depend on an external library's coverage or release cycle. The
+  canonical id is the lex-least Cayley table over relabelings, so this type is
+  "up to abstract isomorphism" — the right granularity for cohomology and
+  character tables. When the action matters, use PermutationGroup instead.

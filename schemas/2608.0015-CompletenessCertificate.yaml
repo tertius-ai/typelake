@@ -1,0 +1,22 @@
+id: scitype:2608.0015
+version: v1
+mnemonic: CompletenessCertificate
+title: Completeness certificate
+categories: [scitype.meta]
+status: draft
+identity:
+  defining: [collection, region, claim]
+  canonicalization: {method: sort-region-atoms, kind: complete}
+fields:
+  collection: {policy: primary, type: string}
+  region:     {policy: primary, type: "[{field: string, op: string, value: opaque}]", note: "conjunction of atoms"}
+  claim:      {policy: primary, type: string, note: "complete | sampled | none"}
+  method:     {policy: primary, type: string}
+  rigor:      {policy: primary, type: scitype:2608.0008}  # Rigor
+  expected_count: {policy: primary, type: decimal, note: "external check, e.g. an OEIS term"}
+  observed_count: {policy: primary, type: decimal}
+  extremal:       {policy: primary, type: string, note: "minimal/maximal known object in the region"}
+  provenance:     {policy: primary, type: scitype:2608.0009}  # Provenance
+note: >
+  region is deliberately a weak language: a query must be able to intersect its
+  own filter with the certificate set mechanically.

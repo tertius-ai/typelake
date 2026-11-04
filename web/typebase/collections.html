@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <base href="%BASE_URL%" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TypeBase Volume I mathematical catalogues." />
+    <meta name="theme-color" content="#f2efe7" />
+    <title>TypeBase Volume I</title>
+    <style>
+      html { background: #f2efe7; }
+      body { margin: 0; visibility: hidden; }
+      html[data-volume-one-ready] body { visibility: visible; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#volume-one-main">Skip to catalogue</a>
+    <header class="masthead volume-one-masthead" data-typebase-masthead></header>
+    <main id="volume-one-main" class="volume-one-main catalogue" aria-live="polite"></main>
+    <footer><p>TypeBase <span aria-hidden="true">×</span> Tertius</p></footer>
+    <script type="module" src="/src/volume-one.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+id: scitype:2608.0026
+version: v1
+mnemonic: Newform
+title: Classical modular newform
+categories: [math.NT]
+status: draft
+identity:
+  defining: [level, weight, character, coefficients]
+  canonicalization: {method: none, kind: complete}
+  sufficiency: {check: at-least-sturm-bound}
+fields:
+  level:     {policy: primary, type: decimal}
+  weight:    {policy: primary, type: int}
+  character: {policy: primary, type: "{modulus: decimal, order: int, index: int}",
+              note: "Dirichlet character, Conrey-indexed"}
+  coefficients:
+    policy: primary
+    type: "[decimal]"
+    convention: [newform-normalized]
+    note: "a_1, a_2, ... listed from n = 1, to at least the Sturm bound"
+  sturm_bound:  {policy: derived-cheap, inputs: [level, weight], type: int}
+  is_cm:        {policy: derived-expensive, inputs: [coefficients], type: bool, convention: []}
+  analytic_rank: {policy: derived-expensive, inputs: [level, weight, coefficients], type: int, convention: []}
+relations:
+  - {kind: galois-conjugate-of, target: scitype:2608.0026}  # Newform
+  - {kind: modular-curve-of,    target: scitype:2608.0022}  # EllipticCurve
+external_labels: [lmfdb.mf]
+note: >
+  The interesting case: the object is infinite but the identifier must be finite.
+  A newform is determined by its coefficients up to the Sturm bound, so identity
+  is well defined only when enough of them are given — "enough" being a theorem
+  rather than a convention. A submission truncated below the bound is not a
+  different form, it is an object we cannot yet identify, and it should be
+  rejected rather than assigned an identifier that a longer expansion would
+  contradict.

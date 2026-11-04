@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0003",
+  "title": "Number field",
+  "type": "object",
+  "properties": {
+    "coeffs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^-?(0|[1-9][0-9]*)$"
+      },
+      "description": "ascending degree, monic, irreducible over Q. policy: primary."
+    },
+    "degree": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "poly_disc": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-cheap."
+    },
+    "signature": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "policy: derived-cheap. convention: signature-r1-r2."
+    },
+    "field_disc": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-expensive."
+    },
+    "integral_basis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "num": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)$"
+            }
+          },
+          "den": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        },
+        "required": [
+          "den",
+          "num"
+        ],
+        "$comment": "inlined from scitype:2608.0012"
+      },
+      "description": "policy: derived-expensive."
+    },
+    "ramified_primes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^-?(0|[1-9][0-9]*)$"
+      },
+      "description": "policy: derived-expensive."
+    },
+    "class_group": {
+      "type": "object",
+      "properties": {
+        "rank": {
+          "type": "integer"
+        },
+        "invariant_factors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "required": [
+        "invariant_factors",
+        "rank"
+      ],
+      "$comment": "inlined from scitype:2608.0010",
+      "description": "policy: derived-expensive. convention: class-group-ordinary."
+    },
+    "unit_group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generators",
+        "structure"
+      ],
+      "properties": {
+        "structure": {
+          "type": "object",
+          "properties": {
+            "rank": {
+              "type": "integer"
+            },
+            "invariant_factors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^-?(0|[1-9][0-9]*)$"
+              }
+            }
+          },
+          "required": [
+            "invariant_factors",
+            "rank"
+          ],
+          "$comment": "inlined from scitype:2608.0010"
+        },
+        "generators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "num": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^-?(0|[1-9][0-9]*)$"
+                }
+              },
+              "den": {
+                "type": "string",
+                "pattern": "^-?(0|[1-9][0-9]*)$"
+              }
+            },
+            "required": [
+              "den",
+              "num"
+            ],
+            "$comment": "inlined from scitype:2608.0012"
+          }
+        }
+      },
+      "description": "policy: derived-expensive. convention: unit-group-modulo-torsion."
+    },
+    "regulator": {
+      "type": "object",
+      "properties": {
+        "mid": {
+          "type": "string"
+        },
+        "rad": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mid",
+        "rad"
+      ],
+      "$comment": "inlined from scitype:2608.0011",
+      "description": "policy: derived-expensive. convention: regulator-standard."
+    }
+  },
+  "required": [
+    "coeffs"
+  ]
+}

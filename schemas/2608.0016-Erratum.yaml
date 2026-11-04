@@ -1,0 +1,22 @@
+id: scitype:2608.0016
+version: v1
+mnemonic: Erratum
+title: Erratum
+categories: [scitype.meta]
+status: draft
+identity:
+  defining: [volume, object, field, superseding_fact]
+  canonicalization: {method: none, kind: complete}
+fields:
+  volume:           {policy: primary, type: string}
+  object:           {policy: primary, type: string, note: "label as published in that volume"}
+  field:            {policy: primary, type: string}
+  published_value:  {policy: primary, type: opaque}
+  corrected_value:  {policy: primary, type: opaque}
+  superseding_fact: {policy: primary, type: string, note: "hash of the correcting fact"}
+  reason:           {policy: primary, type: string}
+  issued_at:        {policy: primary, type: string, note: "RFC 3339"}
+  provenance:       {policy: primary, type: scitype:2608.0009}  # Provenance
+note: >
+  An erratum never modifies a volume's data files. It is rendered on the object's
+  page within that volume.

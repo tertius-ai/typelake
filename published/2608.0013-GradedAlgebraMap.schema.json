@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0013",
+  "title": "Map of graded algebras",
+  "description": "Restriction is a ring map, so generator images determine it. Transfer is only a map of modules by Frobenius reciprocity, so generator images do NOT determine it and degreewise data with a bound is required. Induction and transfer name the same map in group cohomology; the registry admits transfer only.",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^-?(0|[1-9][0-9]*)$"
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "params"
+          ],
+          "$comment": "inlined from scitype:2608.0006"
+        },
+        "generators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "degree",
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "degree": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "commutativity": {
+          "type": "string"
+        },
+        "grading": {
+          "type": "string"
+        },
+        "completeness": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "base",
+        "commutativity",
+        "completeness",
+        "generators",
+        "grading",
+        "relations"
+      ],
+      "$comment": "inlined from scitype:2608.0007",
+      "description": "policy: primary."
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^-?(0|[1-9][0-9]*)$"
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "params"
+          ],
+          "$comment": "inlined from scitype:2608.0006"
+        },
+        "generators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "degree",
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "degree": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "commutativity": {
+          "type": "string"
+        },
+        "grading": {
+          "type": "string"
+        },
+        "completeness": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "base",
+        "commutativity",
+        "completeness",
+        "generators",
+        "grading",
+        "relations"
+      ],
+      "$comment": "inlined from scitype:2608.0007",
+      "description": "policy: primary."
+    },
+    "morphism_kind": {
+      "type": "string",
+      "description": "ring-homomorphism | module-homomorphism. policy: primary."
+    },
+    "images": {
+      "description": "generator -> polynomial, or degreewise basis images. policy: primary."
+    },
+    "known_to_degree": {
+      "type": "integer",
+      "description": "null when complete. policy: primary."
+    },
+    "degree_shift": {
+      "type": "integer",
+      "description": "policy: primary."
+    }
+  },
+  "required": [
+    "images",
+    "morphism_kind",
+    "source",
+    "target"
+  ]
+}

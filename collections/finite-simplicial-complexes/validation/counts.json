@@ -1,0 +1,16 @@
+{
+  "sources": {
+    "unlabeled": "OEIS A006602",
+    "labeled": "OEIS A006126"
+  },
+  "orders": [
+    { "vertices": 0, "unlabeled": "1", "labeled": "1" },
+    { "vertices": 1, "unlabeled": "1", "labeled": "1" },
+    { "vertices": 2, "unlabeled": "2", "labeled": "2" },
+    { "vertices": 3, "unlabeled": "5", "labeled": "9" },
+    { "vertices": 4, "unlabeled": "20", "labeled": "114" },
+    { "vertices": 5, "unlabeled": "180", "labeled": "6894" },
+    { "vertices": 6, "unlabeled": "16143", "labeled": "7785062" },
+    { "vertices": 7, "unlabeled": "489996795", "labeled": "2414627396434" }
+  ]
+}

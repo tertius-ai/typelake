@@ -1,0 +1,19 @@
+# Assumption registry, referenced by Rigor (scitype:2608.0008).
+#
+# Assumptions are ids, never free text: the fold compares assumption SETS to
+# decide whether two values are alternatives or a conflict, and "GRH" versus
+# "Generalized Riemann Hypothesis" would read as different hypotheses.
+# Extended by PR, like a schema.
+assumptions:
+  grh:
+    title: Generalized Riemann Hypothesis
+    note: For Dedekind zeta functions of the relevant number fields.
+  erh:
+    title: Extended Riemann Hypothesis
+  char-0:
+    title: Characteristic zero
+  tame:
+    title: Tame ramification
+  benson-regularity:
+    title: Benson's regularity criterion
+    note: Used to certify that a cohomology presentation is complete.

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0010",
+  "title": "Finitely generated abelian group",
+  "type": "object",
+  "properties": {
+    "rank": {
+      "type": "integer",
+      "description": "policy: primary."
+    },
+    "invariant_factors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^-?(0|[1-9][0-9]*)$"
+      },
+      "description": "policy: primary."
+    },
+    "order": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "0 when rank > 0. policy: derived-cheap."
+    },
+    "is_trivial": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "is_cyclic": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "exponent": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-cheap."
+    }
+  },
+  "required": [
+    "invariant_factors",
+    "rank"
+  ]
+}

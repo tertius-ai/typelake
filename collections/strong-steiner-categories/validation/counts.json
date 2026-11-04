@@ -1,0 +1,32 @@
+{
+  "contract": "strong-steiner-categories/v1",
+  "equivalence": "strict-isomorphism=categorical-equivalence=folk-equivalence",
+  "parameter": "total-atomic-size",
+  "certified_through": 12,
+  "identity_certified_through": 12,
+  "fully_enriched_through": 11,
+  "counts": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 2,
+    "4": 3,
+    "5": 8,
+    "6": 17,
+    "7": 50,
+    "8": 137,
+    "9": 451,
+    "10": 1483,
+    "11": 5412,
+    "12": 20444
+  },
+  "certification": {
+    "reference_generators": {
+      "signed-boundary-matrices/v1": "through atomic size 8",
+      "unpruned-cell-attachment/v1": "through atomic size 11"
+    },
+    "production_generator": "canonical-cell-attachment/v1",
+    "production_generator_certified_through": 12,
+    "independent_key_sets_equal_through": 11
+  }
+}

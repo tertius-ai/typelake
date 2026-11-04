@@ -1,0 +1,35 @@
+id: scitype:2608.0007
+version: v1
+mnemonic: GradedAlgebra
+title: Graded algebra over a coefficient ring
+categories: [math.RA, math.AT]
+status: provisional
+identity:
+  defining: [base, generators, relations, commutativity]
+  canonicalization: {method: invariant-hash, kind: invariant-based}
+fields:
+  base:          {policy: primary, type: scitype:2608.0006}  # Ring
+  generators: {policy: primary, type: "[{name: string, degree: int}]", convention: ['grading-cohomological']}
+  relations:     {policy: primary, type: "[string]", note: "polynomials in the generators"}
+  commutativity: {policy: primary, type: string, note: "graded-commutative | commutative"}
+  grading: {policy: primary, type: string, note: "N | Z", convention: ['grading-cohomological']}
+  completeness:  {policy: primary, type: string, note: "proved-complete | known-to-degree-d"}
+  poincare_series: {policy: derived-expensive, inputs: [generators, relations], type: "{num: [decimal], den: [decimal]}", convention: []}
+  krull_dimension: {policy: derived-expensive, inputs: [generators, relations], type: int, convention: []}
+  depth:           {policy: derived-expensive, inputs: [generators, relations], type: int, convention: []}
+  is_cohen_macaulay: {policy: derived-cheap, inputs: [krull_dimension, depth], type: bool}
+relations:
+  - {kind: group-cohomology-of,    target: scitype:2608.0004, params: [coefficients]}  # FiniteGroup
+  - {kind: singular-cohomology-of, target: scitype:2608.0002, params: [coefficients]}  # FinitePoset
+  - {kind: isomorphic-to,          target: scitype:2608.0007}  # GradedAlgebra
+  - {kind: restriction, target: scitype:2608.0007, value: scitype:2608.0013, params: [scitype:2608.0014]}  # GradedAlgebra, GradedAlgebraMap, SubgroupClass
+  - {kind: transfer,    target: scitype:2608.0007, value: scitype:2608.0013, params: [scitype:2608.0014]}  # GradedAlgebra, GradedAlgebraMap, SubgroupClass
+note: >
+  Not named CohomologyRing: cohomology is provenance, and the same algebra arises
+  from a group, a space, or a sheaf. commutativity is load-bearing — H*(G;F_2) is
+  commutative while for odd p it is graded-commutative with signs, so the same
+  relations list means different things under the two conventions. Identity is
+  invariant-based because a graded algebra has many presentations; two correct
+  computations become two objects joined by isomorphic-to rather than one object
+  with a spurious conflict. A side effect is that the polynomial encoding need
+  only be deterministic, not canonical.

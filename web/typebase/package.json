@@ -1,0 +1,21 @@
+{
+  "name": "@tertius/typebase-browser",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config vite.volume-one.config.ts",
+    "review": "bash ../../scripts/review-volume-one.sh",
+    "build": "tsc --noEmit && vite build --config vite.volume-one.config.ts",
+    "preview": "vite preview --config vite.volume-one.config.ts"
+  },
+  "dependencies": {
+    "@duckdb/duckdb-wasm": "1.30.0",
+    "fzstd": "0.1.1",
+    "hyparquet": "1.29.2"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3",
+    "vite": "6.4.3"
+  }
+}

@@ -1,0 +1,34 @@
+id: scitype:2608.0022
+version: v1
+mnemonic: EllipticCurve
+title: Elliptic curve over Q
+categories: [math.NT, math.AG]
+status: draft
+identity:
+  defining: [a_invariants]
+  canonicalization: {method: minimal-weierstrass-model, kind: complete}
+fields:
+  a_invariants:
+    policy: primary
+    type: "[decimal]"
+    convention: [weierstrass-minimal]
+    note: "[a1, a2, a3, a4, a6] of y^2 + a1 xy + a3 y = x^3 + a2 x^2 + a4 x + a6"
+  discriminant: {policy: derived-cheap, inputs: [a_invariants], type: decimal}
+  j_invariant:  {policy: derived-cheap, inputs: [a_invariants], type: "{num: decimal, den: decimal}"}
+  conductor:    {policy: derived-expensive, inputs: [a_invariants], type: decimal, convention: []}
+  torsion_order: {policy: derived-expensive, inputs: [a_invariants], type: int, convention: []}
+  rank: {policy: derived-expensive, inputs: [a_invariants], type: int, convention: [rank-mordell-weil]}
+  regulator:    {policy: derived-expensive, inputs: [a_invariants],
+                 type: scitype:2608.0011, convention: [regulator-neron-tate]}  # RealBall
+relations:
+  - {kind: isogenous-to,  target: scitype:2608.0022}  # EllipticCurve
+  - {kind: torsion-group, target: scitype:2608.0010}  # AbelianGroup
+external_labels: [lmfdb.ec, cremona]
+note: >
+  The rigor field earns its keep here: a rank is often only known subject to BSD
+  or GRH, and the same curve can carry a conditional rank and, later, an
+  unconditional one. Both survive; the stronger surfaces.
+
+  Two label schemes for these curves already coexist in the wild (Cremona and
+  LMFDB) and neither could be retired — which is why both are foreign labels and
+  neither is identity.

@@ -1,0 +1,11 @@
+{
+  "schema": "scitype:2608.0003",
+  "name": "numberfield-x2+1",
+  "instance": {
+    "coeffs": [
+      "1",
+      "0",
+      "1"
+    ]
+  }
+}

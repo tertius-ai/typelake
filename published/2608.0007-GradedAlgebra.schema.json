@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0007",
+  "title": "Graded algebra over a coefficient ring",
+  "description": "Not named CohomologyRing: cohomology is provenance, and the same algebra arises from a group, a space, or a sheaf. commutativity is load-bearing \u2014 H*(G;F_2) is commutative while for odd p it is graded-commutative with signs, so the same relations list means different things under the two conventions. Identity is invariant-based because a graded algebra has many presentations; two correct computations become two objects joined by isomorphic-to rather than one object with a spurious conflict. A side effect is that the polynomial encoding need only be deterministic, not canonical.",
+  "type": "object",
+  "properties": {
+    "base": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "params"
+      ],
+      "$comment": "inlined from scitype:2608.0006",
+      "description": "policy: primary."
+    },
+    "generators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "degree",
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "degree": {
+            "type": "integer"
+          }
+        }
+      },
+      "description": "policy: primary. convention: grading-cohomological."
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "polynomials in the generators. policy: primary."
+    },
+    "commutativity": {
+      "type": "string",
+      "description": "graded-commutative | commutative. policy: primary."
+    },
+    "grading": {
+      "type": "string",
+      "description": "N | Z. policy: primary. convention: grading-cohomological."
+    },
+    "completeness": {
+      "type": "string",
+      "description": "proved-complete | known-to-degree-d. policy: primary."
+    },
+    "poincare_series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "den",
+        "num"
+      ],
+      "properties": {
+        "num": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        },
+        "den": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "description": "policy: derived-expensive."
+    },
+    "krull_dimension": {
+      "type": "integer",
+      "description": "policy: derived-expensive."
+    },
+    "depth": {
+      "type": "integer",
+      "description": "policy: derived-expensive."
+    },
+    "is_cohen_macaulay": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    }
+  },
+  "required": [
+    "base",
+    "commutativity",
+    "generators",
+    "relations"
+  ]
+}

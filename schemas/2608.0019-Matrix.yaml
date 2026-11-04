@@ -1,0 +1,28 @@
+id: scitype:2608.0019
+version: v1
+mnemonic: Matrix
+title: Matrix over a coefficient ring
+categories: [math.LA]
+status: draft
+identity:
+  defining: [base, nrows, ncols, entries]
+  canonicalization: {method: none, kind: complete}
+fields:
+  base:   {policy: primary, type: scitype:2608.0006}  # Ring
+  nrows:  {policy: primary, type: int}
+  ncols:  {policy: primary, type: int}
+  entries:
+    policy: primary
+    type: "[decimal]"
+    convention: [matrix-row-major]
+    note: "flat, length nrows * ncols"
+  rank:        {policy: derived-expensive, inputs: [base, entries], type: int, convention: []}
+  determinant: {policy: derived-expensive, inputs: [base, entries], type: decimal, convention: []}
+constraints:
+  - {check: non-negative, args: {key: nrows}}
+  - {check: non-negative, args: {key: ncols}}
+note: >
+  Entries are decimal strings even over a finite field: the encoding is the
+  representative in 0..p-1, and the ring says how to read it. A matrix has no
+  canonical form of its own — it IS its entries — so canonicalization is none,
+  which is different from having none available.

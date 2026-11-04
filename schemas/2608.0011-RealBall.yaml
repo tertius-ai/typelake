@@ -1,0 +1,23 @@
+id: scitype:2608.0011
+version: v1
+mnemonic: RealBall
+title: Real ball
+categories: [math.NA]
+status: provisional
+identity:
+  defining: [mid, rad]
+  canonicalization: {method: none, kind: complete}
+fields:
+  mid: {policy: primary, type: string, note: "exact decimal"}
+  rad: {policy: primary, type: string, note: "exact decimal, >= 0"}
+  lower:    {policy: derived-cheap, inputs: [mid, rad], type: string}
+  upper:    {policy: derived-cheap, inputs: [mid, rad], type: string}
+  is_exact: {policy: derived-cheap, inputs: [rad], type: bool}
+constraints:
+  - {check: non-negative, args: {key: rad}}
+comparison: intersection
+note: >
+  The true value lies in [mid - rad, mid + rad]. Whether that enclosure is proven
+  is the fact's Rigor, not this type's business. Ball-valued fields compare by
+  intersection, not equality: overlapping balls agree and merge, disjoint balls
+  are a conflict.

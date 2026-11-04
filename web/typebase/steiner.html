@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <base href="%BASE_URL%" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="TypeBase Volume I: the certified catalogue of finite strong Steiner categories."
+    />
+    <meta name="theme-color" content="#f2efe7" />
+    <title>Steiner Categories — TypeBase Volume I</title>
+    <script>
+      const requestedStyle = new URL(location.href).searchParams.get("style");
+      const requestedPlate = new URL(location.href).searchParams.get("plate");
+      try {
+        document.documentElement.dataset.style = requestedStyle || localStorage.getItem("typebase-site-proof") || "report";
+        document.documentElement.dataset.plate = requestedPlate || localStorage.getItem("typebase-diagram-plate") || "byrne";
+      } catch {
+        document.documentElement.dataset.style = requestedStyle || "report";
+        document.documentElement.dataset.plate = requestedPlate || "byrne";
+      }
+    </script>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" id="skip-link" href="#catalogue">Skip to catalogue</a>
+    <header class="masthead" data-typebase-masthead></header>
+
+    <main id="catalogue-page">
+      <section class="catalogue" id="catalogue" aria-labelledby="catalogue-title">
+        <div class="section-heading">
+          <div>
+            <h1 id="catalogue-title">Steiner Categories</h1>
+          </div>
+          <p class="section-heading__note">
+            Labels read <i>atoms.dimension.index</i>. Select two objects in a
+            record drawing to open their exact mapping category.
+          </p>
+        </div>
+        <nav class="database-links" aria-label="About the Steiner-category database">
+          <a href="/Steiner/Source">Source</a>
+          <a href="/Steiner/Completeness">Completeness</a>
+          <a href="/Glossary">Glossary</a>
+        </nav>
+
+        <form class="filters filters--steiner" id="filters" role="search">
+          <label class="field field--label">
+            <span>Label</span>
+            <input id="label-filter" inputmode="numeric" autocomplete="off" placeholder="for example, 7.2.12" />
+          </label>
+          <label class="field">
+            <span>Atomic size</span>
+            <select id="size-filter"><option value="">All</option></select>
+          </label>
+          <label class="field">
+            <span>Dimension</span>
+            <select id="dimension-filter"><option value="">All</option></select>
+          </label>
+          <label class="field">
+            <span>Example</span>
+            <select id="family-filter"><option value="">All named examples</option></select>
+          </label>
+          <fieldset class="qualities">
+            <legend>Qualities</legend>
+            <label><input type="checkbox" id="connected-filter" /> Connected</label>
+            <label><input type="checkbox" id="self-dual-filter" /> Self-dual</label>
+            <label><input type="checkbox" id="interesting-filter" /> Interesting</label>
+            <label><input type="checkbox" id="interesting-homotopy-filter" /> Nontrivial hPos</label>
+          </fieldset>
+          <details class="advanced-filters">
+            <summary>Advanced search options</summary>
+            <fieldset class="homology-filters">
+              <legend>Polygraphic homology and oriented homotopy</legend>
+              <label>
+                <span>Homology degree</span>
+                <select id="homology-degree-filter"><option value="">Any</option></select>
+              </label>
+              <label>
+                <span>Minimum free rank</span>
+                <input id="minimum-betti-filter" type="number" min="0" max="20" value="1" disabled />
+              </label>
+              <label>
+                <span>Torsion</span>
+                <select id="torsion-filter">
+                  <option value="any">Any</option>
+                  <option value="present">Present</option>
+                  <option value="absent">Absent</option>
+                </select>
+              </label>
+              <label>
+                <span>Minimum homotopy-Poset order</span>
+                <input id="homotopy-order-filter" type="number" min="0" value="0" />
+              </label>
+            </fieldset>
+          </details>
+          <button class="button button--ink" type="submit">Show objects</button>
+        </form>
+
+        <div class="catalogue-status" aria-live="polite">
+          <p id="result-count">Preparing the catalogue…</p>
+          <p id="query-note">The complete search edition is a small static document.</p>
+        </div>
+        <a class="homotopy-feature" href="/Steiner/10.2.51">
+          <span class="eyebrow">A homotopy-Poset specimen</span>
+          <strong>10.2.51</strong>
+          <span>Four parallel arrows and four directed faces; hPos<sub>1</sub>(v<sub>0</sub> → v<sub>1</sub>) is the four-point crown 4.1.7 ≃ S<sup>1</sup>.</span>
+          <span aria-hidden="true">Open →</span>
+        </a>
+        <div class="object-list" id="object-list"></div>
+        <div class="pagination" id="pagination" hidden>
+          <button class="text-button" id="previous-page" type="button">← Previous</button>
+          <span id="page-position"></span>
+          <button class="text-button" id="next-page" type="button">Next →</button>
+        </div>
+      </section>
+
+      <section class="about gray-register" id="gray" aria-labelledby="gray-title">
+        <p class="eyebrow">Ordered multiplication register</p>
+        <h2 id="gray-title">The small Gray table.</h2>
+        <p class="gray-register__note">
+          Rows are left factors and columns are right factors. A dashed result
+          is a certified construction outside the current complete shell.
+        </p>
+        <div id="gray-table" class="gray-table"></div>
+      </section>
+
+    </main>
+
+    <main class="record-page" id="record-page" hidden>
+      <article class="record record--page record--steiner" aria-labelledby="record-title">
+        <div id="record-content"></div>
+      </article>
+    </main>
+
+    <footer>
+      <p>TypeBase <span aria-hidden="true">×</span> Tertius</p>
+    </footer>
+    <script type="module" src="/src/steiner.ts"></script>
+  </body>
+</html>

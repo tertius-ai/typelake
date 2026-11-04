@@ -1,0 +1,30 @@
+[package]
+name = "typebase-build"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Static TypeBase volume builder"
+
+[dependencies]
+anyhow.workspace = true
+arrow-array.workspace = true
+arrow-schema.workspace = true
+clap.workspace = true
+eilenberg-maclane-build = { path = "../eilenberg-maclane-build" }
+finite-group-cohomology-census = { path = "../finite-group-cohomology-census" }
+hex.workspace = true
+noether.workspace = true
+parquet.workspace = true
+poset-census = { path = "../poset-census" }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+simplicial-complex-census = { path = "../simplicial-complex-census" }
+simplicial-set-census = { path = "../simplicial-set-census" }
+steiner-census = { path = "../steiner-census" }
+zstd.workspace = true
+
+[dev-dependencies]
+tempfile = "3.21.0"

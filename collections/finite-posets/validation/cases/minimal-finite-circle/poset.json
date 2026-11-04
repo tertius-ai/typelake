@@ -1,0 +1,46 @@
+{
+  "record_version": 1,
+  "key": ["1", "2", "7", "11"],
+  "order": 4,
+  "covers": [[0, 2], [0, 3], [1, 2], [1, 3]],
+  "invariants": {
+    "cover_count": 4,
+    "strict_comparable_pair_count": 4,
+    "strict_lower_counts": [0, 0, 2, 2],
+    "strict_upper_counts": [2, 2, 0, 0],
+    "minimal_count": 2,
+    "maximal_count": 2,
+    "component_count": 1,
+    "component_sizes": [4],
+    "is_connected": true,
+    "height": 2,
+    "width": 2,
+    "is_lattice": false
+  },
+  "automorphism_group": {
+    "degree": 4,
+    "generators": [[0, 1, 3, 2], [1, 0, 2, 3]],
+    "order": "4",
+    "orbits": [[0, 1], [2, 3]],
+    "is_transitive": false,
+    "generators_verified": true
+  },
+  "relations": {
+    "has_core": {
+      "target": ["1", "2", "7", "11"],
+      "core_size": 4,
+      "is_core": true,
+      "deletions": [],
+      "retained_vertices": [0, 1, 2, 3],
+      "canonical_labeling": [0, 1, 2, 3],
+      "reduction_verified": true
+    },
+    "opposite": {
+      "target": ["1", "2", "7", "11"],
+      "is_self_dual": true
+    },
+    "order_complex": {
+      "target": "oc1-sha256:1fd2e7a48fcbad0d4c91600a527ca91356d74d914c371ac1be05ff92dfdeb975"
+    }
+  }
+}

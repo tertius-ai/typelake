@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0019",
+  "title": "Matrix over a coefficient ring",
+  "description": "Entries are decimal strings even over a finite field: the encoding is the representative in 0..p-1, and the ring says how to read it. A matrix has no canonical form of its own \u2014 it IS its entries \u2014 so canonicalization is none, which is different from having none available.",
+  "type": "object",
+  "properties": {
+    "base": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "params"
+      ],
+      "$comment": "inlined from scitype:2608.0006",
+      "description": "policy: primary."
+    },
+    "nrows": {
+      "type": "integer",
+      "description": "policy: primary."
+    },
+    "ncols": {
+      "type": "integer",
+      "description": "policy: primary."
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^-?(0|[1-9][0-9]*)$"
+      },
+      "description": "flat, length nrows * ncols. policy: primary. convention: matrix-row-major."
+    },
+    "rank": {
+      "type": "integer",
+      "description": "policy: derived-expensive."
+    },
+    "determinant": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-expensive."
+    }
+  },
+  "required": [
+    "base",
+    "entries",
+    "ncols",
+    "nrows"
+  ]
+}

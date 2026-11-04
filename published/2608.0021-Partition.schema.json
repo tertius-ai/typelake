@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0021",
+  "title": "Integer partition",
+  "description": "Small enough to look trivial, and it is not: [3,1] and [1,3] are the same partition, so the ordering is an encoding constraint rather than a convenience.",
+  "type": "object",
+  "properties": {
+    "parts": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "policy: primary. convention: partition-weakly-decreasing."
+    },
+    "size": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "length": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "conjugate": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "policy: derived-cheap."
+    }
+  },
+  "required": [
+    "parts"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:spec:fact:v1",
+  "title": "Fact",
+  "description": "One observation about one object. Facts arrive independently, from different agents in different batches, so a fact validates alone: it names its own schema rather than inheriting one from a surrounding document. The value and provenance are checked against the SciType registry, not here \u2014 this file fixes only the envelope.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schema_version",
+    "id",
+    "field",
+    "value",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*:[0-9]{4}\\.[0-9]{4}$",
+      "description": "Lineage id of the subject's schema."
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^v[0-9]+$",
+      "description": "An append-only log accumulates versions forever; readers must handle every version ever written."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Presentation id of the subject (rung 1)."
+    },
+    "field": {
+      "type": "string",
+      "minLength": 1
+    },
+    "value": {
+      "description": "Any JSON value, or the absence markers. Validated against the field's declared type in the registry.",
+      "$comment": "{\"status\":\"n/a\"} records not-applicable, which must not count against coverage as though it were unknown."
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Must validate against scitype:2608.0009 (Provenance)."
+    },
+    "convention": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Optional. The conventions the producer used, asserted so a mismatch with the field's declaration can be caught. A value computed under a different convention is a different value, not a conflicting one."
+    }
+  }
+}

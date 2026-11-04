@@ -1,0 +1,16 @@
+id: scitype:2608.0001
+version: v1
+mnemonic: DAG
+title: Finite directed acyclic graph
+categories: [math.CO]
+status: stable
+identity:
+  defining: [n, arcs]
+  canonicalization: {method: none, kind: complete}
+fields:
+  n:    {policy: primary, type: int, note: "vertices are 0..n-1"}
+  arcs: {policy: primary, type: "[[int, int]]", note: "a -> b, lex-sorted, no duplicates"}
+constraints:
+  - {check: acyclic}
+  - {check: lex-sorted-unique, args: {key: arcs}}
+  - {check: endpoints-in-range}

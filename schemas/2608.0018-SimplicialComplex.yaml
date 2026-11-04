@@ -1,0 +1,37 @@
+id: scitype:2608.0018
+version: v1
+mnemonic: SimplicialComplex
+title: Finite abstract simplicial complex
+categories: [math.AT, math.CO]
+status: draft
+identity:
+  defining: [n, facets]
+  canonicalization: {method: canonical-labeling-of-incidence, kind: complete}
+fields:
+  n: {policy: primary, type: int}
+  facets:
+    policy: primary
+    type: "[[int]]"
+    convention: [facets-are-maximal]
+    note: "maximal faces, each sorted ascending, the list lex-sorted"
+  dimension: {policy: derived-cheap, inputs: [facets], type: int}
+  f_vector:  {policy: derived-cheap, inputs: [n, facets], type: "[int]",
+              convention: [f-vector-faces-only]}
+  euler_char: {policy: derived-cheap, inputs: [f_vector], type: int,
+              convention: [euler-characteristic-unreduced]}
+  is_pure:   {policy: derived-cheap, inputs: [facets], type: bool}
+  homology:
+    policy: derived-expensive
+    inputs: [n, facets]
+    type: "{int: scitype:2608.0010}"  # AbelianGroup
+    convention: [homology-unreduced]
+constraints:
+  - {check: lex-sorted-unique, args: {key: facets}}
+  - {check: facets-are-maximal, args: {key: facets}}
+relations:
+  - {kind: face-poset,       target: scitype:2608.0002}  # FinitePoset
+  - {kind: order-complex-of, target: scitype:2608.0002}  # FinitePoset
+note: >
+  Closes the loop with FinitePoset in both directions: the order complex of a
+  poset is a complex, and the face poset of a complex is a poset. Neither is a
+  bijection, so both are relations rather than one type wearing two hats.

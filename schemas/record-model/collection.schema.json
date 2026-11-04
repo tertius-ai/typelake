@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:spec:collection:v1",
+  "title": "Collection manifest",
+  "description": "Configuration, not content: a collection binds one schema to one canonicalization and declares the views built over it. Equivalence lives here rather than in the schema, so two collections may share defining data and differ only in what they consider the same object.",
+  "type": "object",
+  "required": ["collection", "schema", "schema_version", "canonicalization", "license", "snapshot"],
+  "additionalProperties": false,
+  "properties": {
+    "collection": { "type": "string", "minLength": 1 },
+    "title": { "type": "string" },
+    "schema": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*:[0-9]{4}\\.[0-9]{4}$" },
+    "schema_version": { "type": "string", "pattern": "^v[0-9]+$" },
+    "schema_inline": {
+      "type": "object",
+      "description": "The schema document embedded verbatim, so an archived copy is readable with no network access."
+    },
+    "canonicalization": {
+      "type": "object",
+      "required": ["method", "kind"],
+      "properties": {
+        "method": { "type": "string" },
+        "kind": { "enum": ["complete", "invariant-based"] }
+      }
+    },
+    "license": { "type": "string", "description": "SPDX id; travels with the bytes rather than being inferred from a repo." },
+    "snapshot": { "type": "string", "description": "Current snapshot id; every query result cites one." },
+    "batches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "hash", "count"],
+        "properties": {
+          "id": { "type": "string" },
+          "hash": { "type": "string" },
+          "count": { "type": "integer", "minimum": 0 },
+          "quarantine": { "type": "boolean" }
+        }
+      }
+    },
+    "views": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "fields"],
+        "properties": {
+          "name": { "type": "string" },
+          "fields": { "type": "array", "items": { "type": "string" } },
+          "sort_key": { "type": "array", "items": { "type": "string" } },
+          "coverage": { "type": "object" }
+        }
+      }
+    }
+  }
+}

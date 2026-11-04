@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0026",
+  "title": "Classical modular newform",
+  "description": "The interesting case: the object is infinite but the identifier must be finite. A newform is determined by its coefficients up to the Sturm bound, so identity is well defined only when enough of them are given \u2014 \"enough\" being a theorem rather than a convention. A submission truncated below the bound is not a different form, it is an object we cannot yet identify, and it should be rejected rather than assigned an identifier that a longer expansion would contradict.",
+  "type": "object",
+  "properties": {
+    "level": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: primary."
+    },
+    "weight": {
+      "type": "integer",
+      "description": "policy: primary."
+    },
+    "character": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "modulus",
+        "order"
+      ],
+      "properties": {
+        "modulus": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)$"
+        },
+        "order": {
+          "type": "integer"
+        },
+        "index": {
+          "type": "integer"
+        }
+      },
+      "description": "Dirichlet character, Conrey-indexed. policy: primary."
+    },
+    "coefficients": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^-?(0|[1-9][0-9]*)$"
+      },
+      "description": "a_1, a_2, ... listed from n = 1, to at least the Sturm bound. policy: primary. convention: newform-normalized."
+    },
+    "sturm_bound": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "is_cm": {
+      "type": "boolean",
+      "description": "policy: derived-expensive."
+    },
+    "analytic_rank": {
+      "type": "integer",
+      "description": "policy: derived-expensive."
+    }
+  },
+  "required": [
+    "character",
+    "coefficients",
+    "level",
+    "weight"
+  ]
+}

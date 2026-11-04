@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0005",
+  "title": "Permutation group up to conjugacy in S_n",
+  "description": "Same defining data as FiniteGroup, different canonicalization. Conjugacy in S_n is strictly finer than abstract isomorphism, and for a degree-n number field the transitive action on the n embeddings IS the datum of K inside its Galois closure \u2014 the point stabilizer is Gal(L/K). Collapsing to the abstract type would discard the arithmetic. Transitivity is a constraint at the use site, not a separate type.",
+  "type": "object",
+  "properties": {
+    "degree": {
+      "type": "integer",
+      "description": "policy: primary."
+    },
+    "generators": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        }
+      },
+      "description": "policy: primary. convention: permutation-right-action."
+    },
+    "order": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-cheap."
+    },
+    "is_transitive": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "is_primitive": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "parity": {
+      "type": "boolean",
+      "description": "contained in A_n. policy: derived-cheap."
+    },
+    "cycle_types": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "description": "policy: derived-cheap."
+    },
+    "n_orbits": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    }
+  },
+  "required": [
+    "degree",
+    "generators"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0001",
+  "title": "Finite directed acyclic graph",
+  "type": "object",
+  "properties": {
+    "n": {
+      "type": "integer",
+      "description": "vertices are 0..n-1. policy: primary."
+    },
+    "arcs": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "integer"
+          }
+        ],
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "description": "a -> b, lex-sorted, no duplicates. policy: primary."
+    }
+  },
+  "required": [
+    "arcs",
+    "n"
+  ]
+}

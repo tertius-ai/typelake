@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Opening TypeBase…</title>
+    <style>
+      html { background: #f2efe7; }
+      body { visibility: hidden; }
+    </style>
+  </head>
+  <body>
+    <p>Opening TypeBase…</p>
+    <script>
+      (() => {
+        const path = location.pathname.replace(/\/+$/, "");
+        const poset = /^\/Poset\/\d+\.-?\d+\.\d+$/.test(path);
+        const steiner = /^\/Steiner\/\d+\.-?\d+\.\d+$/.test(path);
+        const establishedReference =
+          path === "/Glossary" ||
+          /^\/(Posets|Steiner)\/(Source|Completeness)$/.test(path);
+        const volumeOne =
+          /^\/(SimplicialComplex|SimplicialSet)(?:\/\d+\.-?\d+\.\d+|\/(?:Source|Completeness|Glossary))?$/.test(path) ||
+          /^\/FiniteGroupCohomology(?:\/\d+\.\d+(?:\/(?:Z|F\d+))?|\/(?:Source|Completeness|Glossary))?$/.test(path) ||
+          /^\/EilenbergMacLane(?:\/(?:Z|\d+(?:\.\d+)+)\.\d+(?:\/(?:Z|F\d+))?|\/(?:Source|Completeness|Glossary))?$/.test(path);
+        const shell = volumeOne
+          ? "/typebase/collections.html"
+          : poset
+            ? "/typebase/posets.html"
+            : steiner
+              ? "/typebase/steiner.html"
+              : establishedReference
+                ? "/typebase/reference.html"
+                : null;
+        if (!shell) {
+          location.replace("/typebase/");
+          return;
+        }
+        fetch(shell)
+          .then((response) => {
+            if (!response.ok) throw new Error(`Unable to load ${shell}`);
+            return response.text();
+          })
+          .then((markup) => {
+            document.open();
+            document.write(markup);
+            document.close();
+          })
+          .catch(() => location.replace("/typebase/"));
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+id: scitype:2608.0013
+version: v1
+mnemonic: GradedAlgebraMap
+title: Map of graded algebras
+categories: [math.RA, math.AT]
+status: draft
+identity:
+  defining: [source, target, morphism_kind, images]
+  canonicalization: {method: none, kind: invariant-based}
+fields:
+  source:          {policy: primary, type: scitype:2608.0007}  # GradedAlgebra
+  target:          {policy: primary, type: scitype:2608.0007}  # GradedAlgebra
+  morphism_kind:   {policy: primary, type: string, note: "ring-homomorphism | module-homomorphism"}
+  images:          {policy: primary, type: opaque, note: "generator -> polynomial, or degreewise basis images"}
+  known_to_degree: {policy: primary, type: int, note: "null when complete"}
+  degree_shift:    {policy: primary, type: int}
+constraints: []   # record-level; see note
+note: >
+  Restriction is a ring map, so generator images determine it. Transfer is only a
+  map of modules by Frobenius reciprocity, so generator images do NOT determine
+  it and degreewise data with a bound is required. Induction and transfer name
+  the same map in group cohomology; the registry admits transfer only.

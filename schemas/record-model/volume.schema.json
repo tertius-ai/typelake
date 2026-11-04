@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:spec:volume:v1",
+  "title": "Volume manifest",
+  "description": "A volume is a frozen query over the lake, pinned to exact snapshots and a code version so it regenerates byte-for-byte. Immutable once published; corrections are errata, never edits.",
+  "type": "object",
+  "required": ["volume", "title", "collections", "code_version", "license", "issued"],
+  "additionalProperties": false,
+  "properties": {
+    "volume": { "type": "string" },
+    "title": { "type": "string" },
+    "collections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["collection", "snapshot"],
+        "properties": {
+          "collection": { "type": "string" },
+          "snapshot": { "type": "string" },
+          "view": { "type": "string" },
+          "filter": { "type": "array", "items": { "type": "object" } },
+          "count": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "code_version": { "type": "string" },
+    "license": { "type": "string" },
+    "issued": { "type": "string", "format": "date-time" },
+    "doi": {
+      "type": "object",
+      "properties": {
+        "concept": { "type": "string", "description": "Always resolves to the latest volume in the series." },
+        "version": { "type": "string", "description": "This volume, permanently." }
+      }
+    },
+    "errata": { "type": "string", "description": "Path to errata.jsonl; errata never alter the data files." },
+    "supersedes": { "type": "string" }
+  }
+}

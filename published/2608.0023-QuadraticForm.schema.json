@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0023",
+  "title": "Integral quadratic form",
+  "description": "invariant-based, and honestly so: integral equivalence is GL_n(Z)-equivalence of Gram matrices, for which no cheap canonical form is known in general. Two Gram matrices of one form are two objects joined by isometric-to, compared on determinant, signature, level and theta series.",
+  "type": "object",
+  "properties": {
+    "gram": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^-?(0|[1-9][0-9]*)$"
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "params"
+          ],
+          "$comment": "inlined from scitype:2608.0006"
+        },
+        "nrows": {
+          "type": "integer"
+        },
+        "ncols": {
+          "type": "integer"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "required": [
+        "base",
+        "entries",
+        "ncols",
+        "nrows"
+      ],
+      "$comment": "inlined from scitype:2608.0019",
+      "description": "symmetric integral Gram matrix G; Q(x) = (1/2) x^T G x. policy: primary. convention: quadratic-form-gram-classical, matrix-row-major."
+    },
+    "rank": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "determinant": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-cheap."
+    },
+    "signature": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "policy: derived-cheap."
+    },
+    "is_definite": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "level": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-expensive."
+    },
+    "class_number": {
+      "type": "integer",
+      "description": "policy: derived-expensive."
+    },
+    "theta_series": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^-?(0|[1-9][0-9]*)$"
+      },
+      "description": "policy: derived-expensive."
+    }
+  },
+  "required": [
+    "gram"
+  ]
+}

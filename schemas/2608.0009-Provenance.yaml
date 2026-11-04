@@ -1,0 +1,22 @@
+id: scitype:2608.0009
+version: v1
+mnemonic: Provenance
+title: Provenance envelope
+categories: [scitype.meta]
+status: provisional
+identity:
+  defining: []
+  canonicalization: {method: none, kind: complete}
+  note: "carried by facts; never itself identified"
+fields:
+  source:      {policy: primary, type: string, note: "enumeration | computation | submission | external"}
+  agent:       {policy: primary, type: "{name: string, version: string}"}
+  rigor:       {policy: primary, type: scitype:2608.0008}  # Rigor
+  recreate:    {policy: primary, type: "{language: string, code: string}", note: "required for DERIVED fields"}
+  origin:      {policy: primary, type: string, note: "required for PRIMARY fields"}
+  oracle:      {policy: primary, type: "{name: string, version: string, agreed: bool}"}
+  cost:        {policy: primary, type: "{wall_seconds: int, peak_bytes: int, currency_micros: int}"}
+  computed_at: {policy: primary, type: string, note: "RFC 3339"}
+  submitter:   {policy: primary, type: string}
+constraints: []   # enforced in fact-mode: the rule depends on the TARGET field's
+                  # policy, which is not knowable from this document alone

@@ -1,0 +1,30 @@
+{
+  "source": "TypeLake redundant labeled enumeration through total 5; certified canonical augmentation above it",
+  "boxes": [
+    {
+      "maximum_dimension": 2,
+      "orders": [
+        { "total_nondegenerate": 0, "unlabeled": "1" },
+        { "total_nondegenerate": 1, "unlabeled": "1" },
+        { "total_nondegenerate": 2, "unlabeled": "3" },
+        { "total_nondegenerate": 3, "unlabeled": "14" },
+        { "total_nondegenerate": 4, "unlabeled": "77" },
+        { "total_nondegenerate": 5, "unlabeled": "487" },
+        { "total_nondegenerate": 6, "unlabeled": "3630" },
+        { "total_nondegenerate": 7, "unlabeled": "30808" }
+      ]
+    },
+    {
+      "maximum_dimension": 3,
+      "orders": [
+        { "total_nondegenerate": 0, "unlabeled": "1" },
+        { "total_nondegenerate": 1, "unlabeled": "1" },
+        { "total_nondegenerate": 2, "unlabeled": "4" },
+        { "total_nondegenerate": 3, "unlabeled": "36" },
+        { "total_nondegenerate": 4, "unlabeled": "386" },
+        { "total_nondegenerate": 5, "unlabeled": "5076" },
+        { "total_nondegenerate": 6, "unlabeled": "89531" }
+      ]
+    }
+  ]
+}

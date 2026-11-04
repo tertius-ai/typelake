@@ -1,0 +1,28 @@
+id: scitype:2608.0024
+version: v1
+mnemonic: CartanMatrix
+title: Cartan matrix of a finite root system
+categories: [math.RT, math.RA]
+status: draft
+identity:
+  defining: [entries]
+  canonicalization: {method: canonical-labeling-of-dynkin-diagram, kind: complete}
+fields:
+  entries:
+    policy: primary
+    type: "[[int]]"
+    convention: [cartan-matrix-bourbaki]
+    note: "a_ij = 2 (alpha_i, alpha_j) / (alpha_j, alpha_j); square, a_ii = 2"
+  rank:        {policy: derived-cheap, inputs: [entries], type: int}
+  cartan_type: {policy: derived-cheap, inputs: [entries], type: string,
+                note: "e.g. A3, B3, D4, E8, or a product"}
+  is_simply_laced: {policy: derived-cheap, inputs: [entries], type: bool}
+  determinant: {policy: derived-cheap, inputs: [entries], type: decimal}
+  weyl_order:  {policy: derived-expensive, inputs: [entries], type: decimal, convention: []}
+relations:
+  - {kind: dual-root-system, target: scitype:2608.0024}  # CartanMatrix
+  - {kind: weyl-group,       target: scitype:2608.0004}  # FiniteGroup
+note: >
+  The convention is the whole content here. B_n and C_n have transposed Cartan
+  matrices and are non-isomorphic for n >= 3, so reading a matrix under the wrong
+  convention does not fail — it silently names so(7) where sp(6) was meant.

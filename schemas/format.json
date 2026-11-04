@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:spec:schema:v1",
+  "title": "SciType schema document",
+  "description": "The shape of a SciType schema. SciType insists that every mathematical object be specified precisely; the specification format has to be specified too, or a misspelled key silently drops a convention and nothing notices. Cross-document rules \u2014 references resolve, lineage numbers are unique, conventions and constraints come from the registries \u2014 cannot be expressed here and live in the lint.",
+  "type": "object",
+  "required": [
+    "id",
+    "version",
+    "mnemonic",
+    "title",
+    "categories",
+    "status",
+    "identity",
+    "fields"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*:[0-9]{4}\\.[0-9]{4}$",
+      "description": "Lineage. Permanent, and its defining fields never change."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+$"
+    },
+    "mnemonic": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z0-9]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z]+\\.[A-Za-z]+|scitype\\.meta)$"
+      },
+      "description": "arXiv codes, cross-listed freely; scitype.meta for types that are not mathematics."
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "provisional",
+        "stable"
+      ],
+      "description": "A claim about this entry, not about the standard. `stable` requires corpus coverage."
+    },
+    "supersedes": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*:[0-9]{4}\\.[0-9]{4}$"
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "defining",
+        "canonicalization"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "defining": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Which fields are hashed. JCS fixes their order, so this selects, it does not sequence."
+        },
+        "canonicalization": {
+          "type": "object",
+          "required": [
+            "method",
+            "kind"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "complete",
+                "invariant-based"
+              ],
+              "description": "Claiming complete when you mean invariant-based is the one dishonesty the format cannot survive."
+            }
+          }
+        },
+        "note": {
+          "type": "string"
+        },
+        "sufficiency": {
+          "type": "object",
+          "required": [
+            "check"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "check": {
+              "type": "string"
+            },
+            "args": {
+              "type": "object"
+            }
+          },
+          "description": "Guards against collision, the opposite failure to what encoding constraints guard. Required when defining data is a truncation of something infinite; without one such a type cannot claim a complete canonicalization."
+        }
+      }
+    },
+    "fields": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "policy"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "policy": {
+            "enum": [
+              "primary",
+              "derived-cheap",
+              "derived-expensive"
+            ]
+          },
+          "type": {
+            "type": "string"
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "convention": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "constraint": {
+            "type": "string"
+          },
+          "params": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "note": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "check"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "check": {
+            "type": "string"
+          },
+          "args": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "target"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "params": {
+            "type": "array"
+          },
+          "constraint": {
+            "type": "string"
+          },
+          "degree": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "external_labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "comparison": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}

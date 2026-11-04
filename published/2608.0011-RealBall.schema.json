@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0011",
+  "title": "Real ball",
+  "description": "The true value lies in [mid - rad, mid + rad]. Whether that enclosure is proven is the fact's Rigor, not this type's business. Ball-valued fields compare by intersection, not equality: overlapping balls agree and merge, disjoint balls are a conflict.",
+  "type": "object",
+  "properties": {
+    "mid": {
+      "type": "string",
+      "description": "exact decimal. policy: primary."
+    },
+    "rad": {
+      "type": "string",
+      "description": "exact decimal, >= 0. policy: primary."
+    },
+    "lower": {
+      "type": "string",
+      "description": "policy: derived-cheap."
+    },
+    "upper": {
+      "type": "string",
+      "description": "policy: derived-cheap."
+    },
+    "is_exact": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    }
+  },
+  "required": [
+    "mid",
+    "rad"
+  ]
+}

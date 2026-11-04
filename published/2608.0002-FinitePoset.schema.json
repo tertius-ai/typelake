@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0002",
+  "title": "Finite poset",
+  "type": "object",
+  "properties": {
+    "covers": {
+      "type": "object",
+      "properties": {
+        "n": {
+          "type": "integer"
+        },
+        "arcs": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      },
+      "required": [
+        "arcs",
+        "n"
+      ],
+      "$comment": "inlined from scitype:2608.0001",
+      "description": "the Hasse diagram; n is read from the component. policy: primary."
+    },
+    "n": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "order_relation": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "integer"
+          }
+        ],
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "description": "policy: derived-cheap."
+    },
+    "f_vector": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "policy: derived-cheap. convention: order-complex, f-vector-faces-only."
+    },
+    "height": {
+      "type": "integer",
+      "description": "policy: derived-cheap. convention: height-elements."
+    },
+    "width": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "is_connected": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "is_lattice": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "is_self_dual": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "core_size": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "euler_char": {
+      "type": "integer",
+      "description": "policy: derived-cheap. convention: euler-characteristic-unreduced."
+    },
+    "homology": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "integer"
+          },
+          "invariant_factors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)$"
+            }
+          }
+        },
+        "required": [
+          "invariant_factors",
+          "rank"
+        ],
+        "$comment": "inlined from scitype:2608.0010"
+      },
+      "description": "policy: derived-expensive. convention: order-complex, homology-unreduced."
+    },
+    "homology_mod_p": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "description": "policy: derived-expensive. convention: order-complex, homology-unreduced."
+    },
+    "aut_order": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-expensive. convention: automorphism-order-preserving."
+    }
+  },
+  "required": [
+    "covers"
+  ]
+}

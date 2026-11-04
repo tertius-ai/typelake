@@ -1,0 +1,40 @@
+id: scitype:2608.0002
+version: v1
+mnemonic: FinitePoset
+title: Finite poset
+categories: [math.CO, math.AT]
+status: stable
+identity:
+  defining: [covers]
+  canonicalization: {method: canonical-labeling, kind: complete}
+fields:
+  covers:
+    policy: primary
+    type: scitype:2608.0001  # DAG
+    constraint: transitively-reduced
+    note: "the Hasse diagram; n is read from the component"
+  n:              {policy: derived-cheap, inputs: [covers], type: int}
+  order_relation: {policy: derived-cheap, inputs: [covers], type: "[[int, int]]"}
+  f_vector: {policy: derived-cheap, inputs: [covers], type: "[int]", convention: ['order-complex', 'f-vector-faces-only']}
+  height: {policy: derived-cheap, inputs: [covers], type: int, convention: ['height-elements']}
+  width:          {policy: derived-cheap, inputs: [covers], type: int}
+  is_connected:   {policy: derived-cheap, inputs: [covers], type: bool}
+  is_lattice:     {policy: derived-cheap, inputs: [covers], type: bool}
+  is_self_dual:   {policy: derived-cheap, inputs: [covers], type: bool}
+  core_size:      {policy: derived-cheap, inputs: [covers], type: int}
+  euler_char: {policy: derived-cheap, inputs: [f_vector], type: int, convention: ['euler-characteristic-unreduced']}
+  homology:
+    policy: derived-expensive
+    inputs: [covers]
+    type: "{int: scitype:2608.0010}"  # AbelianGroup, by degree
+    convention: ['order-complex', 'homology-unreduced']
+  homology_mod_p:
+    policy: derived-expensive
+    inputs: [covers]
+    params: [scitype:2608.0006]  # Ring — which F_p
+    type: "{int: int}"
+    convention: ['order-complex', 'homology-unreduced']
+  aut_order: {policy: derived-expensive, inputs: [covers], type: decimal, convention: ['automorphism-order-preserving']}
+relations:
+  - {kind: has-core, target: scitype:2608.0002}  # FinitePoset
+  - {kind: opposite, target: scitype:2608.0002}  # FinitePoset

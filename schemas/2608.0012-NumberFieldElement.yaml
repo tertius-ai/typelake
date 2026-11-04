@@ -1,0 +1,20 @@
+id: scitype:2608.0012
+version: v1
+mnemonic: NumberFieldElement
+title: Element of a number field
+categories: [math.NT]
+status: provisional
+identity:
+  defining: [num, den]
+  canonicalization: {method: reduce-by-gcd, kind: complete}
+fields:
+  num: {policy: primary, type: "[decimal]", note: "power-basis coordinates, length = degree"}
+  den: {policy: primary, type: decimal, note: "> 0"}
+constraints:
+  - {check: positive, args: {key: den}}
+  - {check: coprime, args: {num: num, den: den}}
+note: >
+  Value is (sum num_i * alpha^i) / den in the power basis 1, alpha, ..., alpha^(n-1).
+  The power basis is fixed by the defining polynomial and so is always available;
+  an integral basis is derived-expensive and may be uncomputed. The ambient field
+  is the record's subject unless the use site pins one explicitly.

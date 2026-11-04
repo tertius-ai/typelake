@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0020",
+  "title": "Bounded chain complex of free modules",
+  "description": "d^2 = 0 is a semantic constraint, not an encoding one: a complex violating it is false mathematics rather than a second encoding of something true, so it is the consumer's to check. Free modules only \u2014 a general complex needs modules as a type, which does not exist yet.",
+  "type": "object",
+  "properties": {
+    "base": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "params"
+      ],
+      "$comment": "inlined from scitype:2608.0006",
+      "description": "policy: primary."
+    },
+    "bottom_degree": {
+      "type": "integer",
+      "description": "policy: primary."
+    },
+    "ranks": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "ranks from bottom_degree upward. policy: primary."
+    },
+    "differentials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "base": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string"
+              },
+              "params": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string",
+                  "pattern": "^-?(0|[1-9][0-9]*)$"
+                }
+              }
+            },
+            "required": [
+              "kind",
+              "params"
+            ],
+            "$comment": "inlined from scitype:2608.0006"
+          },
+          "nrows": {
+            "type": "integer"
+          },
+          "ncols": {
+            "type": "integer"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)$"
+            }
+          }
+        },
+        "required": [
+          "base",
+          "entries",
+          "ncols",
+          "nrows"
+        ],
+        "$comment": "inlined from scitype:2608.0019"
+      },
+      "description": "d_n at index n - bottom_degree; d_n maps degree n to degree n-1. policy: primary. convention: chain-complex-homological, matrix-row-major."
+    },
+    "homology": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "integer"
+          },
+          "invariant_factors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)$"
+            }
+          }
+        },
+        "required": [
+          "invariant_factors",
+          "rank"
+        ],
+        "$comment": "inlined from scitype:2608.0010"
+      },
+      "description": "policy: derived-expensive. convention: chain-complex-homological."
+    },
+    "euler_char": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    }
+  },
+  "required": [
+    "base",
+    "bottom_degree",
+    "differentials",
+    "ranks"
+  ]
+}

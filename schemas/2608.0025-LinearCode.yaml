@@ -1,0 +1,31 @@
+id: scitype:2608.0025
+version: v1
+mnemonic: LinearCode
+title: Linear code over a finite field
+categories: [math.IT, math.CO]
+status: draft
+identity:
+  defining: [base, generator]
+  canonicalization: {method: invariant-hash, kind: invariant-based}
+fields:
+  base:      {policy: primary, type: scitype:2608.0006}  # Ring
+  generator:
+    policy: primary
+    type: scitype:2608.0019  # Matrix
+    convention: [matrix-row-major, code-equivalence-permutation]
+    note: "k x n generator matrix of full rank k"
+  length:    {policy: derived-cheap, inputs: [generator], type: int}
+  dimension: {policy: derived-cheap, inputs: [generator], type: int}
+  minimum_distance: {policy: derived-expensive, inputs: [base, generator], type: int, convention: []}
+  weight_enumerator: {policy: derived-expensive, inputs: [base, generator], type: "[decimal]", convention: []}
+  is_self_dual:     {policy: derived-expensive, inputs: [base, generator], type: bool, convention: []}
+relations:
+  - {kind: dual-code,      target: scitype:2608.0025}  # LinearCode
+  - {kind: equivalent-to,  target: scitype:2608.0025}  # LinearCode
+note: >
+  A code is a subspace, but a generator matrix is a choice of basis, so identity
+  cannot be the matrix. Even after row reduction, equivalence permutes (and under
+  the monomial convention, scales) coordinates — which is why this is
+  invariant-based, compared on length, dimension, minimum distance and weight
+  enumerator. Minimum distance is NP-hard in general; expect it to be absent
+  more often than present, which is what the coverage surface is for.

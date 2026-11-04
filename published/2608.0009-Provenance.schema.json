@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0009",
+  "title": "Provenance envelope",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string",
+      "description": "enumeration | computation | submission | external. policy: primary."
+    },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "description": "policy: primary."
+    },
+    "rigor": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "string"
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "assumptions",
+        "level"
+      ],
+      "$comment": "inlined from scitype:2608.0008",
+      "description": "policy: primary."
+    },
+    "recreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "language"
+      ],
+      "properties": {
+        "language": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "description": "required for DERIVED fields. policy: primary."
+    },
+    "origin": {
+      "type": "string",
+      "description": "required for PRIMARY fields. policy: primary."
+    },
+    "oracle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agreed",
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "agreed": {
+          "type": "boolean"
+        }
+      },
+      "description": "policy: primary."
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "currency_micros",
+        "peak_bytes",
+        "wall_seconds"
+      ],
+      "properties": {
+        "wall_seconds": {
+          "type": "integer"
+        },
+        "peak_bytes": {
+          "type": "integer"
+        },
+        "currency_micros": {
+          "type": "integer"
+        }
+      },
+      "description": "policy: primary."
+    },
+    "computed_at": {
+      "type": "string",
+      "description": "RFC 3339. policy: primary."
+    },
+    "submitter": {
+      "type": "string",
+      "description": "policy: primary."
+    }
+  },
+  "required": []
+}

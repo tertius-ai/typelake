@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0024",
+  "title": "Cartan matrix of a finite root system",
+  "description": "The convention is the whole content here. B_n and C_n have transposed Cartan matrices and are non-isomorphic for n >= 3, so reading a matrix under the wrong convention does not fail \u2014 it silently names so(7) where sp(6) was meant.",
+  "type": "object",
+  "properties": {
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        }
+      },
+      "description": "a_ij = 2 (alpha_i, alpha_j) / (alpha_j, alpha_j); square, a_ii = 2. policy: primary. convention: cartan-matrix-bourbaki."
+    },
+    "rank": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "cartan_type": {
+      "type": "string",
+      "description": "e.g. A3, B3, D4, E8, or a product. policy: derived-cheap."
+    },
+    "is_simply_laced": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "determinant": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-cheap."
+    },
+    "weyl_order": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-expensive."
+    }
+  },
+  "required": [
+    "entries"
+  ]
+}

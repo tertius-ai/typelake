@@ -1,0 +1,14 @@
+{
+  "record_version": 1,
+  "key": "oc1-sha256:1fd2e7a48fcbad0d4c91600a527ca91356d74d914c371ac1be05ff92dfdeb975",
+  "vertex_count": 4,
+  "facets": [[0, 2], [0, 3], [1, 2], [1, 3]],
+  "is_empty": false,
+  "dimension": 1,
+  "f_vector": [4, 4],
+  "euler_characteristic": 0,
+  "integral_homology": [
+    {"degree": 0, "free_rank": 1, "invariant_factors": []},
+    {"degree": 1, "free_rank": 1, "invariant_factors": []}
+  ]
+}

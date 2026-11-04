@@ -1,0 +1,24 @@
+id: scitype:2608.0021
+version: v1
+mnemonic: Partition
+title: Integer partition
+categories: [math.CO]
+status: draft
+identity:
+  defining: [parts]
+  canonicalization: {method: sort-descending, kind: complete}
+fields:
+  parts:
+    policy: primary
+    type: "[int]"
+    convention: [partition-weakly-decreasing]
+  size:     {policy: derived-cheap, inputs: [parts], type: int}
+  length:   {policy: derived-cheap, inputs: [parts], type: int}
+  conjugate: {policy: derived-cheap, inputs: [parts], type: "[int]"}
+constraints:
+  - {check: weakly-decreasing, args: {key: parts}}
+relations:
+  - {kind: conjugate-partition, target: scitype:2608.0021}  # Partition
+note: >
+  Small enough to look trivial, and it is not: [3,1] and [1,3] are the same
+  partition, so the ordering is an encoding constraint rather than a convenience.

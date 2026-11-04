@@ -1,0 +1,14 @@
+id: scitype:2608.0006
+version: v1
+mnemonic: Ring
+title: Coefficient ring
+categories: [math.RA]
+status: stable
+identity:
+  defining: [kind, params]
+  canonicalization: {method: none, kind: complete}
+fields:
+  kind:   {policy: primary, type: string, note: "Z | Q | Fp | Fq | Zmod | Zp"}
+  params: {policy: primary, type: "{string: decimal}", note: "p, n, or modulus as required"}
+constraints:
+  - {check: prime, args: {key: params}}   # applies to params.p when kind is Fp or Fq

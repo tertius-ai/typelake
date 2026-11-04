@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "sources": {
+    "unlabeled_posets": "OEIS A000112",
+    "connected_unlabeled_posets": "OEIS A000608",
+    "labeled_posets": "OEIS A001035"
+  },
+  "orders": [
+    {"order": 0, "unlabeled": "1", "connected_unlabeled": "0", "labeled": "1"},
+    {"order": 1, "unlabeled": "1", "connected_unlabeled": "1", "labeled": "1"},
+    {"order": 2, "unlabeled": "2", "connected_unlabeled": "1", "labeled": "3"},
+    {"order": 3, "unlabeled": "5", "connected_unlabeled": "3", "labeled": "19"},
+    {"order": 4, "unlabeled": "16", "connected_unlabeled": "10", "labeled": "219"},
+    {"order": 5, "unlabeled": "63", "connected_unlabeled": "44", "labeled": "4231"},
+    {"order": 6, "unlabeled": "318", "connected_unlabeled": "238", "labeled": "130023"},
+    {"order": 7, "unlabeled": "2045", "connected_unlabeled": "1650", "labeled": "6129859"},
+    {"order": 8, "unlabeled": "16999", "connected_unlabeled": "14512", "labeled": "431723379"},
+    {"order": 9, "unlabeled": "183231", "connected_unlabeled": "163341", "labeled": "44511042511"},
+    {"order": 10, "unlabeled": "2567284", "connected_unlabeled": "2360719", "labeled": "6611065248783"}
+  ]
+}

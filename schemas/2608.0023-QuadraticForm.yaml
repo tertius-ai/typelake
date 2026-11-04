@@ -1,0 +1,30 @@
+id: scitype:2608.0023
+version: v1
+mnemonic: QuadraticForm
+title: Integral quadratic form
+categories: [math.NT]
+status: draft
+identity:
+  defining: [gram]
+  canonicalization: {method: invariant-hash, kind: invariant-based}
+fields:
+  gram:
+    policy: primary
+    type: scitype:2608.0019  # Matrix
+    convention: [quadratic-form-gram-classical, matrix-row-major]
+    note: "symmetric integral Gram matrix G; Q(x) = (1/2) x^T G x"
+  rank:        {policy: derived-cheap, inputs: [gram], type: int}
+  determinant: {policy: derived-cheap, inputs: [gram], type: decimal}
+  signature:   {policy: derived-cheap, inputs: [gram], type: "[int, int]"}
+  is_definite: {policy: derived-cheap, inputs: [signature], type: bool}
+  level:       {policy: derived-expensive, inputs: [gram], type: decimal, convention: []}
+  class_number: {policy: derived-expensive, inputs: [gram], type: int, convention: []}
+  theta_series: {policy: derived-expensive, inputs: [gram], type: "[decimal]", convention: []}
+relations:
+  - {kind: genus-mate,  target: scitype:2608.0023}  # QuadraticForm
+  - {kind: isometric-to,target: scitype:2608.0023}  # QuadraticForm
+note: >
+  invariant-based, and honestly so: integral equivalence is GL_n(Z)-equivalence
+  of Gram matrices, for which no cheap canonical form is known in general. Two
+  Gram matrices of one form are two objects joined by isometric-to, compared on
+  determinant, signature, level and theta series.

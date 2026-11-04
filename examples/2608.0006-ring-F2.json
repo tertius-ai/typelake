@@ -1,0 +1,10 @@
+{
+  "schema": "scitype:2608.0006",
+  "name": "ring-F2",
+  "instance": {
+    "kind": "Fp",
+    "params": {
+      "p": "2"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "scitype:2608.0002",
+  "name": "poset-4-antichain",
+  "instance": {
+    "covers": {
+      "n": 4,
+      "arcs": []
+    }
+  }
+}

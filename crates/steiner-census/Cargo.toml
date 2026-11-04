@@ -1,0 +1,19 @@
+[package]
+name = "steiner-census"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Database-independent finite strong-Steiner-category census builder"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+noether.workspace = true
+poset-census = { path = "../poset-census" }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+hex.workspace = true
+zstd.workspace = true

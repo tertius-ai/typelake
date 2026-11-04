@@ -1,0 +1,21 @@
+{
+  "schema": "scitype:2608.0004",
+  "name": "group-D4-on-square",
+  "instance": {
+    "degree": 4,
+    "generators": [
+      [
+        1,
+        2,
+        3,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        3
+      ]
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0018",
+  "title": "Finite abstract simplicial complex",
+  "description": "Closes the loop with FinitePoset in both directions: the order complex of a poset is a complex, and the face poset of a complex is a poset. Neither is a bijection, so both are relations rather than one type wearing two hats.",
+  "type": "object",
+  "properties": {
+    "n": {
+      "type": "integer",
+      "description": "policy: primary."
+    },
+    "facets": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        }
+      },
+      "description": "maximal faces, each sorted ascending, the list lex-sorted. policy: primary. convention: facets-are-maximal."
+    },
+    "dimension": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "f_vector": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "policy: derived-cheap. convention: f-vector-faces-only."
+    },
+    "euler_char": {
+      "type": "integer",
+      "description": "policy: derived-cheap. convention: euler-characteristic-unreduced."
+    },
+    "is_pure": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "homology": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "integer"
+          },
+          "invariant_factors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)$"
+            }
+          }
+        },
+        "required": [
+          "invariant_factors",
+          "rank"
+        ],
+        "$comment": "inlined from scitype:2608.0010"
+      },
+      "description": "policy: derived-expensive. convention: homology-unreduced."
+    }
+  },
+  "required": [
+    "facets",
+    "n"
+  ]
+}

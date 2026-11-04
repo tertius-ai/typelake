@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0017",
+  "title": "Finite simple undirected graph",
+  "description": "Separate from DAG rather than a constraint on it: an undirected edge is not a pair of arcs, and canonical labelling of a graph is not canonical labelling of its symmetrization. Loops and multi-edges are a different type, not a differently encoded one.",
+  "type": "object",
+  "properties": {
+    "n": {
+      "type": "integer",
+      "description": "vertices are 0..n-1. policy: primary."
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "integer"
+          }
+        ],
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "description": "unordered pairs written [a, b] with a < b, lex-sorted. policy: primary. convention: graph-simple-undirected."
+    },
+    "n_edges": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "degrees": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "policy: derived-cheap."
+    },
+    "is_connected": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "is_bipartite": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "girth": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "aut_order": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-expensive."
+    },
+    "chromatic_number": {
+      "type": "integer",
+      "description": "policy: derived-expensive."
+    }
+  },
+  "required": [
+    "edges",
+    "n"
+  ]
+}

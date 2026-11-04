@@ -1,0 +1,30 @@
+[workspace]
+members = [
+    "crates/eilenberg-maclane-build",
+    "crates/finite-group-cohomology-census",
+    "crates/poset-census",
+    "crates/simplicial-complex-census",
+    "crates/simplicial-set-census",
+    "crates/steiner-census",
+    "crates/typebase-build",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.89"
+license = "MIT"
+
+[workspace.dependencies]
+anyhow = "1.0.99"
+arrow-array = "59.2.0"
+arrow-schema = "59.2.0"
+clap = { version = "4.5.46", features = ["derive", "env"] }
+fs2 = "0.4.3"
+hex = "0.4.3"
+noether = { git = "https://github.com/tertius-ai/noether.git", rev = "4c92c269c59da02a4d32c833c2ee093407f8e22f", version = "=0.3.2" }
+parquet = { version = "59.2.0", default-features = false, features = ["arrow", "zstd"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.143"
+sha2 = "0.10.9"
+zstd = "0.13.3"

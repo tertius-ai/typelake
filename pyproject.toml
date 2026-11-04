@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scitype"
+version = "0.0.0"
+description = "Legacy validation and conformance tooling retained by TypeLake"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Benjamin Antieau" }, { name = "Deven Manam" }]
+keywords = ["mathematics", "schema", "provenance", "reproducibility", "database"]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Programming Language :: Python :: 3",
+]
+dependencies = ["pyyaml>=6", "jsonschema>=4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+scitype = "scitype.cli:main"
+
+[project.urls]
+Homepage = "https://tertius.cc/"
+Source = "https://github.com/tertius-ai/typelake"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/scitype"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+consider_namespace_packages = false
+pythonpath = ["src", "tests"]

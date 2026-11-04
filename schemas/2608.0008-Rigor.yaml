@@ -1,0 +1,13 @@
+id: scitype:2608.0008
+version: v1
+mnemonic: Rigor
+title: Rigor level and assumptions
+categories: [scitype.meta]
+status: provisional
+identity:
+  defining: [level, assumptions]
+  canonicalization: {method: sort-assumptions, kind: complete}
+fields:
+  level:       {policy: primary, type: string, note: "machine-certified | unconditional | conditional | heuristic | unverified"}
+  assumptions: {policy: primary, type: "[string]", note: "ids from the assumption registry, sorted"}
+constraints: []   # enforced in fact-mode against the assumption registry

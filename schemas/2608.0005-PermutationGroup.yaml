@@ -1,0 +1,29 @@
+id: scitype:2608.0005
+version: v1
+mnemonic: PermutationGroup
+title: Permutation group up to conjugacy in S_n
+categories: [math.GR, math.CO]
+status: provisional
+identity:
+  defining: [degree, generators]
+  canonicalization: {method: canonical-form-under-Sn-conjugacy, kind: complete}
+fields:
+  degree:     {policy: primary, type: int}
+  generators: {policy: primary, type: "[[int]]", convention: ['permutation-right-action']}
+  order:         {policy: derived-cheap, inputs: [degree, generators], type: decimal}
+  is_transitive: {policy: derived-cheap, inputs: [degree, generators], type: bool}
+  is_primitive:  {policy: derived-cheap, inputs: [degree, generators], type: bool}
+  parity:        {policy: derived-cheap, inputs: [degree, generators], type: bool, note: "contained in A_n"}
+  cycle_types:   {policy: derived-cheap, inputs: [degree, generators], type: "{string: int}"}
+  n_orbits:      {policy: derived-cheap, inputs: [degree, generators], type: int}
+relations:
+  - {kind: underlying-group, target: scitype:2608.0004}  # FiniteGroup — forgets the action
+  - {kind: point-stabilizer, target: scitype:2608.0005}  # PermutationGroup
+external_labels: [lmfdb.nTt, gap.TransitiveGroup]
+note: >
+  Same defining data as FiniteGroup, different canonicalization. Conjugacy in S_n
+  is strictly finer than abstract isomorphism, and for a degree-n number field the
+  transitive action on the n embeddings IS the datum of K inside its Galois
+  closure — the point stabilizer is Gal(L/K). Collapsing to the abstract type
+  would discard the arithmetic. Transitivity is a constraint at the use site, not
+  a separate type.

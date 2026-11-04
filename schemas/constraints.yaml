@@ -1,0 +1,32 @@
+# Semantic and sufficiency terms.
+#
+# Constraint terms that are claims about mathematics. We define them and
+# readers check them; SciType ships no verifier. Encoding constraints are
+# different — they are preconditions of the identifier, so they are
+# implemented in the standard's tooling.
+#
+# Extended by PR, like a schema. A term with no definition is a term nobody
+# can implement against.
+
+semantic:
+  acyclic:
+    definition: The directed graph has no directed cycle.
+  transitively-reduced:
+    definition: No arc (a,b) is implied by a directed path from a to b of length
+      >= 2; equivalently the arcs are exactly the covering relations of the order
+      they generate.
+  irreducible-over-Q:
+    definition: The polynomial is irreducible in Q[x].
+  faithful-action:
+    definition: 'The permutation action has trivial kernel: no non-identity element
+      of the group acts as the identity permutation.'
+  prime:
+    definition: The integer is a rational prime.
+sufficiency:
+  at-least-sturm-bound:
+    definition: 'The coefficient list reaches the Sturm bound for its level and
+      weight: for Gamma_0(N) of weight k the bound is floor(k * [SL_2(Z):Gamma_0(N)]
+      / 12), with the index equal to N * prod_{p | N} (1 + 1/p). Level 11 weight
+      2 needs 2 coefficients; level 23 weight 2 needs 4. Below the bound two genuinely
+      different newforms can agree on every coefficient given, so they would receive
+      one identifier — a collision, not a split.'

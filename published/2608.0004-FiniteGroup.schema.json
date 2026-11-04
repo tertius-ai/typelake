@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0004",
+  "title": "Finite group up to isomorphism",
+  "description": "Defining data is a permutation representation, not a SmallGroup id: identity must not depend on an external library's coverage or release cycle. The canonical id is the lex-least Cayley table over relabelings, so this type is \"up to abstract isomorphism\" \u2014 the right granularity for cohomology and character tables. When the action matters, use PermutationGroup instead.",
+  "type": "object",
+  "properties": {
+    "degree": {
+      "type": "integer",
+      "description": "permutation degree. policy: primary."
+    },
+    "generators": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        }
+      },
+      "description": "one-line notation, 0-indexed. policy: primary. convention: permutation-right-action."
+    },
+    "order": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-cheap."
+    },
+    "is_abelian": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "exponent": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "center_order": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "n_conjugacy_classes": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "is_nilpotent": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "is_solvable": {
+      "type": "boolean",
+      "description": "policy: derived-cheap."
+    },
+    "derived_length": {
+      "type": "integer",
+      "description": "policy: derived-cheap."
+    },
+    "character_table": {
+      "description": "policy: derived-expensive."
+    }
+  },
+  "required": [
+    "degree",
+    "generators"
+  ]
+}

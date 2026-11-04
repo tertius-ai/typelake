@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <base href="%BASE_URL%" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TypeBase Volume I: compact catalogues of finite mathematical objects." />
+    <meta name="theme-color" content="#f2efe7" />
+    <title>TypeBase Volume I</title>
+    <script>
+      const requestedStyle = new URL(location.href).searchParams.get("style");
+      try {
+        document.documentElement.dataset.style = requestedStyle || localStorage.getItem("typebase-site-proof") || "report";
+      } catch {
+        document.documentElement.dataset.style = requestedStyle || "report";
+      }
+    </script>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#collections">Skip to collections</a>
+    <header class="masthead" data-typebase-masthead></header>
+
+    <main id="collections">
+      <section class="typebase-home">
+        <header class="typebase-home__heading">
+          <p class="eyebrow">TypeBase</p>
+          <h1>Volume I</h1>
+        </header>
+        <nav class="collection-register" aria-label="Volume I collections">
+          <a href="./posets.html">
+            <span class="collection-register__number">01</span>
+            <span><strong>Posets</strong><small>Finite posets and their homotopy cores</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="./steiner.html">
+            <span class="collection-register__number">02</span>
+            <span><strong>Steiner categories</strong><small>Finite strong Steiner categories</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="/SimplicialComplex/">
+            <span class="collection-register__number">03</span>
+            <span><strong>Simplicial complexes</strong><small>Finite simplicial complexes, strong cores, and collapse witnesses</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="/SimplicialSet/">
+            <span class="collection-register__number">04</span>
+            <span><strong>Simplicial sets</strong><small>Finite nondegenerate presentations and horn-collapse witnesses</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="/FiniteGroupCohomology/">
+            <span class="collection-register__number">05</span>
+            <span><strong>Finite-group cohomology</strong><small>Certified graded-commutative presentations</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="/EilenbergMacLane/">
+            <span class="collection-register__number">06</span>
+            <span><strong>Eilenberg–Mac Lane anima</strong><small>Homology, cohomology, and operation genealogies</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </nav>
+        <p class="typebase-home__credit">Built with <a href="https://github.com/tertius-ai/noether">Noether</a>.</p>
+      </section>
+
+      <section class="steiner-gallery-section" aria-labelledby="gallery-title">
+        <header class="steiner-gallery-section__heading">
+          <h2 id="gallery-title">Gallery</h2>
+          <div class="gallery-tabs" role="tablist" aria-label="Gallery collection">
+            <button
+              id="gallery-steiner-tab"
+              data-gallery-tab="steiner"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="steiner-gallery"
+            >Steiner categories</button>
+            <button
+              id="gallery-poset-tab"
+              data-gallery-tab="poset"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="poset-gallery"
+              tabindex="-1"
+            >Posets</button>
+            <button id="gallery-complex-tab" data-gallery-tab="complex" type="button" role="tab" aria-selected="false" aria-controls="complex-gallery" tabindex="-1">Simplicial complexes</button>
+            <button id="gallery-simplicial-set-tab" data-gallery-tab="simplicial-set" type="button" role="tab" aria-selected="false" aria-controls="simplicial-set-gallery" tabindex="-1">Simplicial sets</button>
+            <button id="gallery-group-cohomology-tab" data-gallery-tab="group-cohomology" type="button" role="tab" aria-selected="false" aria-controls="group-cohomology-gallery" tabindex="-1">Group cohomology</button>
+            <button id="gallery-eilenberg-maclane-tab" data-gallery-tab="eilenberg-maclane" type="button" role="tab" aria-selected="false" aria-controls="eilenberg-maclane-gallery" tabindex="-1">E–M anima</button>
+          </div>
+          <a id="gallery-browse" href="./steiner.html">Browse the collection →</a>
+        </header>
+        <div class="collection-gallery" id="steiner-gallery" data-gallery-panel="steiner" role="tabpanel" aria-labelledby="gallery-steiner-tab" aria-live="polite"></div>
+        <div class="collection-gallery" id="poset-gallery" data-gallery-panel="poset" role="tabpanel" aria-labelledby="gallery-poset-tab" aria-live="polite" hidden></div>
+        <div class="collection-gallery" id="complex-gallery" data-gallery-panel="complex" role="tabpanel" aria-labelledby="gallery-complex-tab" aria-live="polite" hidden></div>
+        <div class="collection-gallery" id="simplicial-set-gallery" data-gallery-panel="simplicial-set" role="tabpanel" aria-labelledby="gallery-simplicial-set-tab" aria-live="polite" hidden></div>
+        <div class="collection-gallery" id="group-cohomology-gallery" data-gallery-panel="group-cohomology" role="tabpanel" aria-labelledby="gallery-group-cohomology-tab" aria-live="polite" hidden></div>
+        <div class="collection-gallery" id="eilenberg-maclane-gallery" data-gallery-panel="eilenberg-maclane" role="tabpanel" aria-labelledby="gallery-eilenberg-maclane-tab" aria-live="polite" hidden></div>
+        <div class="collection-gallery-stream" id="collection-gallery-stream">
+          <button class="text-button" id="collection-gallery-more" type="button">Load more</button>
+          <span id="collection-gallery-status">Preparing the gallery…</span>
+        </div>
+      </section>
+    </main>
+
+    <footer><p>TypeBase <span aria-hidden="true">×</span> Tertius</p></footer>
+    <script type="module" src="/src/home.ts"></script>
+  </body>
+</html>

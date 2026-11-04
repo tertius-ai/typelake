@@ -1,0 +1,33 @@
+id: scitype:2608.0020
+version: v1
+mnemonic: ChainComplex
+title: Bounded chain complex of free modules
+categories: [math.AT, math.RA]
+status: draft
+identity:
+  defining: [base, bottom_degree, ranks, differentials]
+  canonicalization: {method: none, kind: complete}
+fields:
+  base:          {policy: primary, type: scitype:2608.0006}  # Ring
+  bottom_degree: {policy: primary, type: int}
+  ranks:         {policy: primary, type: "[int]", note: "ranks from bottom_degree upward"}
+  differentials:
+    policy: primary
+    type: "[scitype:2608.0019]"  # Matrix
+    convention: [chain-complex-homological, matrix-row-major]
+    note: "d_n at index n - bottom_degree; d_n maps degree n to degree n-1"
+  homology:
+    policy: derived-expensive
+    inputs: [base, ranks, differentials]
+    type: "{int: scitype:2608.0010}"  # AbelianGroup
+    convention: [chain-complex-homological]
+  euler_char: {policy: derived-cheap, inputs: [ranks], type: int}
+constraints: []
+relations:
+  - {kind: chain-map,     target: scitype:2608.0020}  # ChainComplex
+  - {kind: chains-of,     target: scitype:2608.0018}  # SimplicialComplex
+note: >
+  d^2 = 0 is a semantic constraint, not an encoding one: a complex violating it
+  is false mathematics rather than a second encoding of something true, so it is
+  the consumer's to check. Free modules only — a general complex needs modules as
+  a type, which does not exist yet.

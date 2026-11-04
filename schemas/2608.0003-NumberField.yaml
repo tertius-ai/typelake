@@ -1,0 +1,47 @@
+id: scitype:2608.0003
+version: v1
+mnemonic: NumberField
+title: Number field
+categories: [math.NT]
+status: stable
+identity:
+  defining: [coeffs]
+  canonicalization: {method: polredabs, kind: complete}
+fields:
+  coeffs:
+    policy: primary
+    type: "[decimal]"
+    note: "ascending degree, monic, irreducible over Q"
+  degree:     {policy: derived-cheap, inputs: [coeffs], type: int}
+  poly_disc:  {policy: derived-cheap, inputs: [coeffs], type: decimal}
+  signature: {policy: derived-cheap, inputs: [coeffs], type: "[int, int]", convention: ['signature-r1-r2']}
+  field_disc: {policy: derived-expensive, inputs: [coeffs], type: decimal, convention: []}
+  integral_basis:
+    policy: derived-expensive
+    inputs: [coeffs]
+    type: "[scitype:2608.0012]"  # NumberFieldElement
+    convention: []
+  ramified_primes: {policy: derived-expensive, inputs: [field_disc], type: "[decimal]", convention: []}
+  class_group:
+    policy: derived-expensive
+    inputs: [coeffs]
+    type: scitype:2608.0010  # AbelianGroup
+    convention: ['class-group-ordinary']
+  unit_group:
+    policy: derived-expensive
+    inputs: [coeffs]
+    type: "{structure: scitype:2608.0010, generators: [scitype:2608.0012]}"  # AbelianGroup, NumberFieldElement
+    convention: ['unit-group-modulo-torsion']
+  regulator:
+    policy: derived-expensive
+    inputs: [coeffs]
+    type: scitype:2608.0011  # RealBall
+    convention: ['regulator-standard']
+constraints:
+  - {check: monic, args: {key: coeffs}}
+  - {check: irreducible-over-Q, args: {key: coeffs}}   # external tier: reported, not run at ingest
+relations:
+  - {kind: subfield,       target: scitype:2608.0003}  # NumberField
+  - {kind: galois-closure, target: scitype:2608.0003}  # NumberField
+  - {kind: galois-group,   target: scitype:2608.0005, constraint: "transitive of degree [K:Q]"}  # PermutationGroup
+external_labels: [lmfdb.nf]

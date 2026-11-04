@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0016",
+  "title": "Erratum",
+  "description": "An erratum never modifies a volume's data files. It is rendered on the object's page within that volume.",
+  "type": "object",
+  "properties": {
+    "volume": {
+      "type": "string",
+      "description": "policy: primary."
+    },
+    "object": {
+      "type": "string",
+      "description": "label as published in that volume. policy: primary."
+    },
+    "field": {
+      "type": "string",
+      "description": "policy: primary."
+    },
+    "published_value": {
+      "description": "policy: primary."
+    },
+    "corrected_value": {
+      "description": "policy: primary."
+    },
+    "superseding_fact": {
+      "type": "string",
+      "description": "hash of the correcting fact. policy: primary."
+    },
+    "reason": {
+      "type": "string",
+      "description": "policy: primary."
+    },
+    "issued_at": {
+      "type": "string",
+      "description": "RFC 3339. policy: primary."
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "agent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "version"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          }
+        },
+        "rigor": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "string"
+            },
+            "assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "assumptions",
+            "level"
+          ],
+          "$comment": "inlined from scitype:2608.0008"
+        },
+        "recreate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "language"
+          ],
+          "properties": {
+            "language": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            }
+          }
+        },
+        "origin": {
+          "type": "string"
+        },
+        "oracle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "agreed",
+            "name",
+            "version"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "agreed": {
+              "type": "boolean"
+            }
+          }
+        },
+        "cost": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "currency_micros",
+            "peak_bytes",
+            "wall_seconds"
+          ],
+          "properties": {
+            "wall_seconds": {
+              "type": "integer"
+            },
+            "peak_bytes": {
+              "type": "integer"
+            },
+            "currency_micros": {
+              "type": "integer"
+            }
+          }
+        },
+        "computed_at": {
+          "type": "string"
+        },
+        "submitter": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "agent",
+        "computed_at",
+        "cost",
+        "oracle",
+        "origin",
+        "recreate",
+        "rigor",
+        "source",
+        "submitter"
+      ],
+      "$comment": "inlined from scitype:2608.0009",
+      "description": "policy: primary."
+    }
+  },
+  "required": [
+    "field",
+    "object",
+    "superseding_fact",
+    "volume"
+  ]
+}

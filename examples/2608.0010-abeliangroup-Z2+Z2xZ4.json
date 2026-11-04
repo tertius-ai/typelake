@@ -1,0 +1,11 @@
+{
+  "schema": "scitype:2608.0010",
+  "name": "abeliangroup-Z2+Z2xZ4",
+  "instance": {
+    "rank": 2,
+    "invariant_factors": [
+      "2",
+      "4"
+    ]
+  }
+}

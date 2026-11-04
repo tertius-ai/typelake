@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0022",
+  "title": "Elliptic curve over Q",
+  "description": "The rigor field earns its keep here: a rank is often only known subject to BSD or GRH, and the same curve can carry a conditional rank and, later, an unconditional one. Both survive; the stronger surfaces. Two label schemes for these curves already coexist in the wild (Cremona and LMFDB) and neither could be retired \u2014 which is why both are foreign labels and neither is identity.",
+  "type": "object",
+  "properties": {
+    "a_invariants": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^-?(0|[1-9][0-9]*)$"
+      },
+      "description": "[a1, a2, a3, a4, a6] of y^2 + a1 xy + a3 y = x^3 + a2 x^2 + a4 x + a6. policy: primary. convention: weierstrass-minimal."
+    },
+    "discriminant": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-cheap."
+    },
+    "j_invariant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "den",
+        "num"
+      ],
+      "properties": {
+        "num": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)$"
+        },
+        "den": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)$"
+        }
+      },
+      "description": "policy: derived-cheap."
+    },
+    "conductor": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "policy: derived-expensive."
+    },
+    "torsion_order": {
+      "type": "integer",
+      "description": "policy: derived-expensive."
+    },
+    "rank": {
+      "type": "integer",
+      "description": "policy: derived-expensive. convention: rank-mordell-weil."
+    },
+    "regulator": {
+      "type": "object",
+      "properties": {
+        "mid": {
+          "type": "string"
+        },
+        "rad": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mid",
+        "rad"
+      ],
+      "$comment": "inlined from scitype:2608.0011",
+      "description": "policy: derived-expensive. convention: regulator-neron-tate."
+    }
+  },
+  "required": [
+    "a_invariants"
+  ]
+}

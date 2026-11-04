@@ -1,0 +1,19 @@
+id: scitype:2608.0010
+version: v1
+mnemonic: AbelianGroup
+title: Finitely generated abelian group
+categories: [math.GR]
+status: stable
+identity:
+  defining: [rank, invariant_factors]
+  canonicalization: {method: invariant-factor-form, kind: complete}
+fields:
+  rank:              {policy: primary, type: int}
+  invariant_factors: {policy: primary, type: "[decimal]"}
+  order:      {policy: derived-cheap, inputs: [rank, invariant_factors], type: decimal, note: "0 when rank > 0"}
+  is_trivial: {policy: derived-cheap, inputs: [rank, invariant_factors], type: bool}
+  is_cyclic:  {policy: derived-cheap, inputs: [rank, invariant_factors], type: bool}
+  exponent:   {policy: derived-cheap, inputs: [invariant_factors], type: decimal}
+constraints:
+  - {check: non-negative, args: {key: rank}}
+  - {check: divisibility-chain, args: {key: invariant_factors}}

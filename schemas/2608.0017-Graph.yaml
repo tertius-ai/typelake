@@ -1,0 +1,35 @@
+id: scitype:2608.0017
+version: v1
+mnemonic: Graph
+title: Finite simple undirected graph
+categories: [math.CO]
+status: draft
+identity:
+  defining: [n, edges]
+  canonicalization: {method: canonical-labeling, kind: complete}
+fields:
+  n:     {policy: primary, type: int, note: "vertices are 0..n-1"}
+  edges:
+    policy: primary
+    type: "[[int, int]]"
+    convention: [graph-simple-undirected]
+    note: "unordered pairs written [a, b] with a < b, lex-sorted"
+  n_edges:     {policy: derived-cheap, inputs: [edges], type: int}
+  degrees:     {policy: derived-cheap, inputs: [n, edges], type: "[int]"}
+  is_connected: {policy: derived-cheap, inputs: [n, edges], type: bool}
+  is_bipartite: {policy: derived-cheap, inputs: [n, edges], type: bool}
+  girth:       {policy: derived-cheap, inputs: [n, edges], type: int}
+  aut_order:   {policy: derived-expensive, inputs: [n, edges], type: decimal, convention: []}
+  chromatic_number: {policy: derived-expensive, inputs: [n, edges], type: int, convention: []}
+constraints:
+  - {check: lex-sorted-unique, args: {key: edges}}
+  - {check: endpoints-in-range}
+relations:
+  - {kind: complement,     target: scitype:2608.0017}  # Graph
+  - {kind: line-graph,     target: scitype:2608.0017}  # Graph
+  - {kind: underlying-graph-of, target: scitype:2608.0001}  # DAG
+note: >
+  Separate from DAG rather than a constraint on it: an undirected edge is not a
+  pair of arcs, and canonical labelling of a graph is not canonical labelling of
+  its symmetrization. Loops and multi-edges are a different type, not a
+  differently encoded one.

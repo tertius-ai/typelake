@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0012",
+  "title": "Element of a number field",
+  "description": "Value is (sum num_i * alpha^i) / den in the power basis 1, alpha, ..., alpha^(n-1). The power basis is fixed by the defining polynomial and so is always available; an integral basis is derived-expensive and may be uncomputed. The ambient field is the record's subject unless the use site pins one explicitly.",
+  "type": "object",
+  "properties": {
+    "num": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^-?(0|[1-9][0-9]*)$"
+      },
+      "description": "power-basis coordinates, length = degree. policy: primary."
+    },
+    "den": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)$",
+      "description": "> 0. policy: primary."
+    }
+  },
+  "required": [
+    "den",
+    "num"
+  ]
+}

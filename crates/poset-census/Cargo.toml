@@ -1,0 +1,21 @@
+[package]
+name = "poset-census"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Database-independent finite-poset census builder"
+build = "build.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+fs2.workspace = true
+hex.workspace = true
+noether.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+
+[dev-dependencies]

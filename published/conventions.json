@@ -1,0 +1,359 @@
+{
+  "automorphism-order-preserving": {
+    "title": "Automorphisms are order-preserving",
+    "definition": "Aut(P) is the group of order-preserving bijections P -> P. Order-REVERSING bijections are excluded; a self-dual poset is recorded by the is_self_dual flag, not by a larger automorphism group.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "the two-element chain a < b",
+        "under_this": "|Aut| = 1",
+        "alternative": "automorphism-including-order-reversing",
+        "under_alternative": "|Aut| = 2"
+      }
+    ]
+  },
+  "cartan-matrix-bourbaki": {
+    "title": "Cartan matrix in the Bourbaki convention",
+    "definition": "a_ij = 2 (alpha_i, alpha_j) / (alpha_j, alpha_j), so the row index is the numerator root. The transpose convention is also in use and names a different algebra.",
+    "references": [
+      "Bourbaki, Groupes et algebres de Lie, Ch. IV-VI."
+    ],
+    "discriminates": [
+      {
+        "case": "the Cartan matrix of B3",
+        "under_this": "names B3, the Lie algebra so(7)",
+        "alternative": "cartan-matrix-transpose",
+        "under_alternative": "names C3, the Lie algebra sp(6) \u2014 a different algebra, since B_n and C_n are dual and non-isomorphic for n >= 3"
+      }
+    ]
+  },
+  "chain-complex-homological": {
+    "title": "Homological grading, differentials lower degree",
+    "definition": "d_n maps degree n to degree n-1, and homology is ker d_n / im d_{n+1}. The differential listed at index n is d_n.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "a complex with a nonzero map between degrees 3 and 2",
+        "under_this": "that map is d_3, listed at index 3",
+        "alternative": "chain-complex-cohomological",
+        "under_alternative": "that map is d^2 raising degree, listed at index 2"
+      }
+    ]
+  },
+  "class-group-narrow": {
+    "title": "Narrow class group",
+    "definition": "Fractional ideals modulo TOTALLY POSITIVE principal fractional ideals; the ray class group modulo the product of all real places. Equals the wide class group when K has no real embeddings, and can be strictly larger otherwise.",
+    "references": [
+      "Neukirch, Algebraic Number Theory, Ch. VI \u00a71 (ray class groups)."
+    ],
+    "discriminates": []
+  },
+  "class-group-ordinary": {
+    "title": "Ordinary class group",
+    "definition": "Fractional ideals modulo principal fractional ideals: the ideal class group Cl(O_K) in the usual sense, with no positivity condition.",
+    "references": [
+      "Neukirch, Algebraic Number Theory, Ch. I \u00a712.",
+      "Cohen, A Course in Computational Algebraic Number Theory, \u00a74.9."
+    ],
+    "discriminates": [
+      {
+        "case": "Q(sqrt 3), i.e. x^2 - 3",
+        "under_this": "trivial; class number 1",
+        "alternative": "class-group-narrow",
+        "under_alternative": "Z/2; narrow class number 2, since the fundamental unit 2 + sqrt 3 has norm +1 so no unit is negative at exactly one real place"
+      },
+      {
+        "case": "Q(sqrt 2), i.e. x^2 - 2",
+        "under_this": "trivial",
+        "alternative": "class-group-narrow",
+        "under_alternative": "trivial as well; 1 + sqrt 2 has norm -1, so the two conventions agree here. A single example cannot separate them."
+      }
+    ]
+  },
+  "code-equivalence-permutation": {
+    "title": "Permutation equivalence of codes",
+    "definition": "Two codes are equivalent when one is carried to the other by a permutation of coordinates alone. The alternative, monomial equivalence, also allows scaling each coordinate by a nonzero field element and gives strictly coarser classes over F_q with q > 2.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "two codes over F_4 differing by scaling one coordinate",
+        "under_this": "inequivalent",
+        "alternative": "code-equivalence-monomial",
+        "under_alternative": "equivalent"
+      }
+    ]
+  },
+  "euler-characteristic-unreduced": {
+    "title": "Unreduced Euler characteristic",
+    "definition": "The alternating sum of face counts over NONEMPTY faces, sum_i (-1)^i f_i, equal to the alternating sum of unreduced Betti numbers. A point has value 1 and the empty complex has value 0. The reduced Euler characteristic is this minus 1.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "a single point",
+        "under_this": "1",
+        "alternative": "euler-characteristic-reduced",
+        "under_alternative": "0"
+      }
+    ]
+  },
+  "f-vector-faces-only": {
+    "title": "f-vector counting nonempty faces",
+    "definition": "f = (f_0, f_1, ...) where f_i is the number of i-dimensional faces, so f_0 counts vertices. The empty face is NOT counted; there is no f_{-1} entry.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "a single vertex",
+        "under_this": "f = [1]",
+        "alternative": "f-vector-with-empty-face",
+        "under_alternative": "f = [1, 1], the leading entry counting the empty face"
+      }
+    ]
+  },
+  "facets-are-maximal": {
+    "title": "Facets only, no redundant faces",
+    "definition": "A simplicial complex is given by its MAXIMAL faces. Listing a face that is contained in another is a different encoding of the same complex and is rejected, since it would give one complex two identifiers.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "the full triangle on {0,1,2}",
+        "under_this": "facets = [[0, 1, 2]]",
+        "alternative": "simplicial-all-faces",
+        "under_alternative": "every subset listed, including [[0],[1],[0,1],...]"
+      }
+    ]
+  },
+  "grading-cohomological": {
+    "title": "Cohomological grading",
+    "definition": "Degrees are non-negative and increase with cohomological degree; degree 0 is the coefficient ring. Generator degrees are cohomological, so a class in H^2 has degree 2.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "a generator of H^2(G; F_2)",
+        "under_this": "degree 2",
+        "alternative": "grading-homological",
+        "under_alternative": "degree -2, cohomology placed in negative degrees so that differentials lower degree"
+      }
+    ]
+  },
+  "graph-simple-undirected": {
+    "title": "Simple undirected graph",
+    "definition": "Edges are unordered pairs {a, b} with a < b, written [a, b]; no loops and no repeated edges. A multigraph or a graph with loops is a different type, not a differently encoded one.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "a single vertex with a loop",
+        "under_this": "not representable",
+        "alternative": "graph-with-loops",
+        "under_alternative": "edges = [[0, 0]]"
+      }
+    ]
+  },
+  "height-elements": {
+    "title": "Height as a number of elements",
+    "definition": "The height of a poset is the number of elements in a longest chain, so a single point has height 1 and a two-element chain has height 2. (The alternative convention, one less, measures the number of covering steps.)",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "the two-element chain a < b",
+        "under_this": "2",
+        "alternative": "height-covering-steps",
+        "under_alternative": "1"
+      }
+    ]
+  },
+  "homology-reduced": {
+    "title": "Reduced homology",
+    "definition": "The empty simplex is a (-1)-face, so H~_0 has rank one less than the number of components and H~_{-1} of the empty complex is Z.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "a single point",
+        "under_this": "H~_0 = 0",
+        "alternative": "homology-unreduced",
+        "under_alternative": "H_0 = Z"
+      }
+    ]
+  },
+  "homology-unreduced": {
+    "title": "Unreduced homology",
+    "definition": "H_0 is free of rank the number of connected components. The empty simplex is not a face.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "a single point",
+        "under_this": "H_0 = Z",
+        "alternative": "homology-reduced",
+        "under_alternative": "H~_0 = 0"
+      },
+      {
+        "case": "two points",
+        "under_this": "H_0 = Z^2",
+        "alternative": "homology-reduced",
+        "under_alternative": "H~_0 = Z"
+      }
+    ]
+  },
+  "matrix-row-major": {
+    "title": "Row-major entry order",
+    "definition": "Entries are listed row by row: index k of the flat list is row k // ncols, column k mod ncols. Applies to the flat `entries` list of a Matrix.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "the 2x2 matrix [[1, 2], [3, 4]]",
+        "under_this": "entries = [1, 2, 3, 4]",
+        "alternative": "matrix-column-major",
+        "under_alternative": "entries = [1, 3, 2, 4]"
+      }
+    ]
+  },
+  "newform-normalized": {
+    "title": "q-expansion normalized to a_1 = 1",
+    "definition": "Coefficients are those of the normalized newform with a_1 = 1, indexed from n = 1, so a_n is the nth Fourier coefficient of q-expansion at infinity.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "any newform",
+        "under_this": "a_1 = 1 and the list begins at n = 1",
+        "alternative": "newform-unnormalized",
+        "under_alternative": "a_1 is an arbitrary nonzero scalar and every coefficient is scaled by it"
+      }
+    ]
+  },
+  "order-complex": {
+    "title": "Homology via the order complex",
+    "definition": "The homology of a finite poset P means the simplicial homology of its order complex K(P), whose k-simplices are the chains x_0 < ... < x_k. By McCord's theorem |K(P)| is weakly homotopy equivalent to P with its Alexandrov topology, so this agrees with the singular homology of the finite space.",
+    "references": [
+      "McCord, Singular homology groups and homotopy groups of finite topological spaces, Duke Math. J. 33 (1966), 465-474.",
+      "Barmak, Algebraic Topology of Finite Topological Spaces and Applications, LNM 2032, Ch. 1."
+    ],
+    "discriminates": [
+      {
+        "case": "the diamond 0<1, 0<2, 1<3, 2<3",
+        "under_this": "H_1 = 0 (order complex is two triangles glued along 0<3, a disk)",
+        "alternative": "homology-of-hasse-diagram",
+        "under_alternative": "H_1 = Z (the Hasse diagram is a 4-cycle)"
+      }
+    ]
+  },
+  "partition-weakly-decreasing": {
+    "title": "Parts listed weakly decreasing",
+    "definition": "Parts are positive integers listed in weakly decreasing order, largest first, with no trailing zeros.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "the partition of 4 into 3 and 1",
+        "under_this": "[3, 1]",
+        "alternative": "partition-weakly-increasing",
+        "under_alternative": "[1, 3]"
+      }
+    ]
+  },
+  "permutation-right-action": {
+    "title": "Permutations act on the right",
+    "definition": "Permutations are written in one-line notation over 0..n-1 and act on the right: the product gh means apply g first, then h, so i^(gh) = (i^g)^h. This is GAP's convention. It is load-bearing rather than cosmetic \u2014 the canonical Cayley table, and therefore the identifier, depends on it.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "g = (0 1), h = (1 2) in S_3; compute the image of 0 under g*h",
+        "under_this": "2, since 0 -> 1 under g and 1 -> 2 under h",
+        "alternative": "permutation-left-action",
+        "under_alternative": "1, since (g*h)(0) = g(h(0)) = g(0) = 1"
+      }
+    ]
+  },
+  "quadratic-form-gram-classical": {
+    "title": "Classical (integral Gram) quadratic form",
+    "definition": "The form is Q(x) = (1/2) x^T G x for an integral symmetric Gram matrix G, so the cross terms of Q have even coefficients. The alternative records the coefficients of Q directly, allowing odd cross terms.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "Q(x, y) = x^2 + x*y + y^2",
+        "under_this": "not representable; G would be half-integral",
+        "alternative": "quadratic-form-coefficients",
+        "under_alternative": "coefficient matrix [[1, 1], [1, 1]] with Q = x^T A x"
+      }
+    ]
+  },
+  "rank-mordell-weil": {
+    "title": "Algebraic (Mordell-Weil) rank",
+    "definition": "The rank of the finitely generated abelian group E(Q), i.e. the number of independent points of infinite order. Distinct from the analytic rank, the order of vanishing of L(E, s) at s = 1; they are conjecturally equal by BSD and equal in known cases, but a database must say which it recorded.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "any curve where BSD is not known",
+        "under_this": "a lower bound proved by descent, or an unconditional value where one is available",
+        "alternative": "rank-analytic",
+        "under_alternative": "the order of vanishing of the L-function, which may be computed by entirely different means and carry different rigor"
+      }
+    ]
+  },
+  "regulator-neron-tate": {
+    "title": "Elliptic regulator from the Neron-Tate height pairing",
+    "definition": "The determinant of the Gram matrix of the canonical (Neron-Tate) height pairing on a basis of E(Q) modulo torsion, with the pairing normalized so that <P,P> is the canonical height of P.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "a rank-1 curve with generator P",
+        "under_this": "the canonical height of P",
+        "alternative": "regulator-twice-height",
+        "under_alternative": "twice that, under the pairing normalized as <P,Q> = h(P+Q) - h(P) - h(Q)"
+      }
+    ]
+  },
+  "regulator-standard": {
+    "title": "Standard regulator",
+    "definition": "With r = r1 + r2 - 1 and fundamental units u_1..u_r, form the r x (r+1) matrix whose (i,j) entry is d_i * log|sigma_i(u_j)|, d_i = 1 at a real place and 2 at a complex place; the regulator is the absolute value of the determinant of any r x r minor obtained by deleting one column. Independent of which column is deleted and of the choice of fundamental units.",
+    "references": [
+      "Neukirch, Algebraic Number Theory, Ch. I \u00a77."
+    ],
+    "discriminates": [
+      {
+        "case": "Q(sqrt 2), fundamental unit 1 + sqrt 2",
+        "under_this": "log(1 + sqrt 2) = 0.8813735870195430...",
+        "alternative": "regulator-squared-unit",
+        "under_alternative": "2 log(1 + sqrt 2), if the fundamental unit is taken only up to squares"
+      }
+    ]
+  },
+  "signature-r1-r2": {
+    "title": "Signature ordered (r1, r2)",
+    "definition": "The pair (r1, r2) where r1 is the number of real embeddings and r2 the number of CONJUGATE PAIRS of complex embeddings, so r1 + 2*r2 = degree.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "Q(i), i.e. x^2 + 1",
+        "under_this": "(0, 1)",
+        "alternative": "signature-counting-all-complex-embeddings",
+        "under_alternative": "(0, 2), counting the two complex embeddings separately rather than as one conjugate pair"
+      }
+    ]
+  },
+  "unit-group-modulo-torsion": {
+    "title": "Unit group generators modulo torsion",
+    "definition": "Generators listed are fundamental units generating O_K^* modulo its torsion subgroup; the roots of unity are recorded separately by the structure field and are not among the listed generators.",
+    "references": [],
+    "discriminates": [
+      {
+        "case": "Q(i)",
+        "under_this": "no generators listed; the unit group is pure torsion Z/4",
+        "alternative": "unit-group-with-torsion",
+        "under_alternative": "i listed as a generator"
+      }
+    ]
+  },
+  "weierstrass-minimal": {
+    "title": "Global minimal Weierstrass model",
+    "definition": "The curve is given by a1, a2, a3, a4, a6 of a global minimal Weierstrass model over Q, unique up to the substitutions preserving minimality, with a1, a3 in {0,1} and a2 in {-1,0,1} fixing the remaining freedom.",
+    "references": [
+      "Silverman, The Arithmetic of Elliptic Curves, Ch. VII and VIII."
+    ],
+    "discriminates": [
+      {
+        "case": "the curve y^2 = x^3 - 432",
+        "under_this": "reduced to its minimal model before the identifier is taken",
+        "alternative": "weierstrass-as-given",
+        "under_alternative": "the submitted coefficients are used verbatim, so a non-minimal model of the same curve gets a different identifier"
+      }
+    ]
+  }
+}

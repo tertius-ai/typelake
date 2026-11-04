@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:spec:relation:v1",
+  "title": "Relation",
+  "description": "A morphism between objects, first-class alongside facts. Identity is the hash of (source, target, kind), and relations fold on that key exactly as facts fold on (id, field).",
+  "type": "object",
+  "required": ["schema", "schema_version", "source", "target", "kind", "provenance"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*:[0-9]{4}\\.[0-9]{4}$" },
+    "schema_version": { "type": "string", "pattern": "^v[0-9]+$" },
+    "source": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "target": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "kind": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Must be declared in the source schema's relations list."
+    },
+    "value": { "description": "Optional payload, e.g. a GradedAlgebraMap for a restriction." },
+    "params": { "type": "object", "description": "Optional parameters, e.g. a SubgroupClass." },
+    "provenance": { "type": "object" }
+  }
+}

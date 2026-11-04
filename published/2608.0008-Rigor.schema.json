@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:scitype:2608.0008",
+  "title": "Rigor level and assumptions",
+  "type": "object",
+  "properties": {
+    "level": {
+      "type": "string",
+      "description": "machine-certified | unconditional | conditional | heuristic | unverified. policy: primary."
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "ids from the assumption registry, sorted. policy: primary."
+    }
+  },
+  "required": [
+    "assumptions",
+    "level"
+  ]
+}
