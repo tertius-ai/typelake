@@ -58,7 +58,7 @@ jobs:
 
   rust:
     name: Rust and independent enumeration checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
       FLINT_PREFIX: ${{ github.workspace }}/.noether-native/.deps/flint
