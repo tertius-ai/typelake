@@ -1,5 +1,7 @@
 # Eilenberg--Mac Lane anima: collection plan
 
+Current record fields and encodings are specified in `RECORD.md`; browser behavior is specified in `TYPEBASE.md` where present. This plan also describes future work. Current release scope is selected in `../VOLUME-I.md`, and checks count as evidence only when an accompanying run report records their execution.
+
 **Collection contract:** `eilenberg-maclane/invariants-v8`
 
 **Source contract:** `eilenberg-maclane/abelian-source-v1`
@@ -143,7 +145,7 @@ in Theorem 6.3.1 of [Roberts's finite-abelian cohomology-ring
 calculation](https://uwspace.uwaterloo.ca/items/abb76e24-301d-45c4-9c0e-d78b8b92e471).
 This adds all 14 rank-two finite abelian groups in the first box: 51 integral
 rings are complete and 173 remain explicitly pending. The installed 224-row
-artifact has 1,480,913 JSONL bytes and SHA256
+artifact has 1,480,913 JSONL bytes. The selected Noether 0.3.2 artifact is pinned by `volume-i.json` with SHA256 `a0d60fb2b58169c5f70f1ecd1c75713c3dfa7f45069d82e31dc3f45637d96eda`; the historical build had SHA256
 `435df142c6248bfeffb261f5da4c4ed3e1eb6214c0dd36c333d11ca9ac546d95`.
 Two independent builds were byte-identical; disk replay recomputed every
 coverage cell in 1.14 seconds with 25,980 KiB peak resident memory. The
@@ -165,7 +167,7 @@ label. Coefficients are route components, not part of the object label.
 
 ## Computation sequence
 
-1. Freeze and validate the finite-abelian source list independently against GAP.
+1. Validate every finite-abelian SmallGroups index and primary-invariant list with `scripts/validate-abelian-source.py`; retain its versioned GAP report.
 2. Materialize all 224 symbolic objects and exact native additive homology
    wherever the current Noether playbook applies.
 3. Add effective chain models for torsion groups at `n >= 2` and for `K(Z,n)`

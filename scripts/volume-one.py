@@ -8,7 +8,7 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 
-NOETHER_REVISION = "4c92c269c59da02a4d32c833c2ee093407f8e22f"
+NOETHER_REVISION = "eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 FORMAT = "typelake/volume-selection/v1"
 
 
@@ -22,7 +22,7 @@ def selected_collections() -> list[dict]:
     steiner.append("steiner-groups/manifest.json")
     complexes = []
     for n in range(7):
-        for lane in ["", "enrichments/topology-v1/", "enrichments/cohomology-f2-v2/", "enrichments/cohomology-f3-v1/"]:
+        for lane in ["", "enrichments/topology-v1/", "enrichments/cohomology-f2-v2/", "enrichments/cohomology-f3-v2/"]:
             complexes.append(f"finite-simplicial-complexes/v1/{lane}vertices-{n}/manifest.json")
     sets = []
     for n, dimension in [(n, 3) for n in range(7)] + [(7, 2)]:
@@ -39,7 +39,7 @@ def selected_collections() -> list[dict]:
              manifests=steiner, extra_files=["strong-steiner-categories/gray-products.jsonl"]),
         dict(collection="finite-simplicial-complexes", object_count=16_352,
              bounds=dict(maximum_vertices=6),
-             coverage="Complete identity shells, topology, F2 cohomology-v2 and F3 cohomology-v1.", manifests=complexes),
+             coverage="Complete identity shells, topology, F2 cohomology-v2 and F3 cohomology-v2.", manifests=complexes),
         dict(collection="finite-simplicial-sets", object_count=125_843,
              bounds=dict(boxes=[dict(maximum_nondegenerate_simplices=6, maximum_dimension=3), dict(nondegenerate_simplices=7, maximum_dimension=2)]),
              coverage="Identity, topology-v2, F2/F3 cohomology, F3 Steenrod operations, and witnessed horn collapses across the selected frontier.", manifests=sets),
@@ -91,8 +91,25 @@ def freeze(root: Path) -> dict:
         for name in collection.pop("manifests"):
             path = root / relative_path(name)
             document = json.loads(path.read_text())
-            if document.get("status", "passed") != "passed":
-                raise ValueError(f"unvalidated source manifest: {name}")
+            validation_path = path.parent / "validation.json"
+            if validation_path.is_file():
+                validation = json.loads(validation_path.read_text())
+                if validation.get("status") not in {"passed", "complete"}:
+                    raise ValueError(f"unvalidated source: {name}")
+                validation_name = str(relative_path(name).parent / "validation.json")
+                inputs[validation_name] = inspect_file(root, validation_name)
+            elif isinstance(document.get("validation"), dict):
+                report = document["validation"]
+                required = {
+                    "finite-group-cohomology/modular-v7": ["keys_unique_and_sorted", "source_groups_reconstructed", "resolutions_recomputed", "algebra_recomputed", "extents_honest"],
+                    "finite-group-cohomology/integral-v4": ["keys_unique_and_sorted"],
+                    "eilenberg-maclane/invariants-v8": ["source_verified", "keys_unique_and_sorted", "symbolic_hashes_recomputed", "invariant_coverage_recomputed", "no_implicit_claims"],
+                }.get(report.get("contract"))
+                flags = [value for value in report.values() if isinstance(value, bool)]
+                if not required or not all(report.get(key) is True for key in required) or not flags or not all(flags):
+                    raise ValueError(f"unvalidated source manifest: {name}")
+            elif document.get("status") != "passed":
+                raise ValueError(f"missing validation report: {name}")
             inputs[name] = inspect_file(root, name)
             artifacts = document.get("artifacts", document.get("outputs", []))
             if "output" in document:

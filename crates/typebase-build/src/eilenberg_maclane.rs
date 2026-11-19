@@ -85,6 +85,7 @@ struct ComponentChecks {
 #[derive(Serialize)]
 struct ComponentManifest {
     component: &'static str,
+    builder_source: poset_census::SourceIdentity,
     status: &'static str,
     volume: u32,
     collection: &'static str,
@@ -122,7 +123,9 @@ pub fn build_eilenberg_maclane_component(
     )?;
     ensure!(source_manifest.contract == INVARIANT_CONTRACT);
     ensure!(
-        source_manifest.noether_revision == NOETHER_REVISION
+        (source_manifest.noether_revision == NOETHER_REVISION
+            || source_manifest.noether_revision
+                == eilenberg_maclane_build::PRERELEASE_NOETHER_REVISION)
             || source_manifest.noether_revision == LEGACY_NOETHER_REVISION
     );
     ensure!(source_manifest.validation.modular_cohomology_pending == 0);
@@ -211,6 +214,7 @@ pub fn build_eilenberg_maclane_component(
     let complete_integral_rings_visible = validation.integral_cohomology_ring_available > 0;
     let manifest = ComponentManifest {
         component: COMPONENT,
+        builder_source: poset_census::source_identity(),
         status: "modular_complete_integral_partial",
         volume: 1,
         collection: COLLECTION,

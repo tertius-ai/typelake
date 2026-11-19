@@ -149,7 +149,8 @@ pub fn load_integral_census(
         serde_json::from_slice(&fs::read(directory.join("manifest.json"))?)?;
     ensure!(manifest.contract == INTEGRAL_CONTRACT, "integral contract");
     ensure!(
-        manifest.noether_revision == INTEGRAL_NOETHER_REVISION
+        (manifest.noether_revision == INTEGRAL_NOETHER_REVISION
+            || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || manifest.noether_revision == LEGACY_INTEGRAL_NOETHER_REVISION,
         "integral Noether revision"
     );

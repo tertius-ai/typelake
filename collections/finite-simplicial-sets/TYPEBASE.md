@@ -49,7 +49,7 @@ The browser first loads a 2,249-byte `catalogue.json` and a 19,568-byte,
 30-row `landing.json`. It fetches one of 25 compressed
 `(total nondegenerate, dimension)` search buckets when the label or selected
 restrictions determine a bucket; paging without a restriction may fetch the
-1,567,156-byte complete compressed index. Available restrictions include the
+1,567,156-byte complete set of bucket indexes. Available restrictions include the
 nondegenerate cell vector, Euler characteristic, automorphism order,
 integral-homology degree/free rank and torsion, normalized/Morse cell counts,
 horn-collapse existence, and witnessed component.

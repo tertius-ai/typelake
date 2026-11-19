@@ -386,7 +386,14 @@ impl SimplicialSetIdentityRecord {
         );
         ensure!(value.dimension() == self.dimension, "wrong dimension");
         ensure!(
-            self.nondegenerate_counts.iter().sum::<usize>() == self.total_nondegenerate,
+            self.nondegenerate_counts
+                == if value.is_empty() {
+                    Vec::new()
+                } else {
+                    (0..=value.dimension() as usize)
+                        .map(|degree| value.count(degree))
+                        .collect::<Vec<_>>()
+                },
             "dimension vector has wrong total"
         );
         ensure!(
@@ -402,5 +409,23 @@ impl SimplicialSetIdentityRecord {
             "canonical digest mismatch"
         );
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod dimension_vector_regression {
+    use super::*;
+    #[test]
+    fn a_permuted_dimension_vector_is_rejected() {
+        let interval = SimplicialSet::new(vec![
+            vec![vec![], vec![]],
+            vec![vec![SimplicialFace::Cell(1), SimplicialFace::Cell(0)]],
+        ])
+        .unwrap()
+        .canonical_form()
+        .unwrap();
+        let mut record = SimplicialSetIdentityRecord::from_canonical(&interval).unwrap();
+        record.nondegenerate_counts.reverse();
+        assert!(record.check_shape().is_err());
     }
 }

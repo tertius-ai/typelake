@@ -251,6 +251,7 @@ pub fn validate_mapping_census(
         census.mappings.len() == expected_mappings,
         "mapping sidecar is incomplete"
     );
+    validate_mapping_pairs(&census.mappings, &categories)?;
     for mapping in &census.mappings {
         validate_mapping(mapping, &categories)?;
     }
@@ -296,6 +297,17 @@ pub fn validate_census(census: &Census) -> Result<ValidationReport> {
             SteinerKey::from_canonical_label(&label) == record.key,
             "stored category key does not match its canonical encoding"
         );
+        let light = light_enrichment_record(&label)?;
+        ensure!(
+            record.invariants
+                == light
+                    .invariants
+                    .with_exact_cell_counts(category.exact_cell_counts()?)
+                && record.automorphism_group == light.automorphism_group
+                && record.recognized_families == light.recognized_families
+                && record.dualities == light.dualities,
+            "category enrichment does not reconstruct"
+        );
         if categories.insert(record.key.clone(), category).is_some() {
             bail!("duplicate category key {:?}", record.key);
         }
@@ -310,6 +322,7 @@ pub fn validate_census(census: &Census) -> Result<ValidationReport> {
         census.mappings.len() == expected_mappings,
         "mapping sidecar is incomplete"
     );
+    validate_mapping_pairs(&census.mappings, &categories)?;
     for mapping in &census.mappings {
         validate_mapping(mapping, &categories)?;
     }
@@ -423,6 +436,41 @@ fn reconstruct_cell(category: &SteinerCategory, record: &CellRecord) -> Result<S
     )?)
 }
 
+/// Check the complete set of pairs, not just its cardinality.
+fn validate_mapping_pairs(
+    records: &[MappingCategoryRecord],
+    categories: &BTreeMap<SteinerKey, SteinerCategory>,
+) -> Result<()> {
+    let mut expected = std::collections::BTreeSet::new();
+    for (key, category) in categories {
+        let objects = category.cells(0)?;
+        for source in &objects {
+            for target in &objects {
+                expected.insert((
+                    key.clone(),
+                    crate::records::CellRecord::from_cell(source),
+                    crate::records::CellRecord::from_cell(target),
+                ));
+            }
+        }
+    }
+    for record in records {
+        ensure!(
+            expected.remove(&(
+                record.category.clone(),
+                record.source.clone(),
+                record.target.clone()
+            )),
+            "duplicate or unexpected mapping object pair"
+        );
+    }
+    ensure!(
+        expected.is_empty(),
+        "mapping sidecar omits an ordered object pair"
+    );
+    Ok(())
+}
+
 fn validate_mapping(
     record: &MappingCategoryRecord,
     categories: &BTreeMap<SteinerKey, SteinerCategory>,
@@ -437,7 +485,7 @@ fn validate_mapping(
     let source = reconstruct_cell(category, &record.source)?;
     let target = reconstruct_cell(category, &record.target)?;
     let mapping = category.mapping_category(&source, &target)?;
-    let mapping_model = mapping.strong_steiner_model()?;
+    let mapping_model = crate::mapping_model::verified_mapping_model(&mapping)?;
     let mapping_label = mapping_model
         .as_ref()
         .map(SteinerCategory::canonical_label)

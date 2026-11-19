@@ -124,6 +124,7 @@ struct StandardNameRow {
 #[derive(Serialize)]
 struct ComponentManifest {
     component: &'static str,
+    builder_source: poset_census::SourceIdentity,
     status: &'static str,
     volume: u32,
     collection: &'static str,
@@ -164,7 +165,9 @@ pub fn build_finite_group_cohomology_component(
     )?;
     ensure!(integral_manifest.contract == INTEGRAL_CONTRACT);
     ensure!(
-        integral_manifest.noether_revision == INTEGRAL_NOETHER_REVISION
+        (integral_manifest.noether_revision == INTEGRAL_NOETHER_REVISION
+            || integral_manifest.noether_revision
+                == finite_group_cohomology_census::PRERELEASE_NOETHER_REVISION)
             || integral_manifest.noether_revision == LEGACY_INTEGRAL_NOETHER_REVISION
     );
     ensure!(
@@ -178,7 +181,9 @@ pub fn build_finite_group_cohomology_component(
         .collect::<Vec<_>>();
     ensure!(source_manifest.contract == MODULAR_CONTRACT);
     ensure!(
-        source_manifest.noether_revision == NOETHER_REVISION
+        (source_manifest.noether_revision == NOETHER_REVISION
+            || source_manifest.noether_revision
+                == finite_group_cohomology_census::PRERELEASE_NOETHER_REVISION)
             || source_manifest.noether_revision == LEGACY_NOETHER_REVISION
     );
     ensure!(source_manifest.groups == selected_groups.len());
@@ -290,13 +295,11 @@ pub fn build_finite_group_cohomology_component(
         options.integral_bar_entry_limit,
     );
     let inputs = vec![
-        inspect_file(
-            &PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
-                "../../collections/finite-group-cohomology/sources/standard-names-through-32.json",
-            ),
-            "finite-group-cohomology/sources/standard-names-through-32.json",
+        crate::static_component::artifact(
             "external_names",
+            "finite-group-cohomology/sources/standard-names-through-32.json",
             u64::try_from(standard_names.len())?,
+            STANDARD_NAMES_BYTES,
         )?,
         inspect_file(
             &source_directory.join("manifest.json"),
@@ -341,6 +344,7 @@ pub fn build_finite_group_cohomology_component(
     ];
     let manifest = ComponentManifest {
         component: COMPONENT,
+        builder_source: poset_census::source_identity(),
         status: "passed",
         volume: 1,
         collection: COLLECTION,

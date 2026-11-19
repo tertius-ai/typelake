@@ -2583,3 +2583,7 @@ html[data-plate="chalk"] .collection-gallery__image { --diagram-paper: #1b352d; 
 @media (max-width: 420px) {
   .collection-gallery { grid-template-columns: 1fr; }
 }
+
+.homology-filter input:focus-visible, .homology-filter select:focus-visible,
+fieldset input:focus-visible, fieldset select:focus-visible, .proof-stepper select:focus-visible,
+select:focus-visible { outline: 2px solid var(--accent, #9d2d27); outline-offset: 3px; }

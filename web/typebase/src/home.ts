@@ -165,7 +165,9 @@ const simplicialSetDataRoot = new URL(
   document.baseURI,
 );
 const groupDataRoot = new URL(
-  import.meta.env.VITE_TYPEBASE_GROUP_COHOMOLOGY_DATA_URL ??
+  // The documented name, as read by volume-one.ts; the undocumented alias is a fallback.
+  import.meta.env.VITE_TYPEBASE_FINITE_GROUP_COHOMOLOGY_DATA_URL ??
+    import.meta.env.VITE_TYPEBASE_GROUP_COHOMOLOGY_DATA_URL ??
     "data/finite-group-cohomology/",
   document.baseURI,
 );

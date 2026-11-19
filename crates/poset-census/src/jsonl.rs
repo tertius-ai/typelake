@@ -125,7 +125,12 @@ pub fn emit_completed_order(
     let report = RunReport {
         contract: CONTRACT,
         run_id: format!(
-            "reference-order-{}-{}-{}",
+            "{}-order-{}-{}-{}",
+            if census.generator == crate::Generator::Reference {
+                "reference"
+            } else {
+                "orderly"
+            },
             census.order,
             unix_milliseconds(started)?,
             process::id()

@@ -106,11 +106,12 @@ def _lex_sorted_unique(value: Any, *, key: str = "arcs") -> list[str]:
 @_encoding("endpoints-in-range")
 def _endpoints(value: Any) -> list[str]:
     n = value.get("n", 0)
-    for a, b in value.get("arcs", []):
+    key = "arcs" if "arcs" in value else "edges"
+    for a, b in value.get(key, []):
         if not (0 <= a < n and 0 <= b < n):
-            return [f"arcs: endpoint out of range for n={n}"]
+            return [f"{key}: endpoint out of range for n={n}"]
         if a == b:
-            return ["arcs: self-loop"]
+            return [f"{key}: self-loop"]
     return []
 
 

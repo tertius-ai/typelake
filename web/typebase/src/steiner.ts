@@ -501,8 +501,9 @@ async function openRecord(label: string): Promise<void> {
     "</p><p>Opening the record…</p></div>";
   try {
     const response = await fetch(new URL("details/" + label + ".json", dataRoot));
-    if (!response.ok) throw new Error("No Steiner category has label " + label);
+    if (!response.ok) throw new Error(response.status === 404 ? "No Steiner category has label " + label : `Category data returned HTTP ${response.status}`);
     const detail = (await response.json()) as CategoryDetail;
+    if (detail.label !== label) throw new Error(`The detail projection omits ${label}`);
     const category = detail.category;
     const cells = namedCells(detail);
     const families = category.recognized_families
@@ -535,7 +536,7 @@ async function openRecord(label: string): Promise<void> {
         ? "<span>Self-dual</span>"
         : "") +
       "</div></aside></div>" +
-      '<section class="mapping-panel" id="mapping-panel"><p class="muted">Select a source object, then a target object, in the drawing.</p></section>' +
+      '<section class="mapping-panel" id="mapping-panel" aria-live="polite"><p class="muted">Select a source object, then a target object, in the drawing.</p></section>' +
       '<div class="record__sections"><section class="record__technical record__cells"><p class="eyebrow">All exact nonidentity cells</p><p>Cells are grouped by ambient dimension. A row in dimension <i>q</i> gives its globular source and target in dimension <i>q</i> − 1; thus the higher rows include maps between 2-cells and beyond. Iterated identity cells are determined uniquely and are not repeated in every higher dimension.</p>' +
       cellRegisterHtml(cells) +
       '</section><section><p class="eyebrow">Integral polygraphic homology</p><p class="math-line">' +
@@ -608,7 +609,9 @@ async function openRecord(label: string): Promise<void> {
         steinerDiagram(category, selected, (object) => {
           if (selected.length === 0 || selected.length === 2) selected = [object];
           else selected.push(object);
+          const keyboardFocus = figure.contains(document.activeElement);
           draw();
+          if (keyboardFocus) figure.querySelector<SVGElement>(`[data-object="${object}"]`)?.focus();
           if (selected.length === 2) {
             panel.innerHTML = mappingPanel(
               mappingFor(detail, selected[0] ?? 0, selected[1] ?? 0),
@@ -739,16 +742,16 @@ async function start(): Promise<void> {
       window.location.replace(steinerPath(legacyLabel));
       return;
     }
-    if (routedLabel) {
-      mountPresentationControls();
-      await openRecord(routedLabel);
-      return;
-    }
     const manifestResponse = await fetch(new URL("manifest.json", dataRoot));
     if (!manifestResponse.ok) throw new Error("Category manifest is unavailable");
     manifest = (await manifestResponse.json()) as SteinerManifest;
     if (manifest.status !== "passed" || manifest.stores_labeled_categories !== false) {
       throw new Error("This is not a passed, unlabeled Steiner-category edition");
+    }
+    if (routedLabel) {
+      mountPresentationControls();
+      await openRecord(routedLabel);
+      return;
     }
     const [catalogueResponse, interestingResponse, grayResponse] = await Promise.all([
       fetch(new URL(manifest.catalogue_path, dataRoot)),

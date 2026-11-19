@@ -19,7 +19,7 @@ export DYLD_LIBRARY_PATH := $(FLINT_PREFIX)/lib$(if $(DYLD_LIBRARY_PATH),:$(DYLD
 endif
 export CARGO_NET_GIT_FETCH_WITH_CLI ?= true
 
-.PHONY: check-flint fmt check lint test finite-group-integral finite-group-modular identify-poset-groups identify-steiner-groups typebase-finite-groups typebase-posets typebase-steiner typebase-web bench-posets bench-pipeline bench-orderly bench-orderly-generation bench-steiner-mappings reference reference-order-3 orderly orderly-shard merge-orderly-shards certify-orderly-shard publish-certified-merge steiner-compare steiner-counts steiner-identity steiner-light steiner-mappings steiner-rich steiner-orderly steiner-gray
+.PHONY: check-flint fmt check lint test test-oracles finite-group-integral finite-group-modular identify-poset-groups identify-steiner-groups typebase-finite-groups typebase-posets typebase-steiner typebase-simplicial-complexes typebase-simplicial-sets typebase-eilenberg-maclane typebase-web bench-posets bench-pipeline bench-orderly bench-orderly-generation bench-steiner-mappings reference reference-order-3 orderly orderly-shard merge-orderly-shards certify-orderly-shard publish-certified-merge steiner-compare steiner-counts steiner-identity steiner-light steiner-mappings steiner-rich steiner-orderly steiner-gray
 
 check-flint:
 	@pkg-config --atleast-version=3.6 flint || { \
@@ -39,6 +39,10 @@ lint: check-flint
 
 test: check-flint
 	cargo test --workspace
+
+test-oracles: check-flint
+	cargo test --release -p poset-census --test reference -- --ignored
+	cargo run --release -p steiner-census -- compare --maximum-atomic-size 8 --candidate-cap 20000000
 
 finite-group-integral: check-flint
 	@test -n "$(FINITE_GROUP_COHOMOLOGY_DATA_ROOT)" || { echo "set FINITE_GROUP_COHOMOLOGY_DATA_ROOT explicitly" >&2; exit 1; }
@@ -86,6 +90,34 @@ typebase-steiner: check-flint
 		--poset-data-root "$(POSET_CENSUS_DATA_ROOT)" \
 		--maximum-atomic-size "$(or $(TYPEBASE_STEINER_MAXIMUM_ATOMIC_SIZE),11)" \
 		$(if $(STEINER_GROUP_IDENTIFICATIONS),--group-identifications "$(STEINER_GROUP_IDENTIFICATIONS)")
+
+typebase-simplicial-complexes: check-flint
+	@test -n "$(SIMPLICIAL_COMPLEX_DATA_ROOT)" || { echo "set SIMPLICIAL_COMPLEX_DATA_ROOT explicitly" >&2; exit 1; }
+	@test -n "$(TYPEBASE_SIMPLICIAL_COMPLEX_OUTPUT_ROOT)" || { echo "set TYPEBASE_SIMPLICIAL_COMPLEX_OUTPUT_ROOT explicitly" >&2; exit 1; }
+	cargo run --release -p typebase-build -- simplicial-complexes \
+		--data-root "$(SIMPLICIAL_COMPLEX_DATA_ROOT)" \
+		--output-root "$(TYPEBASE_SIMPLICIAL_COMPLEX_OUTPUT_ROOT)" \
+		--maximum-vertices "$(or $(TYPEBASE_SIMPLICIAL_COMPLEX_MAXIMUM_VERTICES),6)"
+
+typebase-simplicial-sets: check-flint
+	@test -n "$(SIMPLICIAL_SET_DATA_ROOT)" || { echo "set SIMPLICIAL_SET_DATA_ROOT explicitly" >&2; exit 1; }
+	@test -n "$(TYPEBASE_SIMPLICIAL_SET_OUTPUT_ROOT)" || { echo "set TYPEBASE_SIMPLICIAL_SET_OUTPUT_ROOT explicitly" >&2; exit 1; }
+	cargo run --release -p typebase-build -- simplicial-sets \
+		--data-root "$(SIMPLICIAL_SET_DATA_ROOT)" \
+		--output-root "$(TYPEBASE_SIMPLICIAL_SET_OUTPUT_ROOT)" \
+		--maximum-total-nondegenerate "$(or $(TYPEBASE_SIMPLICIAL_SET_MAXIMUM_TOTAL_NONDEGENERATE),7)" \
+		--maximum-dimension "$(or $(TYPEBASE_SIMPLICIAL_SET_MAXIMUM_DIMENSION),3)" \
+		--maximum-dimension-at-top-total "$(or $(TYPEBASE_SIMPLICIAL_SET_MAXIMUM_DIMENSION_AT_TOP_TOTAL),2)"
+
+typebase-eilenberg-maclane: check-flint
+	@test -n "$(EILENBERG_MACLANE_DATA_ROOT)" || { echo "set EILENBERG_MACLANE_DATA_ROOT explicitly" >&2; exit 1; }
+	@test -n "$(TYPEBASE_EILENBERG_MACLANE_OUTPUT_ROOT)" || { echo "set TYPEBASE_EILENBERG_MACLANE_OUTPUT_ROOT explicitly" >&2; exit 1; }
+	cargo run --release -p typebase-build -- eilenberg-mac-lane \
+		--data-root "$(EILENBERG_MACLANE_DATA_ROOT)" \
+		--output-root "$(TYPEBASE_EILENBERG_MACLANE_OUTPUT_ROOT)" \
+		--maximum-finite-order "$(or $(TYPEBASE_EILENBERG_MACLANE_MAXIMUM_FINITE_ORDER),32)" \
+		--maximum-delooping-degree "$(or $(TYPEBASE_EILENBERG_MACLANE_MAXIMUM_DELOOPING_DEGREE),4)" \
+		--exact-through-degree "$(or $(TYPEBASE_EILENBERG_MACLANE_EXACT_THROUGH_DEGREE),16)"
 
 steiner-compare: check-flint
 	cargo run --release -p steiner-census -- compare \
@@ -237,3 +269,8 @@ publish-certified-merge: check-flint
 	cargo run --release -p poset-census -- publish-certified-merge \
 		--order "$(ORDER)" --data-root "$(POSET_CENSUS_DATA_ROOT)" --run-id "$(RUN_ID)" \
 		--shard-count "$(SHARD_COUNT)"
+
+.PHONY: test-hap-oracle
+test-hap-oracle: check-flint
+	@test -n "$(FINITE_GROUP_COHOMOLOGY_DATA_ROOT)" || { echo "set FINITE_GROUP_COHOMOLOGY_DATA_ROOT explicitly" >&2; exit 1; }
+	TYPELAKE_VALIDATE_HAP=1 cargo test --release -p finite-group-cohomology-census --test hap_parity -- --ignored

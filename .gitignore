@@ -7,7 +7,7 @@ build/
 target/
 /data/
 node_modules/
-web/typebase/public/data/
+/web/typebase/public/data
 .venv/
 .env
 *.so
@@ -15,3 +15,5 @@ web/typebase/public/data/
 uv.lock
 /published/*.whl
 /published/*.tar.gz
+
+/.noether-native/

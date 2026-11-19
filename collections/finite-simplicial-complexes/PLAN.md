@@ -1,5 +1,7 @@
 # Finite simplicial complexes
 
+Current record fields and encodings are specified in `RECORD.md`; browser behavior is specified in `TYPEBASE.md` where present. This plan also describes future work. Current release scope is selected in `../VOLUME-I.md`, and checks count as evidence only when an accompanying run report records their execution.
+
 **Status:** complete identity, topology, and `F2`/`F3` cohomology builders
 through 6 vertices
 

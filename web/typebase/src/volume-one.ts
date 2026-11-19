@@ -44,6 +44,7 @@ interface Manifest extends JsonObject {
 }
 
 interface SearchRow extends JsonObject {
+  standard_names?: string[];
   label: string;
   path: string;
   dimension?: number;
@@ -185,11 +186,6 @@ function routeTail(): string[] {
 
 function updateNavigation(): void {
   document.title = `${config.title} — TypeBase Volume I`;
-  for (const anchor of document.querySelectorAll<HTMLAnchorElement>("[data-volume-one-nav] a")) {
-    const active = new URL(anchor.href).pathname.split("/").filter(Boolean)[0] === config.kind;
-    if (active) anchor.setAttribute("aria-current", "page");
-    else anchor.removeAttribute("aria-current");
-  }
 }
 
 function collectionCount(): number {
@@ -231,7 +227,7 @@ function renderCatalogueShell(): void {
     .join("");
   const primaryFilters =
     config.kind === "FiniteGroupCohomology" || config.kind === "EilenbergMacLane"
-      ? `<label><span>Coefficients</span><select name="coefficient"><option value="">All</option><option value="Z">ℤ</option><option value="F2">F₂</option><option value="F3">F₃</option><option value="F5">F₅</option></select></label>
+      ? `<label><span>Coefficients</span><select name="coefficient"><option value="">All</option>${coefficientOptions()}</select></label>
          <label><span>Named operation</span><select name="operation"><option value="">Any</option><option value="Bockstein">Bockstein</option><option value="Tor">Integral Tor</option><option value="Sq">Steenrod square</option><option value="P^">Reduced power</option></select></label>`
       : `<label><span>Integral torsion</span><select name="torsion"><option value="">Either</option><option value="yes">Present</option><option value="no">Absent</option></select></label>`;
   const dimensionFilter =
@@ -249,7 +245,7 @@ function renderCatalogueShell(): void {
       <a href="/${config.kind}/Glossary">Glossary</a>
     </nav>
     <form class="volume-one-filters filters" id="volume-one-filters" role="search">
-      <label class="volume-one-label"><span>${groupCatalogue ? "Label or group" : "Label"}</span><input name="label" autocomplete="off" placeholder="${groupCatalogue ? "8.3 or D8" : "Exact or initial label"}" /></label>
+      <label class="volume-one-label"><span>${groupCatalogue ? "Label or group" : "Label or space name"}</span><input name="label" autocomplete="off" placeholder="${groupCatalogue ? "8.3 or D8" : "sphere, circle, point, or label"}" /></label>
       <label><span>${sizeLabel}</span><select name="size"><option value="">All</option>${sizes}</select></label>
       ${dimensionFilter}
       ${primaryFilters}
@@ -328,6 +324,31 @@ function sizeValues(): number[] {
   );
 }
 
+// The group-cohomology and Eilenberg–Mac Lane search files are loaded in full
+// before the shell renders, so offer exactly the coefficients they contain.
+function coefficientOptions(): string {
+  const rank = (coefficient: string): number =>
+    coefficient === "Z" ? 0 : Number(/^F(\d+)$/.exec(coefficient)?.[1] ?? Number.MAX_SAFE_INTEGER);
+  return [
+    ...new Set(
+      catalogue
+        .map((row) => row.coefficient)
+        .filter((value): value is string => typeof value === "string" && value !== ""),
+    ),
+  ]
+    .sort((left, right) => rank(left) - rank(right) || left.localeCompare(right))
+    .map((value) => `<option value="${escape(value)}">${escape(coefficientName(value))}</option>`)
+    .join("");
+}
+
+function coefficientName(coefficient: string): string {
+  if (coefficient === "Z") return "ℤ";
+  const prime = /^F(\d+)$/.exec(coefficient)?.[1];
+  return prime === undefined
+    ? coefficient
+    : `F${[...prime].map((digit) => String.fromCharCode(0x2080 + Number(digit))).join("")}`;
+}
+
 async function loadInitialCatalogue(): Promise<void> {
   catalogue = config.compressedSearch
     ? await loadJson<SearchRow[]>("landing.json", false)
@@ -399,7 +420,8 @@ function matches(row: SearchRow, form: FormData): boolean {
     const matchesGroupName =
       config.kind === "FiniteGroupCohomology" &&
       normalizedName.includes(label.toLowerCase().replaceAll("×", "x"));
-    if (!matchesLabel && !matchesGroupName) return false;
+    const matchesSpaceName = (row.standard_names ?? []).some((name) => name.toLowerCase().includes(label.toLowerCase()));
+    if (!matchesLabel && !matchesGroupName && !matchesSpaceName) return false;
   }
   const size = formString(form, "size");
   const sizeValue = row.vertices ?? row.total_nondegenerate ?? row.group_order;
@@ -594,6 +616,7 @@ function renderRow(row: SearchRow): string {
   }
   return `<article class="volume-one-row">
     <a href="${escape(row.path)}" class="volume-one-row__label">${escape(row.label)}<span>↗</span></a>
+    ${(row.standard_names ?? []).length ? `<p class="standard-space-name">${escape(row.standard_names?.[0])}</p>` : ""}
     <dl>${facts.map(([name, value]) => `<div><dt>${escape(name)}</dt><dd>${escape(value ?? "—")}</dd></div>`).join("")}</dl>
   </article>`;
 }
@@ -602,14 +625,26 @@ async function openObject(tail: string[]): Promise<void> {
   const label = tail[0];
   if (!label || !exactLabel(label)) throw new Error("That is not a label in this collection");
   const coefficient = tail[1];
+  // The same coefficient pattern as the shipped route loader (volume-one-404.html).
+  if (coefficient !== undefined && !/^(?:Z|F\d+)$/.test(coefficient)) {
+    throw new Error("That is not a coefficient in this collection");
+  }
   const detail = await loadDetail(label);
   document.title = `${label} — ${config.title} — TypeBase`;
   main.innerHTML = renderDetail(label, coefficient, detail);
+  const names = asArray(detail.standard_names).map(String);
+  if (names.length) {
+    const name = document.createElement("p"); name.className = "standard-space-name";
+    name.textContent = names.join(" · ");
+    main.querySelector(".volume-one-record__head")?.append(name);
+  }
 }
 
 async function loadDetail(label: string): Promise<JsonObject> {
   if (config.kind === "FiniteGroupCohomology" || config.kind === "EilenbergMacLane") {
-    return loadJson<JsonObject>(`details/${label}.json.zst`);
+    const detail = await loadJson<JsonObject>(`details/${label}.json.zst`);
+    if (detail.label !== label) throw new Error(`The detail projection omits ${label}`);
+    return detail;
   }
   const match = /^(\d+)\.(-?\d+)\.(\d+)$/.exec(label);
   if (!match) throw new Error("Malformed catalogue label");
@@ -695,7 +730,8 @@ function renderGroupDetail(label: string, coefficient: string | undefined, detai
     ...modular.map((record) => `F${asObject(record.coefficient_context).characteristic}`),
   ];
   const selected = coefficient ?? coefficients[0];
-  const tabs = [...new Set([selected, ...coefficients].filter(Boolean))];
+  if (selected && !coefficients.includes(selected)) throw new Error("That coefficient is not available for this object");
+  const tabs = [...new Set(coefficients.filter(Boolean))];
   const source = asObject(detail.source);
   const groupName = displayGroupName(
     standardGroupName(label, detail.standard_name ?? source.standard_name),
@@ -720,7 +756,7 @@ function renderGroupDetail(label: string, coefficient: string | undefined, detai
   }
   return `<article class="volume-one-record">
     ${detailHeading(label, `${escape(groupName)} · SmallGroup(${escape(source.small_groups_order)}, ${escape(source.small_groups_index)})`)}
-    <div class="coefficient-tabs">${tabs.map((item) => `<a ${item === selected ? 'aria-current="page"' : ""} href="/FiniteGroupCohomology/${escape(label)}/${item}">${item === "Z" ? "ℤ" : escape(item)}</a>`).join("")}</div>
+    <div class="coefficient-tabs">${tabs.map((item) => `<a ${item === selected ? 'aria-current="page"' : ""} href="/FiniteGroupCohomology/${escape(label)}/${escape(item)}">${item === "Z" ? "ℤ" : escape(item)}</a>`).join("")}</div>
     <div class="volume-one-record__lead volume-one-record__lead--algebra">${factTable([
       ["Standard name", groupName], ["Order", source.small_groups_order], ["SmallGroups index", source.small_groups_index],
       ["Permutation degree", source.permutation_degree], ["Canonical SHA-256", shortHash(detail.canonical_group_sha256)],
@@ -741,7 +777,8 @@ function renderEilenbergMacLaneDetail(
   const modular = asArray(record.modular_cohomology).map(asObject);
   const coefficients = ["Z", ...modular.map((item) => `F${item.prime}`)];
   const selected = coefficient ?? "Z";
-  const tabs = [...new Set([selected, ...coefficients])];
+  if (!coefficients.includes(selected)) throw new Error("That coefficient is not available for this object");
+  const tabs = [...new Set(coefficients)];
   let content: string;
   if (selected === "Z") {
     const ring = asObject(record.integral_cohomology_ring);
@@ -758,7 +795,7 @@ function renderEilenbergMacLaneDetail(
   }
   return `<article class="volume-one-record">
     ${detailHeading(label, `K(${escape(groupName)}, ${escape(record.delooping_degree)})`)}
-    <div class="coefficient-tabs">${tabs.map((item) => `<a ${item === selected ? 'aria-current="page"' : ""} href="/EilenbergMacLane/${escape(label)}/${item}">${item === "Z" ? "ℤ" : escape(item)}</a>`).join("")}</div>
+    <div class="coefficient-tabs">${tabs.map((item) => `<a ${item === selected ? 'aria-current="page"' : ""} href="/EilenbergMacLane/${escape(label)}/${escape(item)}">${item === "Z" ? "ℤ" : escape(item)}</a>`).join("")}</div>
     <div class="volume-one-record__lead volume-one-record__lead--algebra">${factTable([
       ["Coefficient group", groupName], ["Delooping", record.delooping_degree],
       ["Finite order", group.order ?? "infinite"], ["Canonical SHA-256", shortHash(record.space_canonical_sha256)],
@@ -1396,6 +1433,7 @@ async function start(): Promise<void> {
     updateNavigation();
     mountPresentationControls();
     const tail = routeTail();
+    if (tail[0] === "Glossary") { renderGlossary(); return; }
     const needsReleaseManifest = tail[0] === "Source" || tail[0] === "Completeness";
     const manifestPath =
       config.compressedSearch && !needsReleaseManifest ? "catalogue.json" : "manifest.json";

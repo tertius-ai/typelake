@@ -22,7 +22,9 @@ pub const COHOMOLOGY_CONTRACT: &str = "finite-simplicial-sets/cohomology-v1";
 pub const STEENROD_OPERATIONS_CONTRACT: &str = "finite-simplicial-sets/steenrod-operations-v1";
 pub const HOMOTOPY_CONTRACT: &str = "finite-simplicial-sets/homotopy-v1";
 pub const RECORD_VERSION: u32 = 1;
-pub const NOETHER_REVISION: &str = "4c92c269c59da02a4d32c833c2ee093407f8e22f";
+pub const NOETHER_REVISION: &str = "eebc33d4f37ed47af83c88dbc9f8886b254f72c6";
+/// Historical producer before the public 0.3.2 source import.
+pub const PRERELEASE_NOETHER_REVISION: &str = "4c92c269c59da02a4d32c833c2ee093407f8e22f";
 /// Producer of the immutable first-edition artifacts.
 pub const LEGACY_NOETHER_REVISION: &str = "993dd0ff53ca7cf80e52a5d2f96b1659bce0b2a8";
 pub const IDENTITY_NOETHER_REVISION: &str = "6c05804149d25305d8329f4e56afa83d7dc691fa";

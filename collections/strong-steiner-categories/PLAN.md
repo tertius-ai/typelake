@@ -1,5 +1,7 @@
 # Finite strong Steiner categories: census plan
 
+Current record fields and encodings are specified in `RECORD.md`; browser behavior is specified in `TYPEBASE.md` where present. This plan also describes future work. Current release scope is selected in `../VOLUME-I.md`, and checks count as evidence only when an accompanying run report records their execution.
+
 **Status:** identity, light, and mapping enrichment certified through atomic
 size 12; rich enrichment and TypeBase publication complete through size 11,
 2026-08-28
@@ -160,9 +162,7 @@ merely essentially surjective, and inductively bijective on every mapping
 category rather than merely locally equivalent. Hence it is a strict
 isomorphism. The implementation still canonicalizes strict finite boundary
 data; the theorem says that the resulting key classifies all three named
-relations. A short induction proving this implication belongs in `RECORD.md`,
-and exhaustive tiny functor tables serve as validation rather than as the
-proof.
+relations. The induction is stated in `RECORD.md`; exhaustive tiny computations are validation evidence, not the proof.
 
 ### 2.4 Complete and enriched regions
 
@@ -561,9 +561,7 @@ functor must be a monomorphism in the categorical sense, equivalently an
 embedding on the maximal subspace and recursively on mapping spaces. In this
 finite gaunt strict setting, the reference implementation checks injectivity on
 every cell of the explicit globe boundary. The expected recursive fast test is
-that the two chosen cells are distinct at every level; Noether uses it for
-pruning only after `RECORD.md` proves that it is equivalent to the categorical
-and explicit-cell tests, with exhaustive small comparisons.
+that the two chosen cells are distinct at every level; Noether uses this strict-cell test in its enumeration. `RECORD.md` states its injectivity argument and the scope of the claim.
 
 Noether's `homotopy_poset()` accepts any valid oriented basepoint. The census
 enumeration deliberately omits nonmonomorphic and degenerate boundaries such
@@ -639,13 +637,9 @@ the discrete three-point category, D^1
 This is a `5 x 5` table, its products have at most 9 atoms, and it already
 contains the directed square `D^1 tensor D^1`. It displays the canonical
 category label when the result lies in a certified shell, otherwise a clearly
-marked construction page. In addition, the builder produces the complete
-ordered subtable of all census objects `C,D` for which
-`atomic_size(C) * atomic_size(D)` lies in the published complete region. This
-bounded product rule makes completeness of that subtable checkable and keeps
-the all-pairs calculation small. Larger named factors such as `D^2` and `O^2`
-can be added after the tensor canonicalization benchmark without changing the
-table contract.
+marked construction page. This fixed 5-by-5 table is the implemented scope.
+A larger ordered subtable is future work and is not a completeness claim of
+this edition.
 
 ### 4.7 Dualities
 
@@ -697,38 +691,18 @@ negative_boundary_support
 positive_boundary_support
 ```
 
-Their signed difference is the corresponding boundary-matrix column. The
-labeled encoding is:
-
-```text
-encoding version
-atomic dimension vector
-for q = 1, ..., d:
-  boundary support pair for q-atom 0
-  ...
-  boundary support pair for q-atom a_q - 1
-```
-
-Bitsets use a declared little-endian limb encoding in canonical bytes and
-unsigned decimal strings or index lists in JSON. JSON presentation choices do
-not alter canonical bytes.
+Their signed difference is the corresponding boundary-matrix column.
+The implemented `SteinerKey` is the signed-incidence-graph canonical encoding
+described in `RECORD.md`: the word begins with the number of occupied degrees,
+and canonical bytes encode its `u64` words big-endian. It is a relation key,
+not a cryptographic TypeLake identifier. Records do not carry a separate
+canonical-id hash.
 
 ### 5.2 Canonicalization
 
-Take the lexicographically least labeled encoding over
-
-```text
-S_(a_0) x S_(a_1) x ... x S_(a_d).
-```
-
-The resulting value is `SteinerKey@1`. It completely reconstructs the atomic
-dimension vector and all boundaries. `SteinerKey` is the census identity and
-relation key; it is neither a TypeLake content hash nor a TypeBase label.
-
-The TypeLake canonical id is a cryptographic hash over the collection name,
-canonical-encoding version, and canonical key bytes. Changing record columns
-does not change this id. Changing the canonical byte convention requires a new
-encoding version and an explicit equivalence map.
+Noether canonically labels the signed incidence graph, with degree and sign
+colors, and reconstructs the canonical category from that labeling. It does
+not minimize a separately declared little-endian encoding over permutations.
 
 ### 5.3 Automorphisms
 
@@ -811,75 +785,14 @@ loops and directed cycles are not. An independent DAG-multigraph generator
 will validate every 1-dimensional bucket and provide early benchmark data for
 canonicalization and automorphisms.
 
-### 6.5 Orderly enumeration of monomorphic basepoints
+### 6.5 Enumeration of monomorphic basepoints
 
-Basepoints are enriched only after `C` and `Aut(C)` are certified. The
-enumeration is a second hereditary tree:
-
-1. set `M_0 = C` and start with the unique empty prefix;
-2. at level `i`, enumerate ordered pairs of distinct objects `(X_i,Y_i)` in
-   `M_i`;
-3. retain the pair only if extending the boundary functor remains monomorphic;
-4. set `M_(i+1) = Mor_(M_i)(X_i,Y_i)` and recurse;
-5. emit the prefix through level `n - 1` together with
-   `pi_n(C,Z) = pi_0(M_n)`;
-6. stop a branch when `M_i` has fewer than two objects.
-
-This includes composite cells: restricting a basepoint to atomic cells would
-not enumerate all functors from a globe boundary. The finite cell caches
-already required for mapping categories make every level explicit. A
-monomorphic prefix cannot continue indefinitely through identities, since its
-chosen objects are distinct; its depth is bounded by the nonidentity dimension
-of `C`.
-
-To remove arbitrary repetition, `Aut(C)` acts on the whole tree. At the root,
-generate one orbit of ordered object pairs. After choosing a prefix `Z`, use
-the stabilizer `Aut(C)_Z` on the next mapping-category object pairs. The child
-is retained only when its encoded boundary embedding is lexicographically
-least in its stabilizer orbit. Deleting the top pair is its unique parent, so
-the construction is a canonical augmentation exactly analogous to adjoining a
-new maximum over a Poset downset.
-
-```text
-extend(C, prefix Z, stabilizer G_Z):
-  M := Mor_C^length(Z)(Z)
-  for orbit representative (x,y) of G_Z on Obj(M)^2 with x != y:
-    Z' := Z followed by (x,y)
-    if explicit_boundary_map(Z').is_monomorphism()
-       and Z' is least in its G_Z-orbit:
-      emit Z', pi_0(M(x,y))
-      extend(C, Z', stabilizer(G_Z, (x,y)))
-```
-
-The orbit representative test is relative to the already canonical source
-category. It never claims that the selected basepoint is canonical under a
-relabeling that changes `C`; the initial `SteinerCanonicalLabel` transports
-all cells into that one context first.
-
-For each orbit representative store:
-
-- the basepoint dimension and recursive cell-pair encoding;
-- a local stable order within `(source SteinerKey, homotopy degree)`;
-- orbit size, stabilizer order, and the total number of unquotiented
-  monomorphic basepoints;
-- the iterated mapping-category summary;
-- the canonical homotopy `PosetKey` and optional resolved TypeBase Poset label.
-
-The public local path is
-
-```text
-/SteinerCategory/<a.d.c>/basepoint/<n>.<i>
-```
-
-where `n` is the homotopy-poset degree and `i` is one-based canonical encoding
-order among `Aut(C)`-orbits. It is a subordinate accession within `C`, not a
-new global three-number category label.
-
-Validation exhausts all boundary functors for small categories, compares their
-orbit partitions with the stabilizer recursion, checks orbit--stabilizer sums,
-and verifies that relabeling `C` does not change representative keys. The
-known formulas for orientals and cubes are family-level oracles for fundamental
-Posets.
+Noether enumerates all distinct parallel-cell prefixes. TypeLake then
+partitions these explicit basepoints into orbits by iterating the full
+automorphism group for each new orbit. Stabilizer-recursive enumeration is a
+possible optimization; the current implementation does not use it. Composite
+cells and their full whiskering supports participate in the enumeration.
+The strict-cell injectivity argument is recorded in `RECORD.md`.
 
 ### 6.6 Gray-product table enumeration
 
@@ -1147,7 +1060,6 @@ $STEINER_CENSUS_DATA_ROOT/
     homotopy-posets.jsonl.zst
     categorical-homology.jsonl.zst
     categorical-homotopy-posets.jsonl.zst
-    gray-products.jsonl.zst
     validation.json
     run.json
   census/identity-version=1/atomic-size=<a>/

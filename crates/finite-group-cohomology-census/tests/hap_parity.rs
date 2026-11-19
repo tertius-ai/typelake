@@ -1,7 +1,7 @@
-//! Opt-in HAP parity for one deterministic group in every `(order, prime)` bucket.
+//! Opt-in HAP parity for family and resolution paths plus named hand examples.
 
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, BTreeSet},
     env,
     io::Write,
     path::{Path, PathBuf},
@@ -16,11 +16,13 @@ use finite_group_cohomology_census::{
 const MAX_DEGREE: usize = 3;
 
 #[test]
+#[ignore = "requires explicit GAP/HAP validation and the complete modular census"]
 fn deterministic_order_prime_sample_matches_hap() {
-    if env::var("TYPELAKE_VALIDATE_HAP").as_deref() != Ok("1") {
-        eprintln!("skipped: set TYPELAKE_VALIDATE_HAP=1 to run the GAP/HAP oracle");
-        return;
-    }
+    assert_eq!(
+        env::var("TYPELAKE_VALIDATE_HAP").as_deref(),
+        Ok("1"),
+        "set TYPELAKE_VALIDATE_HAP=1 and provide the complete data root"
+    );
 
     let workspace_root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let data_root = env::var_os("FINITE_GROUP_COHOMOLOGY_DATA_ROOT")
@@ -34,6 +36,7 @@ fn deterministic_order_prime_sample_matches_hap() {
         })
         .unwrap_or_else(|| workspace_root.join("data"));
     let (_, census) = load_modular_census(&data_root, 32, 8, 12).unwrap();
+    let mut sampled_paths = BTreeSet::new();
     let samples = census
         .records
         .iter()
@@ -44,7 +47,16 @@ fn deterministic_order_prime_sample_matches_hap() {
                 .characteristic
                 .parse::<u64>()
                 .unwrap();
-            samples.entry((order, prime)).or_insert(record);
+            let resolution = matches!(
+                record.computation,
+                ModularComputationRecord::Resolution { .. }
+            );
+            let (_, group_index) = parse_label(&record.group_label);
+            if sampled_paths.insert((order, prime, resolution))
+                || ["2.1", "4.1", "4.2", "8.3", "8.4"].contains(&record.group_label.as_str())
+            {
+                samples.insert((order, prime, group_index), record);
+            }
             samples
         });
 
@@ -81,7 +93,7 @@ fn deterministic_order_prime_sample_matches_hap() {
         );
     }
     eprintln!(
-        "HAP parity passed for {} deterministic (order, prime) samples through degree {}",
+        "HAP parity passed for {} deterministic group/prime cases through degree {}",
         samples.len(),
         MAX_DEGREE
     );
@@ -102,17 +114,19 @@ fn expected_dimensions(record: &FiniteGroupModularCohomologyRecord) -> Vec<usize
     }
 }
 
-fn hap_script(samples: &BTreeMap<(usize, u64), &FiniteGroupModularCohomologyRecord>) -> String {
+fn hap_script(
+    samples: &BTreeMap<(usize, u64, usize), &FiniteGroupModularCohomologyRecord>,
+) -> String {
     let mut script = String::from(
         "if LoadPackage(\"smallgrp\") <> true then Error(\"SmallGrp unavailable\"); fi;\n\
          if LoadPackage(\"hap\") <> true then Error(\"HAP unavailable\"); fi;\n",
     );
-    for (&(order, prime), record) in samples {
+    for (&(order, prime, group_index), record) in samples {
         let (_, index) = parse_label(&record.group_label);
         script.push_str(&format!(
             "A := ModPCohomologyRing(SmallGroup({order},{index}), {prime}, {MAX_DEGREE});;\n\
              B := BasisVectors(Basis(A));;\n\
-             Print(\"TYPELAKE|{order}|{prime}|\", List([0..{MAX_DEGREE}], d -> Number(B, x -> A!.degree(x) = d)), \"\\n\");\n\
+             Print(\"TYPELAKE|{order}|{prime}|{group_index}|\", List([0..{MAX_DEGREE}], d -> Number(B, x -> A!.degree(x) = d)), \"\\n\");\n\
              Unbind(A);; Unbind(B);; GASMAN(\"collect\");;\n"
         ));
     }
@@ -120,14 +134,15 @@ fn hap_script(samples: &BTreeMap<(usize, u64), &FiniteGroupModularCohomologyReco
     script
 }
 
-fn parse_hap_output(output: &str) -> BTreeMap<(usize, u64), Vec<usize>> {
+fn parse_hap_output(output: &str) -> BTreeMap<(usize, u64, usize), Vec<usize>> {
     output
         .lines()
         .filter_map(|line| line.strip_prefix("TYPELAKE|"))
         .map(|line| {
-            let mut fields = line.splitn(3, '|');
+            let mut fields = line.splitn(4, '|');
             let order = fields.next().unwrap().parse().unwrap();
             let prime = fields.next().unwrap().parse().unwrap();
+            let group_index = fields.next().unwrap().parse().unwrap();
             let dimensions = fields
                 .next()
                 .unwrap()
@@ -137,7 +152,7 @@ fn parse_hap_output(output: &str) -> BTreeMap<(usize, u64), Vec<usize>> {
                 .split(',')
                 .map(|value| value.trim().parse().unwrap())
                 .collect();
-            ((order, prime), dimensions)
+            ((order, prime, group_index), dimensions)
         })
         .collect()
 }

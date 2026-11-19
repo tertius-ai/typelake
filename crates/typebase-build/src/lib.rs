@@ -2,6 +2,7 @@
 
 pub mod eilenberg_maclane;
 pub mod finite_group_cohomology;
+mod named_spaces;
 pub mod poset_groups;
 pub mod posets;
 pub mod simplicial_complexes;

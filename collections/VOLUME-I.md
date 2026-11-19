@@ -2,15 +2,16 @@
 
 Volume I is selected for editorial review. TypeLake 0.1.0 is the software
 release target. The immutable inputs selected by this candidate are pinned by
-relative path, SHA-256, byte count, and uncompressed JSONL row count in
-[`volume-i.json`](volume-i.json). Changing the selection produces another
-review candidate; it does not rewrite an accepted computational batch.
+relative path, SHA-256, and byte count in [`volume-i.json`](volume-i.json);
+uncompressed `.jsonl` inputs also pin their row count, while compressed
+`.jsonl.zst` inputs do not. Changing the selection produces another review
+candidate; it does not rewrite an accepted computational batch.
 
 | Collection | Selected scope | Coverage |
 | --- | --- | --- |
 | Finite posets | Orders 0–10; 2,769,965 objects | Integral homology, Stong cores, natural automorphism actions, and the retained abstract-group identifications |
 | Strong Steiner categories | 28,010 identities through atomic size 12 | Identity, light, and mapping lanes through 12; 7,566 rich records and browser objects through 11 |
-| Finite simplicial complexes | At most 6 vertices; 16,352 objects | Topology, `F2` cohomology-v2, and `F3` cohomology-v1 |
+| Finite simplicial complexes | At most 6 vertices; 16,352 objects | Topology, `F2` cohomology-v2, and `F3` cohomology-v2 |
 | Finite simplicial sets | At most 6 nondegenerate simplices in dimension at most 3, plus size 7 in dimension at most 2; 125,843 objects | Topology-v2, `F2`/`F3` cohomology, `F3` operations, and witnessed horn collapses |
 | Finite-group cohomology | All 144 groups of order at most 32 | Modular-v7 has 198 complete coefficient presentations. Integral-v4 has 46 complete families, eight bounded sparse-bar truncations, and 90 degree-two truncations |
 | Eilenberg–Mac Lane anima | 224 spaces from finite abelian groups through order 32 and `Z`, with delooping degrees 1–4 | Invariants-v8 has all 304 modular rows, integral additive data for 60 spaces, and 51 complete integral rings; the remaining integral cells are pending |
@@ -46,15 +47,16 @@ cargo run --release -p typebase-build --example replay_samples -- \
   --data-root "$TYPELAKE_DATA_ROOT" --report "$EVIDENCE_ROOT/samples.json"
 ```
 
-The sample replay takes the first, middle, and last row of each installed
-shell. Its report records the number of objects examined. Full release and
+The sample replay takes the first, middle, and last row of each selected Poset, Steiner, simplicial-complex and simplicial-set shell, including F3 operation samples. It explicitly omits finite-group cohomology and Eilenberg–Mac Lane replay. Its report records these limits and the number of objects examined. Full release and
 independent-oracle checks remain part of publication qualification.
 
 ## Noether 0.3.2
 
 The workspace locks one Noether dependency to public revision
-`4c92c269c59da02a4d32c833c2ee093407f8e22f`, release `v0.3.2`.
-New computations name that revision. Readers also accept the explicitly
+`eebc33d4f37ed47af83c88dbc9f8886b254f72c6`, release `v0.3.2`.
+New computations name that public revision. The frozen review selection retains
+the earlier producer revision `4c92c269c59da02a4d32c833c2ee093407f8e22f`;
+its input bytes and producer manifests are unchanged. Readers also accept the explicitly
 retained historical producers while checking each input artifact's hashes and
 upstream links. Unsupported producer revisions still fail validation.
 
@@ -113,3 +115,12 @@ path for both clean object routes and `/typebase/` HTML aliases. Existing
 environment overrides are respected.
 These are development mounts; public hosting, archive publication, and branch
 cleanup follow editorial review.
+
+## Mapping-model compatibility
+
+The Noether source dependency remains the published 0.3.2 revision. The census
+uses its own full-cell mapping-model compatibility implementation, with the
+algorithm id recorded in new run reports. This retains complete whiskering
+coordinates and verifies boundary realizations bijectively. The corresponding
+upstream Noether correction is prepared separately; no unpublished upstream
+revision is required to rebuild TypeLake's corrected candidate.

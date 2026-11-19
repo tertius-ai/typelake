@@ -1,5 +1,7 @@
 # Finite-group cohomology collection plan
 
+Current record fields and encodings are specified in `RECORD.md`; browser behavior is specified in `TYPEBASE.md` where present. This plan also describes future work. Current release scope is selected in `../VOLUME-I.md`, and checks count as evidence only when an accompanying run report records their execution.
+
 **Collection:** TypeBase Volume I, collection 05
 
 **Contracts:** `finite-group-cohomology/modular-v7` and
@@ -95,25 +97,25 @@ enrichments and must not be inferred from the current records.
 
 ## 4. Build artifacts
 
-The builder emits immutable JSONL shards ordered by `(group order, group id,
+The builder emits one immutable JSONL artifact ordered by `(group order, group id,
 coefficient)`. A manifest records:
 
 - source-artifact SHA-256;
 - exact Noether revision;
 - coefficient and degree/proof bounds;
-- per-order expected and observed group counts;
-- expected and observed `(group, prime)` rows;
-- resolution-strategy counts and timing;
+- total group and coefficient-row counts;
+- certificate-method counts;
 - complete versus truncated extent counts;
 - artifact byte counts and SHA-256 digests.
 
 Reload validation reconstructs every group, recomputes every retained value,
 checks all hashes and completion hypotheses, and rejects unknown fields. HAP is
 an environment-gated parity oracle. Its absence never changes the meaning of a
-native result. The release audit ran the opt-in TypeLake parity test against
-GAP 4.12.1 / HAP 1.62: the first canonical group in each of the 45
-`(order, prime)` buckets through order 32 agreed with the installed
-`modular-v6` artifact in every degree through 3.
+native result. The opt-in HAP oracle reads the selected modular-v7 artifact. Its sampling
+includes the first family and first resolution computation per `(order,
+prime)` bucket, plus C2, C4, V4, D8 and Q8 hand examples. Results and GAP/HAP
+versions belong in the particular oracle run's evidence, not in a blanket
+release-audit claim.
 
 ## 5. Scaling gates
 

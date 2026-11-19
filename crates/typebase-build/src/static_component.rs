@@ -57,6 +57,16 @@ impl StagingDirectory {
     }
 }
 
+impl Drop for StagingDirectory {
+    fn drop(&mut self) {
+        // This directory was created exclusively by this invocation. After a
+        // successful rename it no longer exists; on failure it is unpublished.
+        if self.path.exists() {
+            let _ = fs::remove_dir_all(&self.path);
+        }
+    }
+}
+
 pub(crate) fn write_json(
     root: &Path,
     relative_path: &str,
@@ -124,7 +134,7 @@ pub(crate) fn inspect_file(
     })
 }
 
-fn artifact(kind: &str, path: &str, row_count: u64, bytes: &[u8]) -> Result<Artifact> {
+pub(crate) fn artifact(kind: &str, path: &str, row_count: u64, bytes: &[u8]) -> Result<Artifact> {
     Ok(Artifact {
         kind: kind.to_owned(),
         path: path.to_owned(),
@@ -137,4 +147,25 @@ fn artifact(kind: &str, path: &str, row_count: u64, bytes: &[u8]) -> Result<Arti
 fn sync_directory(path: &Path) -> Result<()> {
     File::open(path)?.sync_all()?;
     Ok(())
+}
+
+#[cfg(test)]
+mod staging_tests {
+    use super::*;
+    #[test]
+    fn a_failed_projection_leaves_no_partial_public_files() {
+        let root = tempfile::tempdir().unwrap();
+        let output = root.path().join("component");
+        let path;
+        {
+            let staging = StagingDirectory::new(&output).unwrap();
+            path = staging.path.clone();
+            fs::write(staging.path.join("partial.json"), b"{}").unwrap();
+        }
+        assert!(!output.exists() && !path.exists());
+        let staging = StagingDirectory::new(&output).unwrap();
+        fs::write(staging.path.join("manifest.json"), b"{}").unwrap();
+        staging.install().unwrap();
+        assert!(output.join("manifest.json").is_file());
+    }
 }

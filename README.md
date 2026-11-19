@@ -120,6 +120,12 @@ make steiner-rich \
   STEINER_CENSUS_DATA_ROOT=/absolute/path/to/steiner-data ATOMIC_SIZE=11
 ```
 
+The projection and group-identification commands below read assembled shells.
+To generate those through the selected rich bound, run `make steiner-orderly`
+for every `ATOMIC_SIZE` from 0 through 11 with the same explicit data root.
+Generate the separate fixed Gray table with `make steiner-gray
+STEINER_GRAY_OUTPUT="$STEINER_CENSUS_DATA_ROOT/gray-products.jsonl"`.
+
 Each lane writes its own run, validation, upstream-hash, and per-invariant
 coverage manifest. Build and identify abstract groups for the fully enriched
 TypeBase region with:

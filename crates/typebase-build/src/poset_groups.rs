@@ -1,10 +1,12 @@
 //! Independently identified abstract automorphism groups for finite Posets.
 
 use std::{
-    fs::{self, File},
+    fs::File,
     io::{BufRead, BufReader, BufWriter, Read, Write},
     path::{Path, PathBuf},
-    process::{self, Child, ChildStdin, ChildStdout, Command, Stdio},
+    process::{Child, ChildStdin, Command, Stdio},
+    sync::mpsc::{self, Receiver},
+    time::{Duration, Instant},
 };
 
 use anyhow::{Context, Result, bail, ensure};
@@ -100,19 +102,8 @@ pub fn identify_poset_groups(
         verify_source_order(&options.data_root, order)?;
     }
 
-    let parent = options
-        .output_root
-        .parent()
-        .context("group-identification output has no parent")?;
-    fs::create_dir_all(parent)?;
-    let file_name = options
-        .output_root
-        .file_name()
-        .context("group-identification output has no file name")?
-        .to_string_lossy();
-    let staging = parent.join(format!(".{file_name}.tmp-{}", process::id()));
-    ensure!(!staging.exists(), "group-identification staging exists");
-    fs::create_dir(&staging)?;
+    let staging_guard = crate::static_component::StagingDirectory::new(&options.output_root)?;
+    let staging = staging_guard.path.clone();
 
     let mut gap = GapIdentifier::spawn(&options.gap_executable)?;
     let gap_version = gap.version().to_owned();
@@ -177,8 +168,7 @@ pub fn identify_poset_groups(
     };
     write_json(&staging.join("manifest.json"), &manifest)?;
     sync_directory(&staging)?;
-    fs::rename(&staging, &options.output_root)?;
-    sync_directory(parent)?;
+    staging_guard.install()?;
     Ok(GroupIdentificationOutcome {
         directory: options.output_root.clone(),
         poset_count: counts.posets,
@@ -256,32 +246,47 @@ fn process_batch(
 
 pub(crate) struct GapIdentifier {
     child: Child,
-    input: BufWriter<ChildStdin>,
-    output: BufReader<ChildStdout>,
+    input: Option<BufWriter<ChildStdin>>,
+    output: Receiver<std::io::Result<String>>,
     version: String,
 }
 
 impl GapIdentifier {
     pub(crate) fn spawn(executable: &Path) -> Result<Self> {
         let mut child = Command::new(executable)
-            .args(["-q", "-b"])
+            .args(["-q", "-b", "-T"])
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
-            .stderr(Stdio::null())
+            .stderr(Stdio::inherit())
             .spawn()
             .with_context(|| format!("starting GAP at {}", executable.display()))?;
         let mut input = BufWriter::new(child.stdin.take().context("GAP stdin unavailable")?);
-        let mut output = BufReader::new(child.stdout.take().context("GAP stdout unavailable")?);
+        let stdout = child.stdout.take().context("GAP stdout unavailable")?;
+        let (sender, output) = mpsc::channel();
+        std::thread::spawn(move || {
+            for line in BufReader::new(stdout).lines() {
+                if sender.send(line).is_err() {
+                    break;
+                }
+            }
+        });
         input.write_all(b"Print(\"TYPEBASE_VERSION\\t\", GAPInfo.Version, \"\\n\");\n")?;
         input.flush()?;
-        let line = read_protocol_line(&mut output, "TYPEBASE_VERSION\t")?;
+        let line = match read_protocol_line(&output, "TYPEBASE_VERSION\t") {
+            Ok(line) => line,
+            Err(error) => {
+                let _ = child.kill();
+                let _ = child.wait();
+                return Err(error);
+            }
+        };
         let version = line
             .strip_prefix("TYPEBASE_VERSION\t")
             .context("invalid GAP version handshake")?
             .to_owned();
         Ok(Self {
             child,
-            input,
+            input: Some(input),
             output,
             version,
         })
@@ -295,6 +300,7 @@ impl GapIdentifier {
         &mut self,
         generator_sets: &[&[Vec<u32>]],
     ) -> Result<Vec<Option<(String, usize)>>> {
+        let input = self.input.as_mut().context("GAP input closed")?;
         for (index, generators) in generator_sets.iter().enumerate() {
             let generators = generators
                 .iter()
@@ -312,14 +318,14 @@ impl GapIdentifier {
                 .join(",");
             ensure!(!generators.is_empty(), "nontrivial group has no generators");
             writeln!(
-                self.input,
+                input,
                 "g:=Group(List([{generators}],PermList));; if IdGroupsAvailable(Size(g)) then id:=IdGroup(g);; Print(\"TYPEBASE_ID\\t{index}\\t\",id[1],\"\\t\",id[2],\"\\n\"); else Print(\"TYPEBASE_ID\\t{index}\\t-\\n\"); fi;"
             )?;
         }
-        self.input.flush()?;
+        input.flush()?;
         let mut results = Vec::with_capacity(generator_sets.len());
         for expected_index in 0..generator_sets.len() {
-            let line = read_protocol_line(&mut self.output, "TYPEBASE_ID\t")?;
+            let line = read_protocol_line(&self.output, "TYPEBASE_ID\t")?;
             let fields = line.split('\t').collect::<Vec<_>>();
             ensure!(fields.len() >= 3 && fields[0] == "TYPEBASE_ID");
             ensure!(fields[1].parse::<usize>()? == expected_index);
@@ -334,22 +340,38 @@ impl GapIdentifier {
     }
 
     pub(crate) fn finish(mut self) -> Result<()> {
-        self.input.write_all(b"QUIT_GAP(0);\n")?;
-        self.input.flush()?;
-        drop(self.input);
-        ensure!(self.child.wait()?.success(), "GAP exited unsuccessfully");
-        Ok(())
+        if let Some(mut input) = self.input.take() {
+            input.write_all(b"QUIT_GAP(0);\n")?;
+            input.flush()?;
+        }
+        let deadline = Instant::now() + Duration::from_secs(60);
+        loop {
+            if let Some(status) = self.child.try_wait()? {
+                ensure!(status.success(), "GAP exited unsuccessfully");
+                return Ok(());
+            }
+            ensure!(Instant::now() < deadline, "GAP shutdown timed out");
+            std::thread::sleep(Duration::from_millis(10));
+        }
     }
 }
 
-fn read_protocol_line(reader: &mut BufReader<ChildStdout>, prefix: &str) -> Result<String> {
-    let mut line = String::new();
+impl Drop for GapIdentifier {
+    fn drop(&mut self) {
+        let _ = self.child.kill();
+        let _ = self.child.wait();
+    }
+}
+
+fn read_protocol_line(reader: &Receiver<std::io::Result<String>>, prefix: &str) -> Result<String> {
+    let deadline = Instant::now() + Duration::from_secs(60);
     loop {
-        line.clear();
-        ensure!(reader.read_line(&mut line)? > 0, "GAP closed its output");
-        let line = line.trim_end_matches(['\r', '\n']);
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        let line = reader
+            .recv_timeout(remaining)
+            .context("GAP protocol timed out or closed its output")??;
         if line.starts_with(prefix) {
-            return Ok(line.to_owned());
+            return Ok(line.trim_end_matches(['\r', '\n']).to_owned());
         }
         if !line.is_empty() {
             bail!("unexpected GAP output: {line}");

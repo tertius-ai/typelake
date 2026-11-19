@@ -3,20 +3,29 @@
 ## Source identity
 
 ```text
+GroupSourceFile {
+  contract
+  gap_version
+  smallgrp_version
+  maximum_order
+  groups: [FiniteGroupSourceRecord]
+}
+
 FiniteGroupSourceRecord {
   lmfdb_label
-  lmfdb_url
-  small_groups_id: { order, index }
-  permutation_presentation: { degree, generators }
-  source: { gap_version, smallgrp_version }
+  small_groups_order
+  small_groups_index
+  permutation_degree
+  generators
 }
 ```
 
-The LMFDB label is an external name. Mathematical reconstruction uses the
-stored permutation presentation. For the first source edition, the label and
-SmallGroups pair agree as `order.index`. The builder derives
-`canonical_group_sha256` after reconstruction and stores it in each cohomology
-record; it is deliberately absent from the GAP-owned raw source row.
+The LMFDB label is an external name; its URL is derived from the label rather
+than stored. Mathematical reconstruction uses the stored permutation
+presentation. For the first source edition, the label and SmallGroups pair
+agree as `order.index`. The builder derives `group_canonical_sha256` after
+reconstruction and stores it in each cohomology record; it is deliberately
+absent from the GAP-owned raw source row.
 
 TypeBase joins a second checked GAP artifact,
 `sources/standard-names-through-32.json`, keyed by the same LMFDB label. It
@@ -52,7 +61,8 @@ the display name is never inferred from typography alone.
 ```text
 FiniteGroupModularCohomologyRecord {
   record_version
-  group: FiniteGroupSourceRecord
+  group_label
+  group_canonical_sha256
   coefficient_context: { characteristic, extension_degree = 1 }
   computation:
     | FiniteAbelianClassifyingSpace {
@@ -119,8 +129,7 @@ group decomposition and the symbolic classifying-space calculation.
 Development records store canonical cocycle coordinates relative to the
 versioned Noether model: a minimal or bar resolution, or the stable subspace in
 the Sylow-resolution cohomology. They bind those coordinates to the complete
-result hash. Release records additionally store the serialized resolution
-certificate or a content-addressed linked object sufficient to replay them.
+result hash. The record stores the resolution model, strategy, computed degree, result hash, and verification flag. It does not contain serialized resolution certificates; replay requires the named producer.
 
 In the resolution lane, `products` contains every ordered basis pair whose
 target degree lies in the exact extent, including zero products. In the
@@ -161,7 +170,8 @@ ResolutionRingExtent =
             parameter_generator_indices
             elementary_abelian_restrictions: [
               {
-                subgroup_permutation_presentation
+                permutation_degree
+                generators
                 rank
                 restricted_parameters
                 quotient_generator_power_bounds
@@ -174,9 +184,6 @@ ResolutionRingExtent =
             noether_result_sha256
             verified = true
           }
-        | Benson { ... }
-        | HilbertPoincare { ... }
-        | PeriodicFamily { ... }
     }
   | ExactThroughDegree {
       degree

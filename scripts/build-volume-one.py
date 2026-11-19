@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -33,13 +34,16 @@ def main() -> None:
             parser.error(f"immutable output already exists: {output / collection}")
     subprocess.run([sys.executable, str(REPOSITORY / "scripts/volume-one.py"), "verify",
                     "--data-root", str(root), "--selection", str(options.selection.resolve())], check=True)
+    selection = json.loads(options.selection.read_text())
+    complex_selection = next(item for item in selection["collections"] if item["collection"] == "finite-simplicial-complexes")
+    f3_version = "2" if any("cohomology-f3-v2/" in item["path"] for item in complex_selection["inputs"]) else "1"
     commands = {
         "finite-posets": ["posets", "--data-root", root / "finite-posets", "--maximum-order", "10",
                           "--group-identifications", root / "finite-posets/enrichments/automorphism-abstract-groups/v1/records.jsonl"],
         "strong-steiner-categories": ["steiner-categories", "--data-root", root / "strong-steiner-categories",
                                      "--poset-data-root", root / "finite-posets", "--maximum-atomic-size", "11",
                                      "--group-identifications", root / "steiner-groups"],
-        "finite-simplicial-complexes": ["simplicial-complexes", "--data-root", root, "--maximum-vertices", "6"],
+        "finite-simplicial-complexes": ["simplicial-complexes", "--data-root", root, "--maximum-vertices", "6", "--f3-cohomology-version", f3_version],
         "finite-simplicial-sets": ["simplicial-sets", "--data-root", root, "--maximum-total-nondegenerate", "7",
                                    "--maximum-dimension", "3", "--maximum-dimension-at-top-total", "2"],
         "finite-group-cohomology": ["finite-group-cohomology", "--data-root", root, "--maximum-order", "32",

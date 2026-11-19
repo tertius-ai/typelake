@@ -8,7 +8,7 @@ use std::{
 use anyhow::{Context, Result, ensure};
 use serde::Serialize;
 use simplicial_complex_census::{
-    jsonl::{load_cohomology_shell, load_identity_shell, load_topology_shell},
+    jsonl::{load_cohomology_shell_version, load_identity_shell, load_topology_shell},
     records::{
         SimplicialComplexCohomologyRecord, SimplicialComplexIdentityRecord, SimplicialComplexKey,
         SimplicialComplexTopologyRecord,
@@ -28,6 +28,7 @@ pub struct SimplicialComplexBuildOptions {
     pub data_root: PathBuf,
     pub output_root: PathBuf,
     pub maximum_vertices: usize,
+    pub f3_cohomology_version: u32,
     pub rows_per_detail_part: usize,
 }
 
@@ -56,6 +57,7 @@ impl std::fmt::Display for Label {
 
 #[derive(Clone, Debug, Serialize)]
 struct SearchRow {
+    standard_names: Vec<String>,
     label: String,
     path: String,
     vertices: usize,
@@ -82,6 +84,7 @@ struct SearchRow {
 
 #[derive(Serialize)]
 struct DetailRow<'a> {
+    standard_names: Vec<String>,
     label: String,
     core_label: String,
     collapse_target_label: String,
@@ -113,6 +116,7 @@ struct ComponentChecks {
 #[derive(Serialize)]
 struct ComponentManifest {
     component: &'static str,
+    builder_source: poset_census::SourceIdentity,
     status: &'static str,
     volume: u32,
     collection: &'static str,
@@ -132,6 +136,7 @@ struct ComponentManifest {
 #[derive(Serialize)]
 struct BrowserCatalogueManifest<'a> {
     component: &'static str,
+    builder_source: poset_census::SourceIdentity,
     status: &'static str,
     collection: &'static str,
     complex_count: usize,
@@ -159,6 +164,10 @@ pub fn build_simplicial_complex_component(
     let mut bucket_counts = BTreeMap::<(usize, i64), usize>::new();
     for vertices in 0..=options.maximum_vertices {
         let identities = load_identity_shell(&options.data_root, vertices)?;
+        ensure!(
+            identities.windows(2).all(|pair| pair[0].key < pair[1].key),
+            "simplicial-complex keys are not strictly sorted"
+        );
         for identity in &identities {
             let index = bucket_counts
                 .entry((vertices, identity.dimension))
@@ -188,8 +197,13 @@ pub fn build_simplicial_complex_component(
     let mut detail_rows_written = 0usize;
     for (vertices, identities) in identities_by_vertices.iter().enumerate() {
         let topology = load_topology_shell(&options.data_root, vertices)?;
-        let f2 = load_cohomology_shell(&options.data_root, vertices, 2)?;
-        let f3 = load_cohomology_shell(&options.data_root, vertices, 3)?;
+        let f2 = load_cohomology_shell_version(&options.data_root, vertices, 2, 2)?;
+        let f3 = load_cohomology_shell_version(
+            &options.data_root,
+            vertices,
+            3,
+            options.f3_cohomology_version,
+        )?;
         ensure!(
             identities.len() == topology.len()
                 && identities.len() == f2.len()
@@ -200,6 +214,7 @@ pub fn build_simplicial_complex_component(
             &options.data_root,
             vertices,
             identities.len(),
+            options.f3_cohomology_version,
         )?);
 
         let mut detail_buffers = BTreeMap::<i64, Vec<DetailRow<'_>>>::new();
@@ -224,7 +239,10 @@ pub fn build_simplicial_complex_component(
             let buffer = detail_buffers.entry(identity.dimension).or_default();
             let detail_file = detail_path(vertices, identity.dimension, *part);
             let detail_row = buffer.len();
+            let standard_names =
+                crate::named_spaces::simplicial_complex(vertices, &identity.facets);
             search_rows.push(SearchRow {
+                standard_names: standard_names.clone(),
                 label: label.to_string(),
                 path: format!("/SimplicialComplex/{label}"),
                 vertices,
@@ -252,6 +270,7 @@ pub fn build_simplicial_complex_component(
                 detail_row,
             });
             buffer.push(DetailRow {
+                standard_names,
                 label: label.to_string(),
                 core_label,
                 collapse_target_label,
@@ -349,6 +368,7 @@ pub fn build_simplicial_complex_component(
         1,
         &BrowserCatalogueManifest {
             component: COMPONENT,
+            builder_source: poset_census::source_identity(),
             status: "passed",
             collection: COLLECTION,
             complex_count: labels.len(),
@@ -361,6 +381,7 @@ pub fn build_simplicial_complex_component(
     )?);
     let manifest = ComponentManifest {
         component: COMPONENT,
+        builder_source: poset_census::source_identity(),
         status: "passed",
         volume: 1,
         collection: COLLECTION,
@@ -412,7 +433,12 @@ fn homology_signature(topology: &SimplicialComplexTopologyRecord) -> String {
         .join(";")
 }
 
-fn source_artifacts(data_root: &Path, vertices: usize, rows: usize) -> Result<Vec<Artifact>> {
+fn source_artifacts(
+    data_root: &Path,
+    vertices: usize,
+    rows: usize,
+    f3_version: u32,
+) -> Result<Vec<Artifact>> {
     let version = data_root.join("finite-simplicial-complexes/v1");
     let sources = [
         (
@@ -469,20 +495,20 @@ fn source_artifacts(data_root: &Path, vertices: usize, rows: usize) -> Result<Ve
         ),
         (
             version.join(format!(
-                "enrichments/cohomology-f3-v1/vertices-{vertices}/manifest.json"
+                "enrichments/cohomology-f3-v{f3_version}/vertices-{vertices}/manifest.json"
             )),
             format!(
-                "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-{vertices}/manifest.json"
+                "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v{f3_version}/vertices-{vertices}/manifest.json"
             ),
             "cohomology_manifest",
             1,
         ),
         (
             version.join(format!(
-                "enrichments/cohomology-f3-v1/vertices-{vertices}/cohomology.jsonl"
+                "enrichments/cohomology-f3-v{f3_version}/vertices-{vertices}/cohomology.jsonl"
             )),
             format!(
-                "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-{vertices}/cohomology.jsonl"
+                "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v{f3_version}/vertices-{vertices}/cohomology.jsonl"
             ),
             "cohomology",
             rows,

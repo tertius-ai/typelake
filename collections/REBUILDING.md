@@ -131,8 +131,7 @@ No GAP installation is needed to reuse the transferred identifications.
 
 This reconstructs browser projections from stored, validated records.
 Recomputing the mathematical censuses is a separate, potentially long-running
-operation; collection commands are documented in the root README and
-[VOLUME-I.md](VOLUME-I.md). The input bundle's selection identifies its exact
+operation; collection commands are available through `simplicial-complex-census --help`, `simplicial-set-census --help`, and `eilenberg-maclane-build --help`, as well as the root README and collection plans. The input bundle's selection identifies its exact
 snapshot even if a later Git checkout selects a newer batch.
 
 For source checks, from the repository root with the FLINT variables above:
@@ -148,3 +147,24 @@ make lint
 
 The browser is served locally for review. Publishing, the final TypeLake
 0.1.0 tag, public hosting, and branch cleanup follow editorial review.
+
+## Builder root conventions and validation
+
+The Poset and Steiner builders take their collection root (the directory
+containing `census/`); the simplicial, finite-group and Eilenberg–Mac Lane
+builders take the bundle root containing all named collection directories.
+`STEINER_CENSUS_DATA_ROOT` and `POSET_CENSUS_DATA_ROOT` are collection roots;
+`SIMPLICIAL_COMPLEX_DATA_ROOT`, `SIMPLICIAL_SET_DATA_ROOT`,
+`FINITE_GROUP_COHOMOLOGY_DATA_ROOT`, and `EILENBERG_MACLANE_DATA_ROOT` are
+bundle roots. `scripts/build-volume-one.py` supplies the appropriate level.
+
+The simplicial-complex projection takes `--f3-cohomology-version 2` by default.
+An old selection is rebuilt with `--f3-cohomology-version 1`; the full-volume
+script derives that choice from its verified selection. Other installed lanes
+cannot silently substitute for the declared one.
+
+`make test-oracles` runs the ignored order-6/7 Poset key-set comparisons and
+the size-8 Steiner comparison. `make test-hap-oracle` requires a complete
+`FINITE_GROUP_COHOMOLOGY_DATA_ROOT` and an installed GAP/HAP. It includes
+family and resolution paths and the C2, C4, V4, D8 and Q8 hand examples.
+Unrequested HAP checks are reported as ignored, not as passing tests.

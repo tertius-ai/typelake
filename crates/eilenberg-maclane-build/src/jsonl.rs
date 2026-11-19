@@ -135,7 +135,8 @@ pub fn load_census(
     let manifest: Manifest = serde_json::from_slice(&fs::read(directory.join("manifest.json"))?)?;
     ensure!(manifest.contract == INVARIANT_CONTRACT, "manifest contract");
     ensure!(
-        manifest.noether_revision == NOETHER_REVISION
+        (manifest.noether_revision == NOETHER_REVISION
+            || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "Noether revision"
     );
@@ -163,15 +164,18 @@ pub fn load_census(
         .collect::<Result<Vec<EilenbergMacLaneRecord>>>()?;
     ensure!(records.len() == artifact.row_count, "artifact row count");
     validate_records_sorted(&records)?;
-    Ok((
-        manifest,
-        EilenbergMacLaneCensus {
-            maximum_finite_order,
-            maximum_delooping_degree,
-            exact_through_degree,
-            records,
-        },
-    ))
+    let census = EilenbergMacLaneCensus {
+        maximum_finite_order,
+        maximum_delooping_degree,
+        exact_through_degree,
+        records,
+    };
+    let source = crate::source::load_source()?;
+    ensure!(
+        crate::validate::validate_census(&source, &census)? == manifest.validation,
+        "stored completeness report differs from record replay"
+    );
+    Ok((manifest, census))
 }
 
 #[cfg(test)]

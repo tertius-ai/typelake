@@ -160,7 +160,8 @@ pub fn load_modular_census(
         serde_json::from_slice(&fs::read(directory.join("manifest.json"))?)?;
     ensure!(manifest.contract == MODULAR_CONTRACT, "manifest contract");
     ensure!(
-        manifest.noether_revision == NOETHER_REVISION
+        (manifest.noether_revision == NOETHER_REVISION
+            || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "Noether revision"
     );

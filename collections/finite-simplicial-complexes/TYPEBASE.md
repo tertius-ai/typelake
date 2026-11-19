@@ -26,7 +26,7 @@ The browser does not download the complete search index on first paint. It
 loads a 1,752-byte `catalogue.json` and 15,067-byte, 30-row `landing.json`, then
 fetches one of 22 compressed `(vertices, dimension)` search buckets when a
 restriction determines a bucket. Paging beyond the landing rows may fetch the
-291,819-byte complete compressed index. Search supports facets, face vector,
+291,819-byte complete set of bucket indexes. Search supports facets, face vector,
 Euler characteristic, components, strong-core label and status, automorphism
 order, and integral-homology degree/free rank and torsion.
 

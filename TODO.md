@@ -4,6 +4,34 @@ Ordered by what blocks what. **Bold = blocks other items.** Collection schemas
 are local TypeLake contracts; SciType is no longer a separate product or public
 standard.
 
+## Current Volume I review
+
+The catalogue remains an unpublished editorial review candidate. The Ong review
+repairs cover mapping reconstruction, validation truthfulness, input integrity,
+projection and browser behavior, Rust CI/oracles, and exact-presentation name
+search. Corrected records and validation reports are successor batches; the
+original selection and record bytes remain available in the historical bundle.
+The selected collection bounds and declared partial cohomology coverage have
+not expanded.
+
+Remaining editorial work before a Volume I release:
+
+1. Review the corrected Steiner mapping records and their full-cell boundary
+   checks, and independently inspect the strict-model arguments in RECORD.md.
+2. Curate additional standard-space names and aliases, with exact presentation
+   witnesses and source attribution. Gabriel's proposed help after December
+   deadlines fits this task and review of the interesting-example register.
+3. Decide whether the explicitly bounded and pending finite-group and
+   Eilenberg–Mac Lane integral coverage is appropriate for Volume I; pending
+   entries remain visible and make no completeness claim.
+4. Run a fresh-machine cold-read and the public Linux CI workflow on a fixed
+   source revision, retain the oracle reports, and perform final editorial
+   review of all six projections. Recursive Steiner comparisons above the
+   routinely checked oracle range remain separate qualification evidence.
+5. Prepare portable input/projection archives, citation and erratum metadata,
+   and the final version/DOI decisions when the catalogue is ready for release.
+
+
 ## Architecture transition
 
 1. **Complete:** define `finite-posets/v1` as the first collection-owned record,

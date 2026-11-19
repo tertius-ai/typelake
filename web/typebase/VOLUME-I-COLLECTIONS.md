@@ -39,10 +39,10 @@ Audited payloads for the selected edition are:
 
 | Collection | Startup/search data | Detail maximum | Total projection |
 | --- | ---: | ---: | ---: |
-| Simplicial complexes | 1,752 B + 15,067 B landing | 69,301 B | 4,311,835 B |
-| Simplicial sets | 2,249 B + 19,568 B landing | 36,862 B | 34,841,865 B |
-| Finite-group cohomology | 111,771 B search | 53,309 B | 886,085 B |
-| Eilenberg--Mac Lane anima | 9,856 B compressed search | 1,764 B | 337,436 B |
+| Simplicial complexes | 1,921 B + 16,058 B landing | 69,325 B | 4,318,826 B |
+| Simplicial sets | 2,418 B + 20,395 B landing | 36,938 B | 34,878,291 B |
+| Finite-group cohomology | 186,592 B search | 53,450 B | 992,187 B |
+| Eilenberg--Mac Lane anima | 9,856 B compressed search | 1,764 B | 337,641 B |
 
 The shared collection JavaScript is approximately 41 KB uncompressed and is a
 separate entry chunk; it does not import the DuckDB search runtime used by the

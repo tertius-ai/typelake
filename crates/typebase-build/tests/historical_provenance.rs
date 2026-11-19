@@ -16,41 +16,46 @@ use typebase_build::eilenberg_maclane::{
 
 #[test]
 fn projection_retains_producer_revision_and_rejects_unknown_producers() {
-    let temp = tempfile::tempdir().unwrap();
-    let source = load_source().unwrap();
-    let census = build_census(&source, 2, 1, 4).unwrap();
-    emit_census(
-        temp.path(),
-        &census,
-        validate_source(&source).unwrap(),
-        validate_census(&source, &census).unwrap(),
-    )
-    .unwrap();
-    let path = artifact_path(temp.path(), 2, 1, 4).join("manifest.json");
-    let mut manifest: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
-    manifest["noether_revision"] = LEGACY_NOETHER_REVISION.into();
-    fs::write(&path, serde_json::to_vec(&manifest).unwrap()).unwrap();
-    let output = temp.path().join("projection");
-    build_eilenberg_maclane_component(&EilenbergMacLaneBuildOptions {
-        data_root: temp.path().to_owned(),
-        output_root: output.clone(),
-        maximum_finite_order: 2,
-        maximum_delooping_degree: 1,
-        exact_through_degree: 4,
-    })
-    .unwrap();
-    let projection: Value =
-        serde_json::from_slice(&fs::read(output.join("manifest.json")).unwrap()).unwrap();
-    assert_eq!(projection["noether_revision"], LEGACY_NOETHER_REVISION);
-    assert_eq!(projection["builder_noether_revision"], NOETHER_REVISION);
-    assert_eq!(
-        projection["type_lake_manifest"]["noether_revision"],
-        LEGACY_NOETHER_REVISION
-    );
+    for producer in [
+        LEGACY_NOETHER_REVISION,
+        eilenberg_maclane_build::PRERELEASE_NOETHER_REVISION,
+    ] {
+        let temp = tempfile::tempdir().unwrap();
+        let source = load_source().unwrap();
+        let census = build_census(&source, 2, 1, 4).unwrap();
+        emit_census(
+            temp.path(),
+            &census,
+            validate_source(&source).unwrap(),
+            validate_census(&source, &census).unwrap(),
+        )
+        .unwrap();
+        let path = artifact_path(temp.path(), 2, 1, 4).join("manifest.json");
+        let mut manifest: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        manifest["noether_revision"] = producer.into();
+        fs::write(&path, serde_json::to_vec(&manifest).unwrap()).unwrap();
+        let output = temp.path().join("projection");
+        build_eilenberg_maclane_component(&EilenbergMacLaneBuildOptions {
+            data_root: temp.path().to_owned(),
+            output_root: output.clone(),
+            maximum_finite_order: 2,
+            maximum_delooping_degree: 1,
+            exact_through_degree: 4,
+        })
+        .unwrap();
+        let projection: Value =
+            serde_json::from_slice(&fs::read(output.join("manifest.json")).unwrap()).unwrap();
+        assert_eq!(projection["noether_revision"], producer);
+        assert_eq!(projection["builder_noether_revision"], NOETHER_REVISION);
+        assert_eq!(
+            projection["type_lake_manifest"]["noether_revision"],
+            producer
+        );
 
-    manifest["noether_revision"] = "0000000000000000000000000000000000000000".into();
-    fs::write(&path, serde_json::to_vec(&manifest).unwrap()).unwrap();
-    assert!(load_census(temp.path(), 2, 1, 4).is_err());
+        manifest["noether_revision"] = "0000000000000000000000000000000000000000".into();
+        fs::write(&path, serde_json::to_vec(&manifest).unwrap()).unwrap();
+        assert!(load_census(temp.path(), 2, 1, 4).is_err());
+    }
 }
 
 #[test]

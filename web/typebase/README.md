@@ -51,7 +51,7 @@ browsing reads `landing.json`; a direct record reads its known row from one
 bounded detail part with the small JavaScript Parquet reader. DuckDB-Wasm is
 loaded only after a user submits a filtered search or moves beyond the cached
 landing page. Direct Steiner records likewise fetch only their detail JSON.
-The Volume I landing page has a Gallery switcher for both collections. It reads
+The Volume I landing page has a gallery switcher for all six collections. It reads
 the small Steiner gallery index and streams one 48-row diagram shard as it
 approaches the end of the visible contact sheet. The Poset gallery is lazy: it
 reads bounded existing detail parts only after Posets is selected and appends
@@ -63,8 +63,7 @@ into application startup.
 
 - Serve `.wasm` as `application/wasm` and `.parquet` as
   `application/octet-stream`.
-- Support HTTP byte-range requests on Parquet files. This is what makes an
-  exact-label lookup bounded.
+- Exact-label lookups download one bounded detail part. `rows_per_detail_part` controls that bound; the current reader does not issue Parquet range requests.
 - Cache content-hashed assets and frozen volume files as immutable. Publish a
   new volume path instead of overwriting an existing one.
 - If data is placed on another origin, allow `GET`, `HEAD`, and range requests
@@ -91,6 +90,12 @@ preserving the requested clean URL. Hosts with edge rewrites may send the same
 routes directly to `/typebase/posets.html`, `/typebase/steiner.html`, or
 `/typebase/reference.html`. Old `?label=` links redirect to the clean route.
 
+`npm run preview` serves the built directory under `/typebase/` only. It runs
+neither the route loader nor the development route middleware, so root-level
+routes, such as those above and the final-four routes in
+[`VOLUME-I-COLLECTIONS.md`](VOLUME-I-COLLECTIONS.md), return 404 there. Check
+routes with `npm run review`.
+
 ## Presentation proof room
 
 Presentation is deliberately independent of the immutable mathematical data.
@@ -116,3 +121,18 @@ Oscilloscope, Tabular ink, Cartographic, and Chalk study. They change only the
 derived SVG presentation; geometry and mathematical records are unchanged.
 The authoritative registries and stable URL identifiers live in
 `src/presentation.ts`.
+
+## Collection data roots
+
+`VITE_TYPEBASE_DATA_URL` and `VITE_TYPEBASE_STEINER_DATA_URL` select the Poset
+and Steiner projections. The other four are
+`VITE_TYPEBASE_SIMPLICIAL_COMPLEX_DATA_URL`,
+`VITE_TYPEBASE_SIMPLICIAL_SET_DATA_URL`,
+`VITE_TYPEBASE_FINITE_GROUP_COHOMOLOGY_DATA_URL`, and
+`VITE_TYPEBASE_EILENBERG_MACLANE_DATA_URL`. Source and Completeness pages use
+these same roots.
+
+Space-name searches match names attached by exact presentation checks in
+`typebase-build::named_spaces`. They include spheres, circles, points,
+intervals, and bouquets of circles. Homology alone never supplies a name.
+The manifest and `builder_source` identify the edition behind every result.

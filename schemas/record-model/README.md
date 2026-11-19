@@ -1,9 +1,7 @@
 # Legacy record-model prototype
 
 This directory predates the decision to use collection-owned TypeLake contracts
-and coherent object rows. It is retained temporarily as migration input and for
-its existing conformance tests; it is not the target record model for the
-finite-Poset collection. New collection work must follow
+and coherent object rows. It is retained temporarily as historical migration input. These manifest schemas and vectors are superseded and are not exercised by the current conformance suite. In particular, `volume.schema.json` does not describe `collections/volume-i.json`. New collection work must follow
 [`ARCHITECTURE.md`](../../ARCHITECTURE.md) and must not add dependencies on the
 global `scitype:` registry or a universal fact-per-scalar envelope.
 

@@ -10,7 +10,7 @@ SimplicialSetIdentityRecord {
   dimension
   nondegenerate_counts
   canonical_bytes_sha256
-  automorphism_group: { degree, order, generators, verified }
+  automorphism_group: { degree, order, generators, generators_verified }
 }
 ```
 

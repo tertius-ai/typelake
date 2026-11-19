@@ -164,11 +164,11 @@ pub fn validate_identity_census(census: &IdentityCensus) -> Result<ValidationRep
             .iter()
             .map(|record| &record.key)
             .collect::<Vec<_>>();
-        reference.keys().eq(observed)
-    } else {
+        ensure!(reference.keys().eq(observed), "reference key-set mismatch");
         true
+    } else {
+        false
     };
-    ensure!(reference_key_set_complete, "reference key-set mismatch");
     ensure!(
         census.records.len() as u128 == expected.unlabeled,
         "unlabeled count mismatch"
@@ -376,7 +376,7 @@ pub fn validate_cohomology_census(
         ensure!(*stored == expected, "cohomology recomputation mismatch");
     }
     Ok(CohomologyValidationReport {
-        contract: CONTRACT,
+        contract: crate::COHOMOLOGY_CONTRACT,
         vertices: census.vertices,
         coefficient: format!("F{}", census.prime),
         status: "complete",

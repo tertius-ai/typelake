@@ -53,6 +53,11 @@ def validate_instance(instance: Any, schema: Schema | str, *,
             out.append(Problem(f"{schema.mnemonic} declares no field {name!r}"))
             continue
         out += _value(value, schema, name, schemas)
+    if not out:
+        for constraint in schema.get("constraints") or []:
+            if isinstance(constraint, dict) and not (constraint.get("args") or {}).get("key"):
+                out += [Problem(str(problem)) for problem in _checks.run(
+                    constraint["check"], instance, **(constraint.get("args") or {}))]
     return out
 
 
@@ -84,9 +89,8 @@ def _value(value: Any, schema: Schema, field: str,
         except _types.TypeError_ as exc:
             return [Problem(f"{schema.mnemonic}.{field}: bad type expression: {exc}")]
         node = _types.parse(str(declared))
-        if node.kind == "ref" and isinstance(value, dict):
-            out += _component(value, node.payload, schemas, field,
-                              enforce=field in schema.defining)
+        if not out:
+            out += _components(value, node, schemas, field, enforce=field in schema.defining)
     if out or field not in schema.defining:
         return out
 
@@ -100,11 +104,30 @@ def _value(value: Any, schema: Schema, field: str,
     return out
 
 
+def _components(value, node, schemas, path, *, enforce):
+    if node.kind == "ref":
+        return _component(value, node.payload, schemas, path, enforce=enforce)
+    if node.kind == "list":
+        return [p for i, item in enumerate(value) for p in
+                _components(item, node.payload, schemas, f"{path}[{i}]", enforce=enforce)]
+    if node.kind == "tuple":
+        return [p for i, (item, subtype) in enumerate(zip(value, node.payload)) for p in
+                _components(item, subtype, schemas, f"{path}[{i}]", enforce=enforce)]
+    if node.kind in {"map", "object"}:
+        return [p for key, item in value.items() for p in
+                _components(item, node.payload[1] if node.kind == "map" else node.payload[key],
+                            schemas, f"{path}.{key}", enforce=enforce)]
+    return []
+
+
 def _component(value: dict, ref: str, schemas: dict[str, Schema], path: str,
                *, enforce: bool) -> list[Problem]:
     inner = schemas.get(ref)
     if inner is None:
         return [Problem(f"{path}: unknown component {ref}")]
+    if enforce:
+        return [Problem(f"{path}: {problem}") for problem in
+                validate_instance(value, inner, schemas=schemas)]
     out: list[Problem] = []
     for name, spec in (inner.get("fields") or {}).items():
         if not isinstance(spec, dict) or spec.get("policy") != "primary":
@@ -114,6 +137,9 @@ def _component(value: dict, ref: str, schemas: dict[str, Schema], path: str,
         elif spec.get("type"):
             out += [Problem(p) for p in
                     _types.check(value[name], str(spec["type"]), path=f"{path}.{name}")]
+            if not out:
+                out += _components(value[name], _types.parse(str(spec["type"])), schemas,
+                                   f"{path}.{name}", enforce=False)
     if out or not enforce:
         return out
     for c in (inner.get("constraints") or []):

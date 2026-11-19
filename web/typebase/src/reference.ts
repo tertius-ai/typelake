@@ -62,6 +62,22 @@ const definitions: Definition[] = [
 const title = required<HTMLElement>("reference-title");
 const documentElement = required<HTMLElement>("reference-document");
 
+// The same data roots as main.ts and steiner.ts, resolved only when a Source or
+// Completeness page needs them, so the root Glossary still renders without data.
+function posetDataRoot(): URL {
+  return new URL(
+    import.meta.env.VITE_TYPEBASE_DATA_URL ?? "data/finite-posets/",
+    document.baseURI,
+  );
+}
+
+function steinerDataRoot(): URL {
+  return new URL(
+    import.meta.env.VITE_TYPEBASE_STEINER_DATA_URL ?? "data/strong-steiner-categories/",
+    document.baseURI,
+  );
+}
+
 function required<T extends HTMLElement>(id: string): T {
   const found = document.getElementById(id);
   if (!found) throw new Error(`Missing reference element #${id}`);
@@ -87,7 +103,7 @@ function glossary(): string {
 }
 
 async function posetSource(): Promise<string> {
-  const manifest = await load<PosetSourceManifest>("data/finite-posets/manifest.json");
+  const manifest = await load<PosetSourceManifest>(posetDataRoot());
   return `<section class="reference-section"><h2>Computation</h2>
     <p>The census is built by the TypeLake <code>poset-census</code> and <code>typebase-build</code> crates using Noether's exact finite-Poset, permutation-group, simplicial-complex, homology, and Smith-reduction surfaces. Enumeration uses canonical augmentation; relabelings are never stored as separate objects.</p>
     <p>Each Poset record carries canonical order data, its natural automorphism action, opposite, beat-point core relation, linked order complex, and exact integral homology. Abstract automorphism-group labels are an external identification layer and link to the LMFDB when present.</p>
@@ -100,7 +116,7 @@ async function posetSource(): Promise<string> {
 }
 
 async function posetCompleteness(): Promise<string> {
-  const manifest = await load<PosetSourceManifest>("data/finite-posets/manifest.json");
+  const manifest = await load<PosetSourceManifest>(posetDataRoot());
   const counts = new Map<number, number>();
   for (const bucket of manifest.label_buckets) {
     counts.set(bucket.order, (counts.get(bucket.order) ?? 0) + bucket.row_count);
@@ -115,7 +131,7 @@ async function posetCompleteness(): Promise<string> {
 }
 
 async function steinerSource(): Promise<string> {
-  const manifest = await load<SteinerSourceManifest>("data/strong-steiner-categories/manifest.json");
+  const manifest = await load<SteinerSourceManifest>(steinerDataRoot());
   return `<section class="reference-section"><h2>Computation</h2>
     <p>The census is built by TypeLake's Rust <code>steiner-census</code> and <code>typebase-build</code> crates from Noether's category domain. It enumerates finite strong Steiner directed complexes canonically, then enriches their freely generated strict ω-categories.</p>
     <p>Enrichment computes exact cells, mapping categories, polygraphic homology, natural automorphisms, dualities, monomorphic basepoint orbits, local homotopy Posets, a bounded Street-nerve source presentation, and selected Gray products.</p>
@@ -127,7 +143,7 @@ async function steinerSource(): Promise<string> {
 }
 
 async function steinerCompleteness(): Promise<string> {
-  const manifest = await load<SteinerSourceManifest>("data/strong-steiner-categories/manifest.json");
+  const manifest = await load<SteinerSourceManifest>(steinerDataRoot());
   return `<section class="reference-section reference-claim"><p class="eyebrow">Certified coverage</p><h2>All strong Steiner categories through atomic size ${manifest.maximum_atomic_size}</h2><p class="reference-lede">Exactly ${manifest.category_count.toLocaleString()} isomorphism classes. This is not a census of all finite strict categories.</p></section>
     <section class="reference-section"><h2>What is complete</h2><ul><li>The strong-Steiner isomorphism census in every atomic shell 0 through ${manifest.maximum_atomic_size}.</li><li>Atomic boundary data, exact cells, polygraphic homology, natural automorphism action, recognized dualities, and monomorphic basepoint orbits for every object in the edition.</li><li>Mapping-category data; a TypeBase label exists precisely when a verified strong-Steiner model lies inside the published range.</li><li>The stored Street-nerve presentation through simplicial degree ${manifest.street_nerve_complete_through_degree} and categorical homotopy component sectors through particle number ${manifest.categorical_homotopy_particle_number_complete_through}.</li></ul>
     <p>Claims about larger atomic sizes are deliberately absent. Higher particles and higher Street degrees are defined by the construction but are not represented as materialized complete tables in this edition.</p></section>
@@ -136,8 +152,8 @@ async function steinerCompleteness(): Promise<string> {
       .join("")}</tbody><tfoot><tr><th>Total</th><th>${manifest.category_count.toLocaleString()}</th></tr></tfoot></table></section>`;
 }
 
-async function load<T>(path: string): Promise<T> {
-  const response = await fetch(new URL(path, document.baseURI));
+async function load<T>(dataRoot: URL): Promise<T> {
+  const response = await fetch(new URL("manifest.json", dataRoot));
   if (!response.ok) throw new Error(`Reference data returned HTTP ${response.status}`);
   return (await response.json()) as T;
 }
@@ -164,12 +180,14 @@ async function render(): Promise<void> {
   title.textContent = heading;
   document.title = `${heading} — TypeBase Volume I`;
   documentElement.innerHTML = content;
-  const target = window.location.hash ? document.querySelector(window.location.hash) : null;
+  let fragment = window.location.hash.slice(1);
+  try { fragment = decodeURIComponent(fragment); } catch { /* Invalid escapes leave no matching target. */ }
+  const target = fragment ? document.getElementById(fragment) : null;
   target?.scrollIntoView({ block: "start" });
 }
 
 initializePresentation();
 mountPresentationControls();
 void render().catch((error) => {
-  documentElement.innerHTML = `<p>Unable to open this reference: ${error instanceof Error ? error.message : String(error)}</p>`;
+  documentElement.textContent = `Unable to open this reference: ${error instanceof Error ? error.message : String(error)}`;
 });

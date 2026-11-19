@@ -288,6 +288,8 @@ struct CertificationChecks {
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 struct CertificationReport {
+    #[serde(default)]
+    validation_version: u32,
     contract: String,
     record_version: u32,
     operation: String,
@@ -316,6 +318,7 @@ struct PublishedHomotopyScope {
     status: &'static str,
 }
 
+/// Gates run by version-two shard certification before publication.
 #[derive(Debug, Serialize)]
 struct PublishedChecks {
     shard_ranges_complete: bool,
@@ -581,7 +584,11 @@ pub fn merge_orderly_shards(options: &MergeOptions) -> Result<MergeOutcome> {
         verify_artifact(&directory, &manifest.complexes)?;
         manifest_artifacts.push(artifact_for_path(
             &path,
-            format!("shards/{shard_id}/manifest.json"),
+            directory
+                .strip_prefix(&run_root)?
+                .join("manifest.json")
+                .to_string_lossy()
+                .into_owned(),
             1,
         )?);
         manifests.push((directory, manifest));
@@ -702,7 +709,11 @@ pub fn certify_orderly_shard(options: &CertificationOptions) -> Result<Certifica
     verify_artifact(&directory, &manifest.complexes)?;
     let source_manifest = artifact_for_path(
         &manifest_path,
-        format!("shards/{}/manifest.json", options.shard_id),
+        directory
+            .strip_prefix(&run_root)?
+            .join("manifest.json")
+            .to_string_lossy()
+            .into_owned(),
         1,
     )?;
 
@@ -781,6 +792,20 @@ pub fn certify_orderly_shard(options: &CertificationOptions) -> Result<Certifica
             "order complex for {:?} did not reconstruct during certification",
             record.key
         );
+        crate::validate::check_complex(stored_complex)?;
+        let core = poset.core()?;
+        ensure!(core.verify(&poset), "core reduction did not replay");
+        ensure!(
+            core.core().is_core() && core.core().core()?.core() == core.core(),
+            "core reduction is not idempotent"
+        );
+        let core_complex =
+            crate::enrich::complex_record(core.core().order(), &core.core().order_complex()?)?;
+        ensure!(
+            crate::validate::homology_signature(&stored_complex.integral_homology)
+                == crate::validate::homology_signature(&core_complex.integral_homology),
+            "beat-point reduction changed integral homology"
+        );
         referenced_complexes.insert(record.relations.order_complex.target.clone());
         previous_key = Some(record.key);
         poset_count = poset_count
@@ -797,6 +822,7 @@ pub fn certify_orderly_shard(options: &CertificationOptions) -> Result<Certifica
     );
 
     let report = CertificationReport {
+        validation_version: 2,
         contract: CONTRACT.to_owned(),
         record_version: RECORD_VERSION,
         operation: "certify-orderly-shard".to_owned(),
@@ -854,6 +880,10 @@ pub fn publish_certified_merge(options: &PublishOptions) -> Result<PublishOutcom
             && merge_report.checks.labeled_count_from_automorphisms.passed,
         "merge report contains a failed publication gate"
     );
+    ensure!(
+        merge_report.shard_manifests.len() == options.shard_count,
+        "merge report does not identify every shard manifest"
+    );
 
     let run_root = work_run_root(&options.data_root, &options.run_id);
     let publish_lock_path = run_root.join(format!("publish-order={}.lock", options.target_order));
@@ -884,9 +914,17 @@ pub fn publish_certified_merge(options: &PublishOptions) -> Result<PublishOutcom
         verify_manifest_identity_for_merge(&manifest, &merge_options, shard_id)?;
         let source_manifest = artifact_for_path(
             &manifest_path,
-            format!("shards/{shard_id}/manifest.json"),
+            directory
+                .strip_prefix(&run_root)?
+                .join("manifest.json")
+                .to_string_lossy()
+                .into_owned(),
             1,
         )?;
+        ensure!(
+            merge_report.shard_manifests.get(shard_id) == Some(&source_manifest),
+            "shard {shard_id} manifest differs from the one the merge consumed"
+        );
         let certificate_path = directory.join("certification.json");
         let certificate_bytes = fs::read(&certificate_path)
             .with_context(|| format!("reading certification for completed shard {shard_id}"))?;
@@ -1733,7 +1771,10 @@ fn verify_checkpoint_identity(
     ensure!(checkpoint.contract == CONTRACT);
     ensure!(checkpoint.record_version == RECORD_VERSION);
     ensure!(checkpoint.generator == SHARD_GENERATOR);
-    ensure!(checkpoint.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (checkpoint.noether_revision == NOETHER_REVISION
+            || checkpoint.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(checkpoint.run_id == options.run_id);
     ensure!(checkpoint.target_order == options.target_order);
     ensure!(checkpoint.shard_id == options.shard_id);
@@ -1830,7 +1871,10 @@ fn verify_manifest_identity(
     ensure!(manifest.contract == CONTRACT);
     ensure!(manifest.record_version == RECORD_VERSION);
     ensure!(manifest.generator == SHARD_GENERATOR);
-    ensure!(manifest.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (manifest.noether_revision == NOETHER_REVISION
+            || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(manifest.run_id == options.run_id);
     ensure!(manifest.target_order == options.target_order);
     ensure!(manifest.shard_id == options.shard_id);
@@ -1850,7 +1894,10 @@ fn verify_manifest_identity_for_merge(
     ensure!(manifest.contract == CONTRACT);
     ensure!(manifest.record_version == RECORD_VERSION);
     ensure!(manifest.generator == SHARD_GENERATOR);
-    ensure!(manifest.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (manifest.noether_revision == NOETHER_REVISION
+            || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(manifest.run_id == options.run_id);
     ensure!(manifest.target_order == options.target_order);
     ensure!(manifest.shard_id == shard_id);
@@ -1865,11 +1912,18 @@ fn verify_certification_report(
     posets: &Artifact,
     complexes: &Artifact,
 ) -> Result<()> {
+    ensure!(
+        report.validation_version == 2,
+        "certificate predates full mathematical validation; recertify in a fresh work run"
+    );
     ensure!(report.contract == CONTRACT);
     ensure!(report.record_version == RECORD_VERSION);
     ensure!(report.operation == "certify-orderly-shard");
     ensure!(report.generator == SHARD_GENERATOR);
-    ensure!(report.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (report.noether_revision == NOETHER_REVISION
+            || report.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(report.run_id == options.run_id);
     ensure!(report.target_order == options.target_order);
     ensure!(report.shard_id == options.shard_id);
@@ -1898,7 +1952,10 @@ fn verify_merge_identity(report: &MergeReport, options: &MergeOptions) -> Result
     ensure!(report.record_version == RECORD_VERSION);
     ensure!(report.operation == "merge-orderly-shards");
     ensure!(report.generator == SHARD_GENERATOR);
-    ensure!(report.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (report.noether_revision == NOETHER_REVISION
+            || report.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(report.run_id == options.run_id);
     ensure!(report.target_order == options.target_order);
     ensure!(report.shard_count == options.shard_count);
