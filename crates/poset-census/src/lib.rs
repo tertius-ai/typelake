@@ -20,7 +20,9 @@ use crate::{
 /// The record contract implemented by this builder.
 pub const CONTRACT: &str = "finite-posets/v1";
 /// The exact Noether source used by the builder.
-pub const NOETHER_REVISION: &str = "4c92c269c59da02a4d32c833c2ee093407f8e22f";
+pub const NOETHER_REVISION: &str = "eebc33d4f37ed47af83c88dbc9f8886b254f72c6";
+/// Historical producer before the public 0.3.2 source import.
+pub const PRERELEASE_NOETHER_REVISION: &str = "4c92c269c59da02a4d32c833c2ee093407f8e22f";
 /// Producer of the immutable first-edition artifacts.
 pub const LEGACY_NOETHER_REVISION: &str = "253d73734b217fad6fc5839704b2f5688672bb55";
 /// The current on-disk record version.

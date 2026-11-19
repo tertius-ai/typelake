@@ -306,7 +306,7 @@ dependencies = [
 [[package]]
 name = "convex-hull"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "flint-core",
  "tertius-build",
@@ -462,7 +462,7 @@ dependencies = [
 [[package]]
 name = "flint-core"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "flint3-sys",
  "serde",
@@ -528,7 +528,7 @@ dependencies = [
 [[package]]
 name = "geom-core"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "flint-core",
  "serde",
@@ -572,7 +572,7 @@ dependencies = [
 [[package]]
 name = "graph-core"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "serde",
 ]
@@ -580,7 +580,7 @@ dependencies = [
 [[package]]
 name = "groebner-kernel"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "ahash",
  "flint-core",
@@ -683,7 +683,7 @@ dependencies = [
 [[package]]
 name = "lattice-enum"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "flint-core",
  "tertius-build",
@@ -716,7 +716,7 @@ checksum = "f9f8bd3e56ce4dfc153cf470fffbfa98c7620958b312ca5c3a4b8d5181fd13c6"
 [[package]]
 name = "m4rst"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "cc",
  "rayon",
@@ -725,7 +725,7 @@ dependencies = [
 [[package]]
 name = "m4rste"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "cc",
  "m4rst",
@@ -740,7 +740,7 @@ checksum = "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
 [[package]]
 name = "module-core"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "poly-core",
 ]
@@ -748,12 +748,12 @@ dependencies = [
 [[package]]
 name = "mzs"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 
 [[package]]
 name = "noether"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "convex-hull",
  "flint-core",
@@ -859,7 +859,7 @@ dependencies = [
 [[package]]
 name = "perm-core"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "rand",
 ]
@@ -879,7 +879,7 @@ checksum = "f6b464fbc74e149a392436b17d523f769e057cb6877f6a5c4618bc6f11800548"
 [[package]]
 name = "poly-core"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "ahash",
  "rayon",
@@ -911,7 +911,7 @@ dependencies = [
 [[package]]
 name = "pwvla"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "tertius-build",
 ]
@@ -997,7 +997,7 @@ dependencies = [
 [[package]]
 name = "resolution-kernel"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "groebner-kernel",
  "module-core",
@@ -1175,12 +1175,12 @@ checksum = "0c790de23124f9ab44544d7ac05d60440adc586479ce501c1d6d7da3cd8c9cf5"
 [[package]]
 name = "spar-core"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 
 [[package]]
 name = "sparb"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "flint-core",
  "spar-core",
@@ -1190,7 +1190,7 @@ dependencies = [
 [[package]]
 name = "sparla"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 dependencies = [
  "flint-core",
  "spar-core",
@@ -1256,7 +1256,7 @@ dependencies = [
 [[package]]
 name = "tertius-build"
 version = "0.3.2"
-source = "git+https://github.com/tertius-ai/noether.git?rev=4c92c269c59da02a4d32c833c2ee093407f8e22f#4c92c269c59da02a4d32c833c2ee093407f8e22f"
+source = "git+https://github.com/tertius-ai/noether.git?rev=eebc33d4f37ed47af83c88dbc9f8886b254f72c6#eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 
 [[package]]
 name = "tiny-keccak"

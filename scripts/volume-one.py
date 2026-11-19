@@ -8,7 +8,7 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 
-NOETHER_REVISION = "4c92c269c59da02a4d32c833c2ee093407f8e22f"
+NOETHER_REVISION = "eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 FORMAT = "typelake/volume-selection/v1"
 
 

@@ -12,7 +12,7 @@ import os
 from pathlib import Path
 import subprocess
 
-REVISION = "4c92c269c59da02a4d32c833c2ee093407f8e22f"
+REVISION = "eebc33d4f37ed47af83c88dbc9f8886b254f72c6"
 RELATIVE = Path("finite-group-cohomology/modular-v7/order-through-32/proof-degree-8-through-12")
 
 

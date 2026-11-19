@@ -53,8 +53,10 @@ independent-oracle checks remain part of publication qualification.
 ## Noether 0.3.2
 
 The workspace locks one Noether dependency to public revision
-`4c92c269c59da02a4d32c833c2ee093407f8e22f`, release `v0.3.2`.
-New computations name that revision. Readers also accept the explicitly
+`eebc33d4f37ed47af83c88dbc9f8886b254f72c6`, release `v0.3.2`.
+New computations name that public revision. The frozen review selection retains
+the earlier producer revision `4c92c269c59da02a4d32c833c2ee093407f8e22f`;
+its input bytes and producer manifests are unchanged. Readers also accept the explicitly
 retained historical producers while checking each input artifact's hashes and
 upstream links. Unsupported producer revisions still fail validation.
 

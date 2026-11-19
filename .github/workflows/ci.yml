@@ -75,7 +75,7 @@ jobs:
       - name: Build the pinned native dependencies
         run: |
           git clone https://github.com/tertius-ai/noether.git .noether-native
-          git -C .noether-native checkout 4c92c269c59da02a4d32c833c2ee093407f8e22f
+          git -C .noether-native checkout eebc33d4f37ed47af83c88dbc9f8886b254f72c6
           bash .noether-native/scripts/install-flint.sh
       - run: make check
       - run: make lint

@@ -165,7 +165,9 @@ pub fn build_finite_group_cohomology_component(
     )?;
     ensure!(integral_manifest.contract == INTEGRAL_CONTRACT);
     ensure!(
-        integral_manifest.noether_revision == INTEGRAL_NOETHER_REVISION
+        (integral_manifest.noether_revision == INTEGRAL_NOETHER_REVISION
+            || integral_manifest.noether_revision
+                == finite_group_cohomology_census::PRERELEASE_NOETHER_REVISION)
             || integral_manifest.noether_revision == LEGACY_INTEGRAL_NOETHER_REVISION
     );
     ensure!(
@@ -179,7 +181,9 @@ pub fn build_finite_group_cohomology_component(
         .collect::<Vec<_>>();
     ensure!(source_manifest.contract == MODULAR_CONTRACT);
     ensure!(
-        source_manifest.noether_revision == NOETHER_REVISION
+        (source_manifest.noether_revision == NOETHER_REVISION
+            || source_manifest.noether_revision
+                == finite_group_cohomology_census::PRERELEASE_NOETHER_REVISION)
             || source_manifest.noether_revision == LEGACY_NOETHER_REVISION
     );
     ensure!(source_manifest.groups == selected_groups.len());

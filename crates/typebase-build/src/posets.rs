@@ -432,6 +432,7 @@ fn inspect_source_order(directory: &Path, order: usize) -> Result<SourceOrder> {
     ensure!(
         [
             poset_census::NOETHER_REVISION,
+            poset_census::PRERELEASE_NOETHER_REVISION,
             poset_census::LEGACY_NOETHER_REVISION
         ]
         .contains(&revision),

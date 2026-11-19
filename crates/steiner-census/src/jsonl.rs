@@ -979,7 +979,8 @@ pub fn verify_producer_outputs(directory: &Path) -> Result<()> {
     }
     if let Some(revision) = run["noether_revision"].as_str() {
         anyhow::ensure!(
-            revision == poset_census::NOETHER_REVISION,
+            (revision == poset_census::NOETHER_REVISION
+                || revision == poset_census::PRERELEASE_NOETHER_REVISION),
             "unsupported producer revision"
         );
     }

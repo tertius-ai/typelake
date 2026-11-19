@@ -167,7 +167,8 @@ pub fn load_identity_shell(
     ensure!(manifest.contract == CONTRACT, "identity contract mismatch");
     ensure!(
         manifest.noether_revision == FIRST_EDITION_NOETHER_REVISION
-            || manifest.noether_revision == NOETHER_REVISION
+            || (manifest.noether_revision == NOETHER_REVISION
+                || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "identity Noether revision mismatch"
     );
@@ -223,7 +224,8 @@ pub fn emit_topology_shell(
     );
     ensure!(
         identity_manifest.noether_revision == FIRST_EDITION_NOETHER_REVISION
-            || identity_manifest.noether_revision == NOETHER_REVISION
+            || (identity_manifest.noether_revision == NOETHER_REVISION
+                || identity_manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || identity_manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "identity Noether revision mismatch"
     );
@@ -308,7 +310,8 @@ pub fn load_topology_shell(
     );
     ensure!(
         identity_manifest.noether_revision == FIRST_EDITION_NOETHER_REVISION
-            || identity_manifest.noether_revision == NOETHER_REVISION
+            || (identity_manifest.noether_revision == NOETHER_REVISION
+                || identity_manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || identity_manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "identity Noether revision mismatch"
     );
@@ -338,7 +341,8 @@ pub fn load_topology_shell(
     ensure!(manifest.contract == CONTRACT, "topology contract mismatch");
     ensure!(
         manifest.noether_revision == FIRST_EDITION_NOETHER_REVISION
-            || manifest.noether_revision == NOETHER_REVISION
+            || (manifest.noether_revision == NOETHER_REVISION
+                || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "topology Noether revision mismatch"
     );
@@ -397,7 +401,8 @@ pub fn emit_cohomology_shell(
     );
     ensure!(
         topology_manifest.noether_revision == FIRST_EDITION_NOETHER_REVISION
-            || topology_manifest.noether_revision == NOETHER_REVISION
+            || (topology_manifest.noether_revision == NOETHER_REVISION
+                || topology_manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || topology_manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "topology Noether revision mismatch"
     );
@@ -514,7 +519,8 @@ pub fn load_cohomology_shell_version(
     );
     ensure!(
         topology_manifest.noether_revision == FIRST_EDITION_NOETHER_REVISION
-            || topology_manifest.noether_revision == NOETHER_REVISION
+            || (topology_manifest.noether_revision == NOETHER_REVISION
+                || topology_manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || topology_manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "topology Noether revision mismatch"
     );
@@ -561,7 +567,8 @@ pub fn load_cohomology_shell_version(
             "cohomology contract mismatch"
         );
         ensure!(
-            manifest.noether_revision == NOETHER_REVISION
+            (manifest.noether_revision == NOETHER_REVISION
+                || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
                 || manifest.noether_revision == LEGACY_NOETHER_REVISION,
             "cohomology Noether revision mismatch"
         );

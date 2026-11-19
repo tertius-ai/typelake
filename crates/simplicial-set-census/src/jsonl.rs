@@ -390,7 +390,8 @@ pub fn load_topology_shell(
     ensure!(
         manifest.noether_revision == TOPOLOGY_NOETHER_REVISION
             || manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-            || manifest.noether_revision == NOETHER_REVISION
+            || (manifest.noether_revision == NOETHER_REVISION
+                || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "topology Noether revision mismatch"
     );
@@ -594,7 +595,8 @@ pub fn load_cohomology_shell(
     );
     ensure!(
         manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-            || manifest.noether_revision == NOETHER_REVISION
+            || (manifest.noether_revision == NOETHER_REVISION
+                || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "cohomology Noether revision mismatch"
     );
@@ -699,7 +701,8 @@ pub fn emit_steenrod_operations_shell(
     );
     ensure!(
         cohomology_manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-            || cohomology_manifest.noether_revision == NOETHER_REVISION
+            || (cohomology_manifest.noether_revision == NOETHER_REVISION
+                || cohomology_manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || cohomology_manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "cohomology Noether revision mismatch"
     );
@@ -835,7 +838,8 @@ pub fn load_steenrod_operations_shell(
     ensure!(
         cohomology_manifest.contract == COHOMOLOGY_CONTRACT
             && (cohomology_manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-                || cohomology_manifest.noether_revision == NOETHER_REVISION
+                || (cohomology_manifest.noether_revision == NOETHER_REVISION
+                    || cohomology_manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
                 || cohomology_manifest.noether_revision == LEGACY_NOETHER_REVISION),
         "cohomology manifest mismatch"
     );
@@ -873,7 +877,8 @@ pub fn load_steenrod_operations_shell(
         serde_json::from_reader(File::open(directory.join("manifest.json"))?)?;
     ensure!(
         manifest.contract == STEENROD_OPERATIONS_CONTRACT
-            && (manifest.noether_revision == NOETHER_REVISION
+            && ((manifest.noether_revision == NOETHER_REVISION
+                || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
                 || manifest.noether_revision == LEGACY_NOETHER_REVISION),
         "Steenrod manifest mismatch"
     );
@@ -1059,7 +1064,8 @@ pub fn load_homotopy_shell(
     );
     ensure!(
         manifest.noether_revision == HOMOTOPY_NOETHER_REVISION
-            || manifest.noether_revision == NOETHER_REVISION
+            || (manifest.noether_revision == NOETHER_REVISION
+                || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
             || manifest.noether_revision == LEGACY_NOETHER_REVISION,
         "homotopy Noether revision mismatch"
     );
@@ -1104,7 +1110,7 @@ pub fn accepted_identity_noether_revision(revision: &str) -> bool {
         || revision == TOPOLOGY_NOETHER_REVISION
         || revision == COHOMOLOGY_NOETHER_REVISION
         || revision == HOMOTOPY_NOETHER_REVISION
-        || revision == NOETHER_REVISION
+        || (revision == NOETHER_REVISION || revision == crate::PRERELEASE_NOETHER_REVISION)
         || revision == LEGACY_NOETHER_REVISION
 }
 

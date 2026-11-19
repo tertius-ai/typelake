@@ -1771,7 +1771,10 @@ fn verify_checkpoint_identity(
     ensure!(checkpoint.contract == CONTRACT);
     ensure!(checkpoint.record_version == RECORD_VERSION);
     ensure!(checkpoint.generator == SHARD_GENERATOR);
-    ensure!(checkpoint.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (checkpoint.noether_revision == NOETHER_REVISION
+            || checkpoint.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(checkpoint.run_id == options.run_id);
     ensure!(checkpoint.target_order == options.target_order);
     ensure!(checkpoint.shard_id == options.shard_id);
@@ -1868,7 +1871,10 @@ fn verify_manifest_identity(
     ensure!(manifest.contract == CONTRACT);
     ensure!(manifest.record_version == RECORD_VERSION);
     ensure!(manifest.generator == SHARD_GENERATOR);
-    ensure!(manifest.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (manifest.noether_revision == NOETHER_REVISION
+            || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(manifest.run_id == options.run_id);
     ensure!(manifest.target_order == options.target_order);
     ensure!(manifest.shard_id == options.shard_id);
@@ -1888,7 +1894,10 @@ fn verify_manifest_identity_for_merge(
     ensure!(manifest.contract == CONTRACT);
     ensure!(manifest.record_version == RECORD_VERSION);
     ensure!(manifest.generator == SHARD_GENERATOR);
-    ensure!(manifest.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (manifest.noether_revision == NOETHER_REVISION
+            || manifest.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(manifest.run_id == options.run_id);
     ensure!(manifest.target_order == options.target_order);
     ensure!(manifest.shard_id == shard_id);
@@ -1911,7 +1920,10 @@ fn verify_certification_report(
     ensure!(report.record_version == RECORD_VERSION);
     ensure!(report.operation == "certify-orderly-shard");
     ensure!(report.generator == SHARD_GENERATOR);
-    ensure!(report.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (report.noether_revision == NOETHER_REVISION
+            || report.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(report.run_id == options.run_id);
     ensure!(report.target_order == options.target_order);
     ensure!(report.shard_id == options.shard_id);
@@ -1940,7 +1952,10 @@ fn verify_merge_identity(report: &MergeReport, options: &MergeOptions) -> Result
     ensure!(report.record_version == RECORD_VERSION);
     ensure!(report.operation == "merge-orderly-shards");
     ensure!(report.generator == SHARD_GENERATOR);
-    ensure!(report.noether_revision == NOETHER_REVISION);
+    ensure!(
+        (report.noether_revision == NOETHER_REVISION
+            || report.noether_revision == crate::PRERELEASE_NOETHER_REVISION)
+    );
     ensure!(report.run_id == options.run_id);
     ensure!(report.target_order == options.target_order);
     ensure!(report.shard_count == options.shard_count);

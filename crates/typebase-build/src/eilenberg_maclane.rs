@@ -123,7 +123,9 @@ pub fn build_eilenberg_maclane_component(
     )?;
     ensure!(source_manifest.contract == INVARIANT_CONTRACT);
     ensure!(
-        source_manifest.noether_revision == NOETHER_REVISION
+        (source_manifest.noether_revision == NOETHER_REVISION
+            || source_manifest.noether_revision
+                == eilenberg_maclane_build::PRERELEASE_NOETHER_REVISION)
             || source_manifest.noether_revision == LEGACY_NOETHER_REVISION
     );
     ensure!(source_manifest.validation.modular_cohomology_pending == 0);
