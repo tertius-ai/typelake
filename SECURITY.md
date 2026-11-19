@@ -6,10 +6,6 @@ Provenance `recreate` snippets document computations; readers do not execute
 those snippets. Census and projection commands run local mathematical
 computations when explicitly invoked.
 
-Report vulnerabilities to security@tertius.cc instead of opening a public issue.
-We aim to acknowledge reports within a week. Include a minimal reproducer,
-the affected revision, and the impact you observed.
-
 Of particular interest:
 
 - Records that cause code execution, browser script injection, or access outside

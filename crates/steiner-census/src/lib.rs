@@ -3,6 +3,7 @@
 pub mod enrich;
 pub mod enumerate;
 pub mod jsonl;
+pub mod mapping_model;
 pub mod records;
 pub mod validate;
 

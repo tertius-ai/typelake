@@ -37,7 +37,7 @@ objects.
 
 ## Identity, light, mapping, and rich lanes
 
-The scalable v1 pipeline separates three immutable contracts. Adding an
+The scalable v1 pipeline separates four immutable contracts. Adding an
 enrichment never rewrites its upstream identity shell.
 
 ```text
@@ -176,10 +176,8 @@ A published shell has fixed total atomic size. Its validation.json must say:
 - orbit--stabilizer checks pass for monomorphic basepoints;
 - homotopy Posets reconstruct canonically;
 - Street operators satisfy all stored simplicial identities;
-- the matrix and canonical-attachment generators have identical complete key
-  sets through atomic size 8;
-- the unpruned recursive and orderly attachment generators have identical
-  complete key sets through atomic size 11;
+- per-shell generator agreement is claimed only where it actually ran;
+- separate `make test-oracles` evidence compares full matrix/attachment key sets through size 8. Recursive-reference comparisons through size 11 are a separate qualification command, not a field present in every shell report;
 - the row count matches validation/counts.json.
 
 The identity, light, and mapping lanes cover every atomic size from 0 through 12, with
@@ -203,3 +201,35 @@ Poset's shape, connected components, Stong-core order, and integral homology.
 These are replaceable display/search fields computed from the certified
 basepoint and Poset records; the opaque local basepoint index remains only a
 stable local label within its category.
+
+## Mathematical scope of the strict model
+
+A finite strong Steiner category is gaunt: strong loop-freeness excludes
+nonidentity reversible cells, in every iterated mapping category. Induct on
+cell dimension. Essential surjectivity in the presence of only identity
+equivalences is surjectivity on objects; local equivalence reduces by the same
+argument to bijections on the cells of each mapping category. Thus a strict
+categorical or folk equivalence between these gaunt finite models is a strict
+isomorphism. The census still constructs and compares strict boundary models.
+
+For an oriented globe boundary, the only nonidentity cells in each represented
+degree are its displayed source and target. A functor from it is injective on
+all cells exactly when those two images are distinct in every degree. Images
+in positive degree cannot become identities: their lower source and target
+are already distinct. Identity lifts of different nonidentity cells remain
+distinct. This proves the distinct-pair test for monomorphisms of the strict
+cell models used here; it makes no claim about arbitrary infinity-categorical
+presentations.
+
+The canonical parent deletes the last atom in the highest occupied degree of
+the canonical representative. No other atom has that atom in its boundary,
+so deletion preserves the remaining boundary, unitality, and loop-freeness.
+Canonical representatives make this rule invariant under isomorphism. The
+parent has one fewer atom, so iterating reaches the empty category. Reversing
+this sequence is among the permitted cell attachments. Taking one attachment
+per parent-automorphism orbit retains that sequence up to isomorphism.
+
+Mapping-model reconstruction checks the full degreewise ambient cell
+realization and its source and target boundaries bijectively. Equal cell
+counts alone do not certify a model. The Noether 0.3.2 compatibility
+implementation is in `steiner-census::mapping_model`.

@@ -449,9 +449,7 @@ the same groups.
 
 ## 8. Complete square-face example
 
-The following is the exact v1 Poset record for the canonical eight-vertex face
-Poset of the boundary of a square. The abstract automorphism group labels both
-identify the order-eight dihedral group.
+The following illustrates the canonical eight-vertex square-boundary face Poset with the optional abstract-group enrichment attached. Census rows omit `abstract_group`; its labels are supplied by a separate enrichment. Both displayed group labels identify the order-eight dihedral group.
 
 ```json
 {

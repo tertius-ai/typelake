@@ -211,13 +211,16 @@ pub fn validate_identity_census(census: &IdentityCensus) -> Result<ValidationRep
             .last()
             .map_or(1, |level| level.accepted) as u128;
         ensure!(labeled == expected_labeled, "labeled count mismatch");
-        reference
-            .keys()
-            .eq(census.records.iter().map(|record| &record.key))
-    } else {
+        ensure!(
+            reference
+                .keys()
+                .eq(census.records.iter().map(|record| &record.key)),
+            "reference key-set mismatch"
+        );
         true
+    } else {
+        false
     };
-    ensure!(reference_key_set_complete, "reference key-set mismatch");
 
     Ok(ValidationReport {
         contract: CONTRACT,

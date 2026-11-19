@@ -1,6 +1,6 @@
 # TypeBase Volume I: the final four collections
 
-**Status:** implemented and release-audited, 2026-08-30
+**Status:** design plan and implementation notes; the catalogue is an editorial review candidate. Individual RECORD.md/TYPEBASE.md files and run evidence specify implemented fields, methods, and validation extent.
 
 **Collections:** finite simplicial complexes, finite simplicial sets, finite-group
 cohomology, and Eilenberg--Mac Lane anima
@@ -167,7 +167,7 @@ The TypeLake builder uses orderly generation by canonical augmentation:
   last vertex gives the declared parent;
 - quotient possible links by the parent's automorphism action before expensive
   canonicalization;
-- shard by parent-key intervals and link-orbit intervals.
+- parent/link sharding is future work; the current simplicial builders are not sharded.
 
 This is the simplicial-complex analogue of adjoining a maximum over a downset
 in the Poset builder. A redundant labeled generator remains useful only as a
@@ -248,8 +248,7 @@ Enumerate by adjoining one nondegenerate simplex:
 2. assign its faces to existing simplices or forced degeneracies;
 3. reject immediately when simplicial identities fail;
 4. quotient assignments by the automorphism group of the parent;
-5. keep the augmentation only when deletion of the canonical last
-   nondegenerate simplex recovers the parent.
+5. keep the augmentation when the least canonical parent over deletions of top-dimensional simplices is the declared parent.
 
 This generator belongs entirely to `simplicial-set-census`. The repository and
 history audit found no Noether simplicial-set enumerator to remove; the related
@@ -258,9 +257,7 @@ bounded simplicial-complex census function was removed at revision
 verification, canonicalization, automorphisms, and invariant computation for a
 supplied `SimplicialSet`; it has no census entry point.
 
-Store rejected-candidate reason counts in run diagnostics; they will be useful
-for tuning Noether's validation and canonicalization paths without becoming
-published mathematics.
+Current diagnostics record aggregate candidate and acceptance counts. Per-reason rejection counts are future instrumentation.
 
 Provisional first edition:
 
@@ -365,7 +362,7 @@ order bound as a correctness fallback. Once the proposed generators give a
 surjection and that surjection is verified to be an isomorphism through degree
 `2S`, it is an isomorphism in every degree.
 
-The certificate stores:
+The following universal-bound certificate design is a proposal, not an accepted record variant. Implemented records use `SymondsUniversalBound` or `SymondsParameterCriterion` as specified in the collection RECORD.md.
 
 ```text
 method = "symonds-generator-relation-bound"
@@ -558,9 +555,9 @@ Noether release.
 The path is explicit, for example:
 
 ```text
-/EilenbergMacLane/8.2/2/Z
+/EilenbergMacLane/8.2.2/Z
 /EilenbergMacLane/8.2/2/F2
-/EilenbergMacLane/Z/3/F3
+/EilenbergMacLane/Z.3/F3
 ```
 
 Here the finite abelian group label should agree with the chosen LMFDB group
@@ -611,7 +608,7 @@ framework:
 ```text
 crates/simplicial-complex-census/
 crates/simplicial-set-census/
-crates/finite-group-cohomology-build/
+crates/finite-group-cohomology-census/
 crates/eilenberg-maclane-build/
 ```
 
@@ -619,13 +616,12 @@ They may share private utilities for manifests, content hashing, Parquet
 projection, and restartable shards. Mathematical algorithms must still enter
 through Noether's public Rust facade.
 
-Each collection directory receives, before bulk generation:
+Collection documents live in the following files where implemented; fixtures live in crate tests and collection validation directories, rather than a common `fixtures/` layout:
 
 ```text
 PLAN.md
 RECORD.md
 TYPEBASE.md
-fixtures/
 ```
 
 This document supplies the common plan; the individual documents freeze exact

@@ -1,5 +1,7 @@
 # Finite posets: census plan
 
+Current record fields and encodings are specified in `RECORD.md`; browser behavior is specified in `TYPEBASE.md` where present. This plan also describes future work. Current release scope is selected in `../VOLUME-I.md`, and checks count as evidence only when an accompanying run report records their execution.
+
 **Status:** working plan, updated 2026-08-26
 **Active product:** a certified finite-Poset census and its first TypeBase
 Volume I projection.
@@ -196,11 +198,10 @@ anticipating a future lake layout:
 ```text
 $POSET_CENSUS_DATA_ROOT/
   work/finite-posets/<run-id>/
-    run.json
     checkpoints/
     shards/
     merged/order=<n>/
-    logs/
+    lock files
   census/record-version=1/order=<n>/
     posets.jsonl
     simplicial-complexes.jsonl
@@ -1395,9 +1396,7 @@ The next implementation sequence is:
 9. **Complete:** implement deterministic canonical-parent shards with durable
    sorted parts and checkpoint/resume; prove resumed, differently sharded, and
    monolithic output are byte-identical.
-10. **Current:** generate, validate, and freeze orders 6 through 9, then produce order 10
-    from the certified order-9 parent corpus without retaining the complete
-    order-10 level in memory.
+10. **Current:** review the selected orders 0 through 10 and their per-order validation evidence. Orders above 5 have no implicit reference-key-set claim.
 
 The guiding rule is that the census record follows the mathematics. TypeLake
 must later adapt to the validated record rather than making Poset computation

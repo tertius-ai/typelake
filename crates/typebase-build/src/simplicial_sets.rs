@@ -9,6 +9,7 @@ use std::{
 
 use anyhow::{Context, Result, ensure};
 use serde::{Serialize, de::DeserializeOwned};
+use sha2::Digest;
 use simplicial_set_census::records::{
     ElementaryHornCollapseRecord, SimplicialSetCohomologyRecord, SimplicialSetHomotopyRecord,
     SimplicialSetIdentityRecord, SimplicialSetKey, SimplicialSetSteenrodOperationsRecord,
@@ -59,6 +60,7 @@ impl std::fmt::Display for Label {
 
 #[derive(Serialize)]
 struct SearchRow {
+    standard_names: Vec<String>,
     label: String,
     path: String,
     total_nondegenerate: usize,
@@ -95,6 +97,7 @@ struct HornTargetLabel {
 
 #[derive(Serialize)]
 struct DetailRow {
+    standard_names: Vec<String>,
     label: String,
     elementary_horn_relations: Vec<HornTargetLabel>,
     greedy_target_label: String,
@@ -136,6 +139,7 @@ struct ComponentChecks {
 #[derive(Serialize)]
 struct ComponentManifest {
     component: &'static str,
+    builder_source: poset_census::SourceIdentity,
     status: &'static str,
     volume: u32,
     collection: &'static str,
@@ -155,6 +159,7 @@ struct ComponentManifest {
 #[derive(Serialize)]
 struct BrowserCatalogueManifest<'a> {
     component: &'static str,
+    builder_source: poset_census::SourceIdentity,
     status: &'static str,
     collection: &'static str,
     simplicial_set_count: usize,
@@ -178,6 +183,7 @@ pub fn build_simplicial_set_component(
         options.rows_per_detail_part > 0,
         "detail part size must be positive"
     );
+    let names = crate::named_spaces::simplicial_sets()?;
     let shells = frontier(options);
     let mut labels = HashMap::<SimplicialSetKey, Label>::new();
     let mut bucket_counts = BTreeMap::<(usize, i64), usize>::new();
@@ -188,8 +194,14 @@ pub fn build_simplicial_set_component(
             .join("identities.jsonl");
         let mut lines = jsonl_lines(&identity_path)?;
         let mut observed_identity_rows = 0usize;
+        let mut previous_key = None;
         while let Some(identity) = next_record::<SimplicialSetIdentityRecord>(&mut lines)? {
             identity.check_shape()?;
+            ensure!(
+                previous_key.as_ref().is_none_or(|key| key < &identity.key),
+                "simplicial-set keys are not strictly sorted"
+            );
+            previous_key = Some(identity.key.clone());
             let index = bucket_counts
                 .entry((total, identity.dimension))
                 .and_modify(|count| *count += 1)
@@ -256,6 +268,11 @@ pub fn build_simplicial_set_component(
                     && identity.key == homotopy.simplicial_set,
                 "simplicial-set enrichment keys differ"
             );
+            ensure!(
+                odd.cohomology_record_sha256
+                    == hex::encode(sha2::Sha256::digest(serde_json::to_vec(&f3)?)),
+                "Steenrod cohomology-record digest mismatch"
+            );
             let label = labels[&identity.key];
             let elementary_horn_relations = homotopy
                 .elementary_horn_relations
@@ -278,7 +295,9 @@ pub fn build_simplicial_set_component(
             let part = parts.entry(identity.dimension).or_default();
             let buffer = buffers.entry(identity.dimension).or_default();
             let detail_file = detail_path(total, identity.dimension, *part);
+            let standard_names = names.get(&identity.key).cloned().unwrap_or_default();
             search_rows.push(SearchRow {
+                standard_names: standard_names.clone(),
                 label: label.to_string(),
                 path: format!("/SimplicialSet/{label}"),
                 total_nondegenerate: total,
@@ -309,6 +328,7 @@ pub fn build_simplicial_set_component(
                 catalogue_index: label.catalogue_index,
             });
             buffer.push(DetailRow {
+                standard_names,
                 label: label.to_string(),
                 elementary_horn_relations,
                 greedy_target_label: greedy_target.to_string(),
@@ -418,6 +438,7 @@ pub fn build_simplicial_set_component(
         1,
         &BrowserCatalogueManifest {
             component: COMPONENT,
+            builder_source: poset_census::source_identity(),
             status: "passed",
             collection: COLLECTION,
             simplicial_set_count: labels.len(),
@@ -430,6 +451,7 @@ pub fn build_simplicial_set_component(
     )?);
     let manifest = ComponentManifest {
         component: COMPONENT,
+        builder_source: poset_census::source_identity(),
         status: "passed",
         volume: 1,
         collection: COLLECTION,
@@ -515,6 +537,7 @@ fn check_identity_source(
     let manifest_path = directory.join("manifest.json");
     let manifest: serde_json::Value = serde_json::from_slice(&std::fs::read(&manifest_path)?)?;
     ensure!(manifest["contract"] == "finite-simplicial-sets/v1");
+    check_source_revision(&manifest)?;
     ensure!(manifest["total_nondegenerate"] == total);
     ensure!(manifest["maximum_dimension"] == maximum_dimension);
     let record = manifest_artifact(&manifest, "identities.jsonl")?;
@@ -597,6 +620,7 @@ fn check_enrichment_sources(
         let manifest_path = directory.join("manifest.json");
         let manifest: serde_json::Value = serde_json::from_slice(&std::fs::read(&manifest_path)?)?;
         ensure!(manifest["contract"] == contract);
+        check_source_revision(&manifest)?;
         ensure!(manifest["total_nondegenerate"] == total);
         ensure!(manifest["maximum_dimension"] == maximum_dimension);
         ensure!(manifest["identity_sha256"] == identity_sha);
@@ -779,6 +803,17 @@ impl UnionFind {
     }
 }
 
+fn check_source_revision(manifest: &serde_json::Value) -> Result<()> {
+    let revision = manifest["noether_revision"]
+        .as_str()
+        .context("missing producer revision")?;
+    ensure!(
+        simplicial_set_census::jsonl::accepted_identity_noether_revision(revision),
+        "unsupported source producer revision"
+    );
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -811,6 +846,7 @@ mod tests {
     fn witnessed_components_use_the_first_canonical_catalogue_member() {
         let mut rows = vec![
             SearchRow {
+                standard_names: Vec::new(),
                 label: "2.1.2".to_owned(),
                 path: String::new(),
                 total_nondegenerate: 2,
@@ -838,6 +874,7 @@ mod tests {
                 catalogue_index: 0,
             },
             SearchRow {
+                standard_names: Vec::new(),
                 label: "1.0.1".to_owned(),
                 catalogue_index: 1,
                 ..empty_search_row()
@@ -855,6 +892,7 @@ mod tests {
 
     fn empty_search_row() -> SearchRow {
         SearchRow {
+            standard_names: Vec::new(),
             label: String::new(),
             path: String::new(),
             total_nondegenerate: 0,

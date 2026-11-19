@@ -25,8 +25,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=0/run.json",
-          "byte_count": 1948,
-          "sha256": "70614b08ea267f1537f172b4d89d9f0b901e915278e9af669c0d821e039b67f4"
+          "byte_count": 2358,
+          "sha256": "5afe8343e21803ffdfa59821c83e628c7b70e19ad03eace3ac0d9e813cb78247"
         },
         {
           "path": "finite-posets/census/record-version=1/order=0/simplicial-complexes.jsonl",
@@ -36,8 +36,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=0/validation.json",
-          "byte_count": 1516,
-          "sha256": "2b3b7939a0d8ed1340609fb378a8d061292dee3f1e184fd591f3bdb9136babee"
+          "byte_count": 1965,
+          "sha256": "b4b3cf2eb8d12c56abbba996114d6746a05d1cb639d65752bd51e1b961a0815a"
         },
         {
           "path": "finite-posets/census/record-version=1/order=1/posets.jsonl",
@@ -47,8 +47,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=1/run.json",
-          "byte_count": 1948,
-          "sha256": "77470feb310cb5ee09e1d10bafb1d305d9002e8af3fe66e9496d6fbf7ea73464"
+          "byte_count": 2361,
+          "sha256": "e4c64851b8fb8ba72858d1b41795e148c1ec54398e8afe124ce93df6f1201e61"
         },
         {
           "path": "finite-posets/census/record-version=1/order=1/simplicial-complexes.jsonl",
@@ -58,8 +58,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=1/validation.json",
-          "byte_count": 1516,
-          "sha256": "8dae873cccd55dfe119ad5729fcc69496f43c26e7f6b71848f63accc937d74bb"
+          "byte_count": 1968,
+          "sha256": "b97b971127e4fddbd570301d899fea2b49ab9a06f9e847ff618b0c402b41a8f8"
         },
         {
           "path": "finite-posets/census/record-version=1/order=10/posets.jsonl",
@@ -69,8 +69,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=10/run.json",
-          "byte_count": 1769,
-          "sha256": "7fadf8d3719ca94918ca3f0c9ba4d632fa030d91e2130e2315e3c7b8b15ceb72"
+          "byte_count": 2394,
+          "sha256": "1081c9cca5a56ef7579b176f5bf5deab35460f1fc2b31c55fd5e5fa74a4e6265"
         },
         {
           "path": "finite-posets/census/record-version=1/order=10/simplicial-complexes.jsonl",
@@ -80,8 +80,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=10/validation.json",
-          "byte_count": 1657,
-          "sha256": "2e5063041a03fc64753c891cc1e190903d7dac61f89300ee44b6e41d965d0ea7"
+          "byte_count": 2323,
+          "sha256": "38eb598ccee6c2b001e8f05f51a4f25a2b062e1619cb09793db1c1e9343a4dab"
         },
         {
           "path": "finite-posets/census/record-version=1/order=2/posets.jsonl",
@@ -91,8 +91,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=2/run.json",
-          "byte_count": 1949,
-          "sha256": "5525454f4eb2626128aae0a7a96ba7fd3536eb9cf5f661430426da92e6d5ceb2"
+          "byte_count": 2362,
+          "sha256": "6c91296695d1c696b106acf5f5f5c2187c5875da6444c5eb8cc2f27288ce95d9"
         },
         {
           "path": "finite-posets/census/record-version=1/order=2/simplicial-complexes.jsonl",
@@ -102,8 +102,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=2/validation.json",
-          "byte_count": 1516,
-          "sha256": "6c9c092a8ab413a6e6ea46d69da08a5a14f5f6b7774f17c1279958c617302068"
+          "byte_count": 1968,
+          "sha256": "8b908e98ff7f92bf2b53a98ab2466a27a8dd991fd37bf8620bba84008347b2d0"
         },
         {
           "path": "finite-posets/census/record-version=1/order=3/posets.jsonl",
@@ -113,8 +113,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=3/run.json",
-          "byte_count": 1951,
-          "sha256": "97f82b22f8e8ede8f3446dea775b32f704cbca9bcb19dde5f235ae84685cc7c1"
+          "byte_count": 2364,
+          "sha256": "559c6f8fae4e4ae1c9d25b9317e9b02f12025c7ceffe82c92f113004f0e74ba9"
         },
         {
           "path": "finite-posets/census/record-version=1/order=3/simplicial-complexes.jsonl",
@@ -124,8 +124,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=3/validation.json",
-          "byte_count": 1519,
-          "sha256": "3cb3b836f9c91e855b6e1646ae0fefc4c82b8ee70ef3e4146ba5a84c2257e6a7"
+          "byte_count": 1971,
+          "sha256": "5afa85b3e4c8f8e5240c33ce4110bd08425e23eb8f91f3065a8e3819b4a88005"
         },
         {
           "path": "finite-posets/census/record-version=1/order=4/posets.jsonl",
@@ -135,8 +135,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=4/run.json",
-          "byte_count": 1954,
-          "sha256": "86d34503f42b83e1f569140ab914bce42f56ae74897f9220956bb906dfcbdbc3"
+          "byte_count": 2369,
+          "sha256": "ff4f9b42b93e9ae0aa4865fe85629bb389eeca421afacc7f05bb646fe1cfde01"
         },
         {
           "path": "finite-posets/census/record-version=1/order=4/simplicial-complexes.jsonl",
@@ -146,8 +146,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=4/validation.json",
-          "byte_count": 1527,
-          "sha256": "a5e0177bc71ba65f4649cf18b5d2e7b0c4b01947f307f380dfff8234d13e3c46"
+          "byte_count": 1981,
+          "sha256": "f7d39ea464492e431eab9594fd1ca8f00fc6f4c16854370d12a5abff7c50dec4"
         },
         {
           "path": "finite-posets/census/record-version=1/order=5/posets.jsonl",
@@ -157,8 +157,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=5/run.json",
-          "byte_count": 1957,
-          "sha256": "7176a4729aba93e91e67d75d050aaf0ee18085c26041ca50ce6a52ff10b29ecc"
+          "byte_count": 2372,
+          "sha256": "d38edca63f76343115bd2346a732100c99d6a2081322fe7e9ef89b18dbdb0b41"
         },
         {
           "path": "finite-posets/census/record-version=1/order=5/simplicial-complexes.jsonl",
@@ -168,8 +168,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=5/validation.json",
-          "byte_count": 1530,
-          "sha256": "c28d4b325f2c0c9d6db0d2663315c302d860827753ae0ed822a882cee3b2feae"
+          "byte_count": 1984,
+          "sha256": "a57a2f177dabccd622c14b4dc904f2ef34c8309326048c49d86952ef6b0d0ba4"
         },
         {
           "path": "finite-posets/census/record-version=1/order=6/posets.jsonl",
@@ -179,8 +179,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=6/run.json",
-          "byte_count": 1962,
-          "sha256": "38e69c375989a3c3c0a0a5ccf188e4b034fce38bc93cdb59e0356752039dc884"
+          "byte_count": 2379,
+          "sha256": "3210e0744a468537b088c160eeaa174645fc636f90ff75d5fcd48824e56e43fa"
         },
         {
           "path": "finite-posets/census/record-version=1/order=6/simplicial-complexes.jsonl",
@@ -190,8 +190,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=6/validation.json",
-          "byte_count": 1540,
-          "sha256": "d565c9adb36820fc39accbba7ab3374ce80f5767e9e46efb1aabcfa0f9ee0174"
+          "byte_count": 1997,
+          "sha256": "9c7ed16da85aa1e0d6fa9b5f139d4f35475ea7edf23fd443d4f5883325cded31"
         },
         {
           "path": "finite-posets/census/record-version=1/order=7/posets.jsonl",
@@ -201,8 +201,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=7/run.json",
-          "byte_count": 1968,
-          "sha256": "e998629febe3bf1aecbeb03ace149ba3f4f62e467c98b2bd7cd4dda6b6920a2b"
+          "byte_count": 2387,
+          "sha256": "a25d6b0a02923a03cd127e5ac232ed286a1547b0f779d8422105a1ae7c8c40a2"
         },
         {
           "path": "finite-posets/census/record-version=1/order=7/simplicial-complexes.jsonl",
@@ -212,8 +212,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=7/validation.json",
-          "byte_count": 1549,
-          "sha256": "3e1685e23391fb16061874478d386ce95e6729cf4c9819068a5d63793d68239c"
+          "byte_count": 2008,
+          "sha256": "11473cc515db6367771b6f20feb2adeffc64e33f1f3d4a8eea21e13fd70fce5e"
         },
         {
           "path": "finite-posets/census/record-version=1/order=8/posets.jsonl",
@@ -223,8 +223,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=8/run.json",
-          "byte_count": 1974,
-          "sha256": "bdab0db37e090975eafa465385b93b3c9ccd785332a8d5c298aeade749a70aeb"
+          "byte_count": 2394,
+          "sha256": "6e7ffd7d19b1246faf35504f2c31af890311cd507fc55d9ee5454db71484a209"
         },
         {
           "path": "finite-posets/census/record-version=1/order=8/simplicial-complexes.jsonl",
@@ -234,8 +234,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=8/validation.json",
-          "byte_count": 1560,
-          "sha256": "ac7b044166bf28e5364c3de819f05c4391778a846d9c73009e0bf6cef77fd443"
+          "byte_count": 2020,
+          "sha256": "e4165dedb908db365be72dbf94adaabc6e497706e4eb7c43cb57aeca325e0cb1"
         },
         {
           "path": "finite-posets/census/record-version=1/order=9/posets.jsonl",
@@ -245,8 +245,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=9/run.json",
-          "byte_count": 1981,
-          "sha256": "013e360bed00a507cb99bd67b4bc0840a7e50519ee60374e69f34650afabd7e1"
+          "byte_count": 2406,
+          "sha256": "cb4679ef3535e9ddf491b5be1d73ae69c5476569d1d2ac4fed974238682df68c"
         },
         {
           "path": "finite-posets/census/record-version=1/order=9/simplicial-complexes.jsonl",
@@ -256,8 +256,8 @@
         },
         {
           "path": "finite-posets/census/record-version=1/order=9/validation.json",
-          "byte_count": 1571,
-          "sha256": "ec836af6f8699fcfc4d4b20d8436308576f0bf8d492b39e2ca0eeff558a6e26f"
+          "byte_count": 2036,
+          "sha256": "bcaa94625d8e65222b2af35bac6d609e988cfdd4c9c84414ab7bddfb33fe546b"
         },
         {
           "path": "finite-posets/enrichments/automorphism-abstract-groups/v1/manifest.json",
@@ -306,8 +306,8 @@
         },
         {
           "path": "strong-steiner-categories/census/identity-version=1/atomic-size=12/run.json",
-          "byte_count": 1370,
-          "sha256": "266ed156e5f215c765bc8c03709533d21209bdde04f9a14231163d32cd79a562"
+          "byte_count": 1686,
+          "sha256": "eb2d29dc46099c72337313a91bca3a0ae0ae22aff8d4c49d8d1f05637bf641a6"
         },
         {
           "path": "strong-steiner-categories/census/identity-version=1/atomic-size=12/validation.json",
@@ -347,8 +347,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=0/run.json",
-          "byte_count": 2217,
-          "sha256": "6a8a91c3b087b67dd73e80ef1a2e18bb292a40cd433835dc7506907df6097cd1"
+          "byte_count": 2658,
+          "sha256": "f9aa1e6182a787c2b15a2e080af5f02fb191329e986eea3f3c02a15fd008ea80"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=0/validation.json",
@@ -388,8 +388,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=1/run.json",
-          "byte_count": 2219,
-          "sha256": "ab5f962a55ccd51426215d96caa1898bc5e3ad890ff85a3bc82ce27d71f78d17"
+          "byte_count": 2660,
+          "sha256": "062d52078beaddda5845cf1e5320ff774decbcb2b5a8f74e1b9bf980112a3f68"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=1/validation.json",
@@ -419,8 +419,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=10/mapping-categories.jsonl.zst",
-          "byte_count": 131893,
-          "sha256": "6a1a71646096394825d5bd9ec3b178af826a0cdd58327a1c6a6a9e67463d804b"
+          "byte_count": 131892,
+          "sha256": "856eafe9faded1d3c4e94d1f70b2b3ee56c9a049f75b35cd9482b4455703ab80"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=10/monomorphic-basepoints.jsonl.zst",
@@ -429,8 +429,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=10/run.json",
-          "byte_count": 2266,
-          "sha256": "a368ffae276b53ac2841fc6b1d5517b421bc3fda828a7c5300ebda62cd2380f3"
+          "byte_count": 2707,
+          "sha256": "64230ba16887d1e55b85e2659b91e34313aab2d4c9ea3e66c0c4ff318aafdf55"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=10/validation.json",
@@ -460,8 +460,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=11/mapping-categories.jsonl.zst",
-          "byte_count": 517198,
-          "sha256": "30858cb88378835fd155917dcdae7c9c4e04779daddfe4e63a86f14a91152195"
+          "byte_count": 517250,
+          "sha256": "6467dbfdb7f296e321cfd5f9b20765968ebc3b4526e15fa34ba9d2e5ee0aa158"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=11/monomorphic-basepoints.jsonl.zst",
@@ -470,8 +470,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=11/run.json",
-          "byte_count": 2271,
-          "sha256": "528aa2082c70e7a165fb092739717d0ba89445ea7e5cb9ef50722648961cf2da"
+          "byte_count": 2711,
+          "sha256": "33a2bd912915aa684569f5d8a4ace90f38d8b96e0a31957973f326895d6ee45f"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=11/validation.json",
@@ -511,8 +511,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=2/run.json",
-          "byte_count": 2222,
-          "sha256": "0fd88229510d0532d795fb5501c0cf8d28f65b65dac4c36b4b6fdf7014edb28a"
+          "byte_count": 2663,
+          "sha256": "6cad3c0642392c8597436c6d0563728c9a6b592205f42bf83651b29724651ed7"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=2/validation.json",
@@ -552,8 +552,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=3/run.json",
-          "byte_count": 2224,
-          "sha256": "5a6ede16cd47fd9f7cabf6c7039d1724101d48275d4f34efaeaf5217b1e01117"
+          "byte_count": 2665,
+          "sha256": "78ae830f3b41ca3b71fa00a0e46a79c57cd97762e1a53a340956b609c6ece388"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=3/validation.json",
@@ -593,8 +593,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=4/run.json",
-          "byte_count": 2227,
-          "sha256": "296a9e6f90f0afd4a6d0e8a3f3964da315ebb4109578dfb84b2ff831bf420614"
+          "byte_count": 2668,
+          "sha256": "08a908c16aaa1fdeaf1276efbc08ec7cb0d4b1d8435ac924e9af4b0b7ba7c235"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=4/validation.json",
@@ -634,8 +634,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=5/run.json",
-          "byte_count": 2228,
-          "sha256": "1858d29d3980c45decc7aa1697772d22742da9e71aa445dcdc7910d288dec6ae"
+          "byte_count": 2669,
+          "sha256": "4f03465a3a06fcea87c0678c67b4a0b4be9a7620b976f300824cbb392659c1c5"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=5/validation.json",
@@ -675,8 +675,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=6/run.json",
-          "byte_count": 2239,
-          "sha256": "fdeb3f9b85f60bb9136b92638227e6c3a4f799b86feda0f5c10bf3f6dcb2e226"
+          "byte_count": 2680,
+          "sha256": "4cb2869adce90c4dd4c915800e47a00293ce4ba3f80afbbef7ffb499a57f8a20"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=6/validation.json",
@@ -716,8 +716,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=7/run.json",
-          "byte_count": 2241,
-          "sha256": "4f32dbe5a4d931031192d8c95294435b7ea162b1f4974ad8ffc15fdbf84a804e"
+          "byte_count": 2682,
+          "sha256": "9df6e1209da8f541e4c59f95012e5a976042048c2f0997472cbe4ed9b5c7752d"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=7/validation.json",
@@ -757,8 +757,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=8/run.json",
-          "byte_count": 2250,
-          "sha256": "6f715b77836b4e5e5b6d0f187e87871a4ad346423724154d35a9919cb02813b7"
+          "byte_count": 2691,
+          "sha256": "643679fa83255917450b4fef7779d93ba8b344e1b9507b375accbee358cc8574"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=8/validation.json",
@@ -798,8 +798,8 @@
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=9/run.json",
-          "byte_count": 2252,
-          "sha256": "9b3c0d217369e7b7cb311556451b23b63673567ec0cc720d50b3cd541267d821"
+          "byte_count": 2693,
+          "sha256": "bf6256e35376fb9331a7197e878ba5fa5c94e3d0679cd5875e3404d3d5cbd1ad"
         },
         {
           "path": "strong-steiner-categories/census/record-version=1/atomic-size=9/validation.json",
@@ -818,8 +818,8 @@
         },
         {
           "path": "strong-steiner-categories/enrichments/light-version=1/atomic-size=12/run.json",
-          "byte_count": 1440,
-          "sha256": "3d9ded818c70866c3cb9de1cc1385b689e36e806d7a01633f134dfbfb03d62e2"
+          "byte_count": 1756,
+          "sha256": "5589c01ba6157b78239cc0c1348f1527f64bd2b651b7127cf94455c0d32e1950"
         },
         {
           "path": "strong-steiner-categories/enrichments/light-version=1/atomic-size=12/validation.json",
@@ -833,8 +833,8 @@
         },
         {
           "path": "strong-steiner-categories/enrichments/mapping-version=1/atomic-size=12/mapping-categories.jsonl.zst",
-          "byte_count": 2091636,
-          "sha256": "35de848d900b2d95caab5155c2fc6a2866f2dd3ae1a95e254d02ba52c1040e7a"
+          "byte_count": 2091498,
+          "sha256": "c6a5bb7bd284d486109879bf30089b6688151a711f951f160d782877a8947c76"
         },
         {
           "path": "strong-steiner-categories/enrichments/mapping-version=1/atomic-size=12/mapping-enrichments.jsonl.zst",
@@ -843,8 +843,8 @@
         },
         {
           "path": "strong-steiner-categories/enrichments/mapping-version=1/atomic-size=12/run.json",
-          "byte_count": 1687,
-          "sha256": "6b386f5b44a324d8961da67b65ff6f204d265e018f37a444b85dc6578aba7fe8"
+          "byte_count": 2004,
+          "sha256": "db32ad220d5564157df4264f51ed3fcb5b8c7886cc6be54633fbce6f557956d0"
         },
         {
           "path": "strong-steiner-categories/enrichments/mapping-version=1/atomic-size=12/validation.json",
@@ -865,7 +865,7 @@
       "bounds": {
         "maximum_vertices": 6
       },
-      "coverage": "Complete identity shells, topology, F2 cohomology-v2 and F3 cohomology-v1.",
+      "coverage": "Complete identity shells, topology, F2 cohomology-v2 and F3 cohomology-v2.",
       "inputs": [
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-0/cohomology.jsonl",
@@ -875,13 +875,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-0/manifest.json",
-          "byte_count": 706,
-          "sha256": "57c24549472558a14939e13af8ed62eaf33d8c489178e12c2dda69c560deae4f"
+          "byte_count": 1027,
+          "sha256": "738ad1ec158655a79be9b82168c344c69ea5f309380424c1a821c26515165d75"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-0/validation.json",
-          "byte_count": 395,
-          "sha256": "03dc4999336dab491c14244dcdb8059176fe0d928a372959c50fe77180956cc7"
+          "byte_count": 405,
+          "sha256": "423ebda783b0d806765d0e7e598ee45e7b73a41b3cf9a84c5b01a56650f5542f"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-1/cohomology.jsonl",
@@ -891,13 +891,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-1/manifest.json",
-          "byte_count": 707,
-          "sha256": "8c5d05622d6ff6085540421d8024754581eaf52691983a5f594a93af88b929aa"
+          "byte_count": 1028,
+          "sha256": "fd6391b3d828526b47b07be29d466e78889455621801971bdc5d7bad838a6416"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-1/validation.json",
-          "byte_count": 395,
-          "sha256": "9527714480c7ed117bd09d3d68507a2e7cc254d181faa5fce8159aa40f266f20"
+          "byte_count": 405,
+          "sha256": "f028ccb52e71e4488ec0ed83b59fcd884038258ce0050647b30016bc662b8b68"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-2/cohomology.jsonl",
@@ -907,13 +907,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-2/manifest.json",
-          "byte_count": 707,
-          "sha256": "d3edfeb3e32a0810d42bef98281aa6af86f2d81261c05a179bcca7bf1ec6a5d1"
+          "byte_count": 1028,
+          "sha256": "e9880031f821729ba7e6d3a15e07a636d9e8a95be90f437ce7eaa776654a8273"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-2/validation.json",
-          "byte_count": 395,
-          "sha256": "40fd35caeff0d7d5280d4320313c1626147bf8250c1c719ce3eb4ad80ddfe528"
+          "byte_count": 405,
+          "sha256": "117f0525bab74e2052df858ec69160edd184e5aaa1c4ace79b6440e3e936776d"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-3/cohomology.jsonl",
@@ -923,13 +923,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-3/manifest.json",
-          "byte_count": 707,
-          "sha256": "21bd0c922313a0074130e2d2508d7ac9506aaacd14cc65bcaa7338b1384b7af7"
+          "byte_count": 1028,
+          "sha256": "5afbd7dee7ec5c73b9dafad44c4f13ac747e17cbc5841f79fa93024025cb0530"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-3/validation.json",
-          "byte_count": 395,
-          "sha256": "e07c25e03b80e12cc8f6ff87b573c76a869799052606c868957036c0afc9e175"
+          "byte_count": 405,
+          "sha256": "0f0deaff78d1ddeb26cf6b61829f3f70abf151bb80db44337e57ccf40b2816cd"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-4/cohomology.jsonl",
@@ -939,13 +939,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-4/manifest.json",
-          "byte_count": 709,
-          "sha256": "a3275d3df8109e968c70a18cff7898440ad27e0333bd3cd67fcd65d76b7ae567"
+          "byte_count": 1030,
+          "sha256": "b851b3c519dbbb6d9052a5134e3fb7881e5e76398852141ad804a12fb0b6a713"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-4/validation.json",
-          "byte_count": 396,
-          "sha256": "d1daa5d470537e0d87ee506de117e65c3a243ef36cea4c027b42cca50744c57d"
+          "byte_count": 406,
+          "sha256": "196309447d1ccbd54f160650a568ec1f0511346cc7b99f941aa70d866ea50f5d"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-5/cohomology.jsonl",
@@ -955,13 +955,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-5/manifest.json",
-          "byte_count": 711,
-          "sha256": "6d06a4552a5a224aa880362c7d4977b09dbdf7c54cc7c123dfc2d290b802ff02"
+          "byte_count": 1032,
+          "sha256": "cd2d5352fe758f5eff8c15b24acce1fbae7ab32d91d947a86d4a0a0477495060"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-5/validation.json",
-          "byte_count": 397,
-          "sha256": "f130364cef1373d28577a9f73c667d1c27b2fc5351d96202401f5240228df4f4"
+          "byte_count": 407,
+          "sha256": "11cb6a9cf84aecc89cf42da93fea3917f1ceec5b6c7691c9e5958e13af15da87"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-6/cohomology.jsonl",
@@ -971,125 +971,125 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-6/manifest.json",
-          "byte_count": 715,
-          "sha256": "184488a7fa84ba589192308e7bc5e5a5850d98e5579f923e392f3a1f9c611b94"
+          "byte_count": 1036,
+          "sha256": "d36697f7147251473919ff1abf9eaf8ee63dfae6c6c209f00e4ce69e572a6cc3"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f2-v2/vertices-6/validation.json",
-          "byte_count": 399,
-          "sha256": "af61c1fc02d0c6549ea4e37b0b5fb4c18befca3b02fca9b485dc803076950b8c"
+          "byte_count": 409,
+          "sha256": "4237f77bcd2b8dfe50854842f36251167d34c60bf60adc8477f5b3106a1bee30"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-0/cohomology.jsonl",
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-0/cohomology.jsonl",
           "byte_count": 541,
           "sha256": "56adeb9ddfa7cd7d61395d0a3a7616b6077adc73a8a004e930ff477a6cf477f1",
           "row_count": 1
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-0/manifest.json",
-          "byte_count": 620,
-          "sha256": "82106189b709758877bc228d8fb5f78ef7ce334e7a517356c2836a63caec5d3a"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-0/manifest.json",
+          "byte_count": 1027,
+          "sha256": "350f75bd5ea45d8a35fd9cdc71021f38c43d0c110f6f8e1eb9c139144fa5d877"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-0/validation.json",
-          "byte_count": 395,
-          "sha256": "747757dad75d57092d3d70caf5533593ac8aac736ad786658401e30dfde29cb7"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-0/validation.json",
+          "byte_count": 405,
+          "sha256": "f4818e4995dad8a71393b7c760abcc0caaa3d5f363724686716f8214ffcbdeb9"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-1/cohomology.jsonl",
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-1/cohomology.jsonl",
           "byte_count": 1015,
           "sha256": "a89ce750ec1e1928c41f973723adb2f2ec38771856ce284c3f60feb60c6ce404",
           "row_count": 1
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-1/manifest.json",
-          "byte_count": 621,
-          "sha256": "3ba9e2e7f0ce6bb5652a42cf1e163a8ee02f1a61f999ca7a84c4b0f3cee3888f"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-1/manifest.json",
+          "byte_count": 1028,
+          "sha256": "b49f82c20096e776d1ba4ed39f94e76ca5e6b261995f18cde33031f58d482a2e"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-1/validation.json",
-          "byte_count": 395,
-          "sha256": "2a64e1a31abdb77d3a496e8bcf872b93101418ecf47973a1156c8f26df906b46"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-1/validation.json",
+          "byte_count": 405,
+          "sha256": "78bdcffc45ee11f2a7cc753d1f6765f0238c1614d844445b2674575cef4299d6"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-2/cohomology.jsonl",
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-2/cohomology.jsonl",
           "byte_count": 1916,
           "sha256": "4c108ce5ce0ee2e2370696309df059ba72848b4ef0ee8c6a97c4f149b90e231a",
           "row_count": 2
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-2/manifest.json",
-          "byte_count": 621,
-          "sha256": "c5090bf8d7d3c95a82b27fe0a2597da1eee58e7856627c90ca036ee9633bee03"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-2/manifest.json",
+          "byte_count": 1028,
+          "sha256": "9fa31bbe717957b5fd5823b17d7289f8a217504f9689ade44ddcbed638f47438"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-2/validation.json",
-          "byte_count": 395,
-          "sha256": "0571fd4c31c4f018290200b71d9891fac75399d88e89a6f06dfd17162715d406"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-2/validation.json",
+          "byte_count": 405,
+          "sha256": "8355b0c7410b9953d578d4a99a725c013506280d9ed6ed97073a025dc6ae675b"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-3/cohomology.jsonl",
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-3/cohomology.jsonl",
           "byte_count": 5405,
           "sha256": "dec6ce1b162009f299ea46c8fbde0e2de8661b2f8b86b7efd6b2d4e981d2f572",
           "row_count": 5
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-3/manifest.json",
-          "byte_count": 621,
-          "sha256": "e02f0ab04c4c8e681869c5ffb243304c9c9a5691c067791261290603b9d78433"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-3/manifest.json",
+          "byte_count": 1028,
+          "sha256": "2b93ecd4df51e3c6472d3eccc52da07f3c3de0f32466ace2c886a540b807f63f"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-3/validation.json",
-          "byte_count": 395,
-          "sha256": "5f7b85f853eb0726c68c448cb2defa5ffc6baf255cfb71c1e2b27ed63d9c1710"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-3/validation.json",
+          "byte_count": 405,
+          "sha256": "25b38d1679dc5107b0839a2ad42d4222d26679b9762f95477f5ee64b7f79bb07"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-4/cohomology.jsonl",
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-4/cohomology.jsonl",
           "byte_count": 27844,
           "sha256": "40680fffa8492285fed0c96554e1710a67ef1630fea4251621f94645faa96746",
           "row_count": 20
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-4/manifest.json",
-          "byte_count": 623,
-          "sha256": "f92f1bf6309f68074e1bfb48b9474570b8748aeb7d3b38b82e9403700a1a47bc"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-4/manifest.json",
+          "byte_count": 1030,
+          "sha256": "c0ff5ba624d231054225a0847a5c9ad9737576207a467d7b2851584479ba48ba"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-4/validation.json",
-          "byte_count": 396,
-          "sha256": "4aef0a122558b0846d611acc9bf4014675aadf1c9ae8c20448ceb6a5a7320623"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-4/validation.json",
+          "byte_count": 406,
+          "sha256": "259a59a10dd44b402d6a0d54c8e9dda24740429482158518e863be6afaf407bd"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-5/cohomology.jsonl",
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-5/cohomology.jsonl",
           "byte_count": 408595,
           "sha256": "1910bdfb478b763bb4982797b18bf8fc892a9d6fc825aea015a15bf7beb9a578",
           "row_count": 180
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-5/manifest.json",
-          "byte_count": 625,
-          "sha256": "f6672eb06e8415f6bd26fc048d656034a7f9e105830ac7b1a8aa3f32da083fe0"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-5/manifest.json",
+          "byte_count": 1032,
+          "sha256": "7badbe5933cab76389261f64de23ad03bbc7f8fa604d34049b091611d128b218"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-5/validation.json",
-          "byte_count": 397,
-          "sha256": "239ba0f9109c8a59eba0d0922bf199d0fe687af12564341a99433087288c5523"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-5/validation.json",
+          "byte_count": 407,
+          "sha256": "7d275af9aaef7fa3d4a62313e924918ff3ddd6a36a4ccf4ef49ad4b43fda5fd1"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-6/cohomology.jsonl",
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-6/cohomology.jsonl",
           "byte_count": 69282256,
           "sha256": "6e59c6bda4d4727f7fbdc5fb18c1a0ba8f86f2af52dc2ca642541b49338f9f08",
           "row_count": 16143
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-6/manifest.json",
-          "byte_count": 629,
-          "sha256": "80b74788a6d057eec04dd41ea8c99f14dfd8febe22931974d1f607e38d16989a"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-6/manifest.json",
+          "byte_count": 1036,
+          "sha256": "1be08ed60eae7f48581ac9b25d577e2c67dc32b9b0783dc8f84ee7f67531a2f1"
         },
         {
-          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v1/vertices-6/validation.json",
-          "byte_count": 399,
-          "sha256": "7f46fc6e4ec5f61795c89ab146f519bcd6ebde8fb8efe332ad00c868529d6874"
+          "path": "finite-simplicial-complexes/v1/enrichments/cohomology-f3-v2/vertices-6/validation.json",
+          "byte_count": 409,
+          "sha256": "e202fff5c87764e6be749be8d757132b9e4fedafe7d154d86290032cc4ae10e8"
         },
         {
           "path": "finite-simplicial-complexes/v1/enrichments/topology-v1/vertices-0/manifest.json",
@@ -1211,13 +1211,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-0/manifest.json",
-          "byte_count": 750,
-          "sha256": "50fe17dcb85d5785d27de515a1e128e0f7bf7ff7e18bb57b7acde37c9ca5a522"
+          "byte_count": 1071,
+          "sha256": "410d4eb07fb7738644f44f9a368e2281c6f84ef9eec6c021ca7b94eed0570fa4"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-0/validation.json",
-          "byte_count": 635,
-          "sha256": "c0e8ae42a39890d74058dc0358ba9851da6239539bf9cf7dc13cd19fd36197fb"
+          "byte_count": 634,
+          "sha256": "918b670e829989eb7e4edf42dcfe2e022b7d0a8124dddcb8880dddb594bffe3d"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-1/identities.jsonl",
@@ -1227,13 +1227,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-1/manifest.json",
-          "byte_count": 969,
-          "sha256": "b7f731c23fa9ca91ade6ac498dcaddbde196a9df5e0b52b397a598ce6a3a8106"
+          "byte_count": 1290,
+          "sha256": "e40ee020a426199581aa12c5dec4aa4786a6587aee485084c671fbfa4f11879f"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-1/validation.json",
-          "byte_count": 635,
-          "sha256": "11ee424bbad0f3029448774235e511d45492d03535c3ad72f63c9d5e66f47e22"
+          "byte_count": 634,
+          "sha256": "d19f104bbb4181a66e4cfb55bdc21cd3b0e513a7c920e11cd0857c0bd28f65a1"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-2/identities.jsonl",
@@ -1243,13 +1243,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-2/manifest.json",
-          "byte_count": 1184,
-          "sha256": "83dbc98e957f13bf174a4d34ee74a8b27cd1304a8213f2cf13e2a11c6b078b8e"
+          "byte_count": 1505,
+          "sha256": "92f0137eea83b2c9c628b4fa8c3310bf6c939169c273cc378bb3a5da9f9ac2c4"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-2/validation.json",
-          "byte_count": 635,
-          "sha256": "1b7bdedba177f3898299982016685b678a5011644208feef1ad88bfd23580847"
+          "byte_count": 634,
+          "sha256": "d15e6c38552b1340a6695ca95acec60be142daaf0424c97859fb8536f687f3fe"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-3/identities.jsonl",
@@ -1259,13 +1259,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-3/manifest.json",
-          "byte_count": 1403,
-          "sha256": "728b7fb5f57282433800fe4f61ed290b929a9a2070eb3158982c5270edf71dee"
+          "byte_count": 1724,
+          "sha256": "bb66d8ba26dd46428582bef584d3c46e9d0c44018f60c62ef56fd0cab0142205"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-3/validation.json",
-          "byte_count": 635,
-          "sha256": "f60514328a4127c0c1ac5dce53965574546c5ff5c0f2d83aeaed2f74e057bdb3"
+          "byte_count": 634,
+          "sha256": "855a4c29d13d49310a229505ff5302188c18e0ffd80a80b09811b993584d0ff7"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-4/identities.jsonl",
@@ -1275,13 +1275,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-4/manifest.json",
-          "byte_count": 1624,
-          "sha256": "56f4af7fa7711033f02f7b07e6b1ae87de3379a7b1fc64019f40a42251b2fdd9"
+          "byte_count": 1945,
+          "sha256": "4394ca834be3ce4c1d16a52664129e44e8442348e5e04822ac16dbc26fc07352"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-4/validation.json",
-          "byte_count": 641,
-          "sha256": "9d9d03978dc768378be5cf8c0e0f9172d09be0865f12d623980c74e4e909366c"
+          "byte_count": 640,
+          "sha256": "e45e04eb86cbe7f3194fdeeaf1fc0b733022c7761efceb6fbcb49090938ea499"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-5/identities.jsonl",
@@ -1291,13 +1291,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-5/manifest.json",
-          "byte_count": 1856,
-          "sha256": "0d9305dbfaf06492f4d9f2d0db4a72024a2dea36bbb66e71a561f47cd3a9e1c7"
+          "byte_count": 2177,
+          "sha256": "049a0be1baed64e27389b095f2e7a0bffe72610cf1ee6c4aadec99156e5e39f5"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-5/validation.json",
           "byte_count": 645,
-          "sha256": "a752264c21167dc9f12172eabdf61e5a15766f4bd8887a4fc0b5dad05428fe13"
+          "sha256": "e66241f45be283e27ffe32a59176a8652048cf3c9619d1531ca144cd6ba05ef1"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-6/identities.jsonl",
@@ -1307,13 +1307,13 @@
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-6/manifest.json",
-          "byte_count": 2106,
-          "sha256": "1b5d148712a78ffe873e8612aa56d8431af9aef0c14beca673176c961cc18f47"
+          "byte_count": 2427,
+          "sha256": "383bc1b258acf231198acb907ad1bef749b9b1790cec46c07a4fe21e50cbcac4"
         },
         {
           "path": "finite-simplicial-complexes/v1/vertices-6/validation.json",
           "byte_count": 655,
-          "sha256": "00bc333e474f39910fbc6171a33462eb3c36c4a01d7dc2ccea2e14e9cc3088d7"
+          "sha256": "b389ece02fb413148ca8d48c1e01f0dd04fd1df6148ad9777785ea11d6462d96"
         }
       ]
     },
@@ -1342,13 +1342,13 @@
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-2/total-7/manifest.json",
-          "byte_count": 2681,
-          "sha256": "2037c36c0d05ccd2e76bebef4d4559656081c9acb53200caade50e9102065350"
+          "byte_count": 3002,
+          "sha256": "2fb41a23eef475827b47e3f69baecab4b06a27eac3895cf56be324f84407c7a0"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-2/total-7/validation.json",
           "byte_count": 2977,
-          "sha256": "ed93fa8b89f2b0554fe9bf4295b76cf9357156f411144bfc53a3e294b3891e11"
+          "sha256": "3e6022440da8907959240cb9ba5f7847ea6626327b4fa700ee4b7cbf8228b144"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-0/identities.jsonl",
@@ -1358,13 +1358,13 @@
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-0/manifest.json",
-          "byte_count": 791,
-          "sha256": "2d728f616eefbd585b100c96248029569691b1dfb6f76b07372485d65bfb9796"
+          "byte_count": 1112,
+          "sha256": "e83da7673f2baa019025fecd6e59c095757f3518f3e461cc562cff1fadc87f91"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-0/validation.json",
-          "byte_count": 578,
-          "sha256": "f2c14f992d83b520b6f99873f9c50fcc94ecc88755112abb6f58a341596255f5"
+          "byte_count": 577,
+          "sha256": "2db77ed36929867040b7b770fa16275f8f836520fd18c3f179a66b48820f5f00"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-1/identities.jsonl",
@@ -1374,13 +1374,13 @@
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-1/manifest.json",
-          "byte_count": 1049,
-          "sha256": "a03bf2d694bb0efca395ba41395f653fedfb7363fc68d7bef6a29899056b166d"
+          "byte_count": 1370,
+          "sha256": "91f83d89a0befc8aeff21926a672052f2290a5790e1aced74b2a0ada8e7c3747"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-1/validation.json",
-          "byte_count": 595,
-          "sha256": "7a83b63426d01989da45dafbec7caf55b7227f02863631584143e31411ff114c"
+          "byte_count": 594,
+          "sha256": "03c6cc3afc78370f40d00300a9d63084eeb830d6bd6cc245474fd2ae4b2ccd79"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-2/identities.jsonl",
@@ -1390,13 +1390,13 @@
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-2/manifest.json",
-          "byte_count": 1304,
-          "sha256": "82e5dcc71b2a3cfce08869e3fc009aadda8f93f937e92e0d9e6a822e53e2b563"
+          "byte_count": 1625,
+          "sha256": "1460b6d4329c5b1ada80f5614b17fe10148d892d8be28b0ea227ce988452b546"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-2/validation.json",
-          "byte_count": 862,
-          "sha256": "8b6fdeb8c4de9de09b81a5c6852e2ab329e5aa88ecb7a6d2e78e2cdf96615963"
+          "byte_count": 861,
+          "sha256": "f859972e96d1d30dc81a6f8195b9b29bfcfbc5204bad30b79bb62f3487e942de"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-3/identities.jsonl",
@@ -1406,13 +1406,13 @@
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-3/manifest.json",
-          "byte_count": 1575,
-          "sha256": "a386c56b89f58820df82851d757bf8d99d52775139947de7bcb4216a13d5371f"
+          "byte_count": 1896,
+          "sha256": "45092c334b500677d24c54f55696ab8878148f306881bb0e2bec1825433df4cc"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-3/validation.json",
-          "byte_count": 1421,
-          "sha256": "3bd12e75dfb7c03be1189cad5148f9f615af3b358525ba39c27245ca0715fa71"
+          "byte_count": 1420,
+          "sha256": "df5d0afa17aa89a1e4c265bd0780bc101fc66da5199758736d6fb3dc7e2bdb9f"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-4/identities.jsonl",
@@ -1422,13 +1422,13 @@
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-4/manifest.json",
-          "byte_count": 1849,
-          "sha256": "52a00882ce57825be2ddd0eac17a835a05b985174064255e29c6296afce3cd23"
+          "byte_count": 2170,
+          "sha256": "4f2f944f2fe27fb33f7ad4f778a12d790f79d85a24c52ef9a43187f01fa683e2"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-4/validation.json",
-          "byte_count": 2377,
-          "sha256": "72ba8b6b690c29f31686a8345d14399786c2987215570b5ffde683a530babea1"
+          "byte_count": 2376,
+          "sha256": "8817f58685b508c4c89a67944246b6d316566e34a3836420c96f377ba601f0ac"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-5/identities.jsonl",
@@ -1438,13 +1438,13 @@
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-5/manifest.json",
-          "byte_count": 2130,
-          "sha256": "1b3e915576b9b237e4a27326176e3ff4ceb100e21e56a49f60962a6773edd61a"
+          "byte_count": 2451,
+          "sha256": "0c8deb016bb376edaeaa1081416e75ea8914b481f5936e55afaf39161f2a1a19"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-5/validation.json",
-          "byte_count": 3837,
-          "sha256": "96c55a3d6686290c5ed48d24a4e822a1e256748f399e709a861995caeeddf888"
+          "byte_count": 3836,
+          "sha256": "5325ff2fbfdbd44b8b567a0710d7e18b133640782e0883a796507bfe98d0c598"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-6/identities.jsonl",
@@ -1454,13 +1454,13 @@
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-6/manifest.json",
-          "byte_count": 2426,
-          "sha256": "fbff297d32bb6eaf47334d649eb642d1756fdaf88db8fbf1e3e4ea7bba757847"
+          "byte_count": 2747,
+          "sha256": "0e0163c6e685ec66b69640283f001e0f89b573b1dcb17817c4f588d0939f301f"
         },
         {
           "path": "finite-simplicial-sets/v1/dimension-3/total-6/validation.json",
           "byte_count": 5909,
-          "sha256": "c58b6b1da4f28f3ed662092e9583e23ef7c397db06b20b8485b749831c1d95ab"
+          "sha256": "746afe0686c976f2ae581f08a58e5c635317f0f49c2b6a18e285ab4d9cee039a"
         },
         {
           "path": "finite-simplicial-sets/v1/enrichments/cohomology-f2-v1/dimension-2/total-7/cohomology.jsonl",

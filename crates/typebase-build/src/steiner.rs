@@ -5,7 +5,6 @@ use std::{
     fs::{self, File},
     io::{BufRead, BufReader, BufWriter, Read, Write},
     path::{Path, PathBuf},
-    process,
 };
 
 use anyhow::{Context, Result, ensure};
@@ -198,6 +197,7 @@ struct Artifact {
 #[derive(Clone, Debug, Serialize)]
 struct Manifest {
     component: &'static str,
+    builder_source: poset_census::SourceIdentity,
     status: &'static str,
     volume: u32,
     collection: &'static str,
@@ -309,22 +309,8 @@ pub fn build_steiner_component(options: &SteinerBuildOptions) -> Result<SteinerB
         "the empty category did not receive label 0.-1.1"
     );
 
-    let parent = options
-        .output_root
-        .parent()
-        .context("TypeBase output has no parent")?;
-    fs::create_dir_all(parent)?;
-    let name = options
-        .output_root
-        .file_name()
-        .context("TypeBase output has no file name")?
-        .to_string_lossy();
-    let staging = parent.join(format!(".{name}.tmp-{}", process::id()));
-    ensure!(
-        !staging.exists(),
-        "TypeBase staging directory already exists"
-    );
-    fs::create_dir(&staging)?;
+    let staging_guard = crate::static_component::StagingDirectory::new(&options.output_root)?;
+    let staging = staging_guard.path.clone();
     fs::create_dir(staging.join("details"))?;
     fs::create_dir(staging.join("gallery"))?;
 
@@ -652,6 +638,7 @@ pub fn build_steiner_component(options: &SteinerBuildOptions) -> Result<SteinerB
     );
     let manifest = Manifest {
         component: COMPONENT,
+        builder_source: poset_census::source_identity(),
         status: "passed",
         volume: 1,
         collection: "strong-steiner-categories/v1",
@@ -688,7 +675,7 @@ pub fn build_steiner_component(options: &SteinerBuildOptions) -> Result<SteinerB
         outputs,
     };
     write_json(&staging.join("manifest.json"), &manifest)?;
-    fs::rename(&staging, &options.output_root)?;
+    staging_guard.install()?;
     Ok(SteinerBuildOutcome {
         directory: options.output_root.clone(),
         category_count: search.len(),
@@ -708,6 +695,30 @@ fn load_shell(data_root: &Path, atomic_size: usize) -> Result<Shell> {
     ensure!(validation["status"] == "passed");
     ensure!(validation["atomic_size"] == atomic_size);
     ensure!(validation["isomorphism_scope"]["status"] == "complete");
+    // Bind every file this projection reads to the hashes recorded by its producer.
+    let run: serde_json::Value = serde_json::from_reader(BufReader::new(
+        File::open(directory.join("run.json"))
+            .with_context(|| format!("opening run report for atomic size {atomic_size}"))?,
+    ))?;
+    for name in [
+        "categories.jsonl",
+        "mapping-categories.jsonl.zst",
+        "monomorphic-basepoints.jsonl.zst",
+        "homotopy-posets.jsonl.zst",
+        "categorical-homology.jsonl.zst",
+        "categorical-homotopy-posets.jsonl.zst",
+        "validation.json",
+    ] {
+        let reported = run["outputs"]
+            .as_array()
+            .and_then(|outputs| outputs.iter().find(|output| output["path"] == name))
+            .with_context(|| format!("run report for atomic size {atomic_size} omits {name}"))?;
+        let (byte_count, sha256) = hash_file(&directory.join(name))?;
+        ensure!(
+            reported["byte_count"] == byte_count && reported["sha256"] == sha256,
+            "{name} for atomic size {atomic_size} differs from its run report"
+        );
+    }
     let (_, validation_sha256) = hash_file(&validation_path)?;
     let categories: Vec<SteinerCategoryRecord> = read_jsonl(&directory.join("categories.jsonl"))?;
     for record in &categories {
@@ -816,11 +827,23 @@ fn load_group_identifications(
             "group identification has the wrong order"
         );
         ensure!(
+            record
+                .lmfdb_label
+                .starts_with(&format!("{}.", record.automorphism_order)),
+            "LMFDB group label disagrees with its order"
+        );
+        ensure!(
             output.insert(record.category_key.clone(), record).is_none(),
             "duplicate Steiner-category group identification"
         );
     }
-    let (_, sha256) = hash_file(&records_path)?;
+    let expected_count = manifest["identified_count"]
+        .as_u64()
+        .context("Steiner group-identification manifest lacks identified_count")?;
+    ensure!(output.len() as u64 == expected_count);
+    let (byte_count, sha256) = hash_file(&records_path)?;
+    ensure!(byte_count == manifest["output_byte_count"]);
+    ensure!(sha256 == manifest["output_sha256"]);
     Ok((output, Some(sha256)))
 }
 

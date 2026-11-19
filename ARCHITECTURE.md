@@ -165,11 +165,11 @@ A TypeBase volume is a frozen build over explicitly pinned TypeLake batches. It
 contains:
 
 - the selected record columns and relation views;
-- the deterministic build specification and code revision;
-- stable labels and label-to-canonical-id mappings;
+- the input selection and collection build parameters, with the source revision and source digest in newly built projection manifests;
+- stable labels mapped to collection-owned canonical keys;
 - the exact completeness claims the volume endorses;
 - source and validation summaries; and
-- citation and erratum metadata.
+- review metadata; formal citations and erratum publication are later release work.
 
 TypeBase may materialize cheap deterministic facets and aggregations needed for
 search. It should not perform new expensive mathematics: such a result belongs
@@ -257,12 +257,11 @@ Tracked code and contracts live together:
 ```text
 typelake/
   collections/<collection>/
-    collection.yaml
-    record.schema.json
-    relations.schema.json
-    conventions.yaml
     PLAN.md
-    validation/
+    RECORD.md
+    TYPEBASE.md               where a browser contract is present
+    validation/               where validation fixtures are present
+    sources/                  where an external source catalogue is used
   crates/<collection-builder>/
   shared/                    only after demonstrated cross-collection reuse
 ```

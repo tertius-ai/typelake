@@ -163,15 +163,18 @@ pub fn load_census(
         .collect::<Result<Vec<EilenbergMacLaneRecord>>>()?;
     ensure!(records.len() == artifact.row_count, "artifact row count");
     validate_records_sorted(&records)?;
-    Ok((
-        manifest,
-        EilenbergMacLaneCensus {
-            maximum_finite_order,
-            maximum_delooping_degree,
-            exact_through_degree,
-            records,
-        },
-    ))
+    let census = EilenbergMacLaneCensus {
+        maximum_finite_order,
+        maximum_delooping_degree,
+        exact_through_degree,
+        records,
+    };
+    let source = crate::source::load_source()?;
+    ensure!(
+        crate::validate::validate_census(&source, &census)? == manifest.validation,
+        "stored completeness report differs from record replay"
+    );
+    Ok((manifest, census))
 }
 
 #[cfg(test)]

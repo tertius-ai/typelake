@@ -1,10 +1,9 @@
 //! Independently identified abstract automorphism groups for Steiner categories.
 
 use std::{
-    fs::{self, File},
+    fs::File,
     io::{BufRead, BufReader, BufWriter, Read, Write},
     path::{Path, PathBuf},
-    process,
 };
 
 use anyhow::{Context, Result, ensure};
@@ -81,19 +80,8 @@ pub fn identify_steiner_groups(
         "group-identification output {} already exists",
         options.output_root.display()
     );
-    let parent = options
-        .output_root
-        .parent()
-        .context("group-identification output has no parent")?;
-    fs::create_dir_all(parent)?;
-    let file_name = options
-        .output_root
-        .file_name()
-        .context("group-identification output has no file name")?
-        .to_string_lossy();
-    let staging = parent.join(format!(".{file_name}.tmp-{}", process::id()));
-    ensure!(!staging.exists(), "group-identification staging exists");
-    fs::create_dir(&staging)?;
+    let staging_guard = crate::static_component::StagingDirectory::new(&options.output_root)?;
+    let staging = staging_guard.path.clone();
 
     let mut gap = GapIdentifier::spawn(&options.gap_executable)?;
     let gap_version = gap.version().to_owned();
@@ -150,7 +138,7 @@ pub fn identify_steiner_groups(
             output_sha256,
         },
     )?;
-    fs::rename(&staging, &options.output_root)?;
+    staging_guard.install()?;
     Ok(SteinerGroupIdentificationOutcome {
         directory: options.output_root.clone(),
         category_count: counts.categories,

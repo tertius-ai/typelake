@@ -30,7 +30,10 @@ def _sort_key(key: str) -> tuple[int, ...]:
     """JCS orders keys by UTF-16 code unit, which differs from code point above
     the BMP. Encoding to UTF-16BE and reading back pairs gives the right order.
     """
-    raw = key.encode("utf-16-be")
+    try:
+        raw = key.encode("utf-16-be")
+    except UnicodeEncodeError as exc:
+        raise CanonicalError("lone surrogates are not valid Unicode") from exc
     return tuple(int.from_bytes(raw[i : i + 2], "big") for i in range(0, len(raw), 2))
 
 
@@ -56,6 +59,10 @@ def _encode(value: Any, out: list[str]) -> None:
             "a RealBall"
         )
     elif isinstance(value, str):
+        try:
+            value.encode("utf-8")
+        except UnicodeEncodeError as exc:
+            raise CanonicalError("lone surrogates are not valid Unicode") from exc
         out.append(json.dumps(value, ensure_ascii=False))
     elif isinstance(value, (list, tuple)):
         out.append("[")

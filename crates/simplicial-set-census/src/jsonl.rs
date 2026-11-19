@@ -223,11 +223,7 @@ pub fn load_identity_shell(
         serde_json::from_reader(File::open(directory.join("manifest.json"))?)?;
     ensure!(manifest.contract == CONTRACT, "identity contract mismatch");
     ensure!(
-        manifest.noether_revision == IDENTITY_NOETHER_REVISION
-            || manifest.noether_revision == TOPOLOGY_NOETHER_REVISION
-            || manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-            || manifest.noether_revision == NOETHER_REVISION
-            || manifest.noether_revision == LEGACY_NOETHER_REVISION,
+        accepted_identity_noether_revision(&manifest.noether_revision),
         "identity Noether revision mismatch"
     );
     ensure!(
@@ -286,11 +282,7 @@ pub fn emit_topology_shell(
         "identity contract mismatch"
     );
     ensure!(
-        identity_manifest.noether_revision == IDENTITY_NOETHER_REVISION
-            || identity_manifest.noether_revision == TOPOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == NOETHER_REVISION
-            || identity_manifest.noether_revision == LEGACY_NOETHER_REVISION,
+        accepted_identity_noether_revision(&identity_manifest.noether_revision),
         "identity Noether revision mismatch"
     );
     ensure!(
@@ -476,11 +468,7 @@ pub fn emit_cohomology_shell(
         "identity contract mismatch"
     );
     ensure!(
-        identity_manifest.noether_revision == IDENTITY_NOETHER_REVISION
-            || identity_manifest.noether_revision == TOPOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == NOETHER_REVISION
-            || identity_manifest.noether_revision == LEGACY_NOETHER_REVISION,
+        accepted_identity_noether_revision(&identity_manifest.noether_revision),
         "identity Noether revision mismatch"
     );
     ensure!(
@@ -570,11 +558,7 @@ pub fn load_cohomology_shell(
         "identity contract mismatch"
     );
     ensure!(
-        identity_manifest.noether_revision == IDENTITY_NOETHER_REVISION
-            || identity_manifest.noether_revision == TOPOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == NOETHER_REVISION
-            || identity_manifest.noether_revision == LEGACY_NOETHER_REVISION,
+        accepted_identity_noether_revision(&identity_manifest.noether_revision),
         "identity Noether revision mismatch"
     );
     ensure!(
@@ -951,11 +935,7 @@ pub fn emit_homotopy_shell(
         "identity contract mismatch"
     );
     ensure!(
-        identity_manifest.noether_revision == IDENTITY_NOETHER_REVISION
-            || identity_manifest.noether_revision == TOPOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == NOETHER_REVISION
-            || identity_manifest.noether_revision == LEGACY_NOETHER_REVISION,
+        accepted_identity_noether_revision(&identity_manifest.noether_revision),
         "identity Noether revision mismatch"
     );
     ensure!(
@@ -1043,11 +1023,7 @@ pub fn load_homotopy_shell(
         "identity contract mismatch"
     );
     ensure!(
-        identity_manifest.noether_revision == IDENTITY_NOETHER_REVISION
-            || identity_manifest.noether_revision == TOPOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == COHOMOLOGY_NOETHER_REVISION
-            || identity_manifest.noether_revision == NOETHER_REVISION
-            || identity_manifest.noether_revision == LEGACY_NOETHER_REVISION,
+        accepted_identity_noether_revision(&identity_manifest.noether_revision),
         "identity Noether revision mismatch"
     );
     ensure!(
@@ -1122,7 +1098,8 @@ pub fn load_homotopy_shell(
     Ok(records)
 }
 
-fn accepted_identity_noether_revision(revision: &str) -> bool {
+/// Whether this known producer uses a supported identity encoding.
+pub fn accepted_identity_noether_revision(revision: &str) -> bool {
     revision == IDENTITY_NOETHER_REVISION
         || revision == TOPOLOGY_NOETHER_REVISION
         || revision == COHOMOLOGY_NOETHER_REVISION

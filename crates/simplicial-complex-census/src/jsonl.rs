@@ -477,6 +477,29 @@ pub fn load_cohomology_shell(
     vertices: usize,
     prime: u64,
 ) -> Result<Vec<SimplicialComplexCohomologyRecord>> {
+    let root = data_root.join("finite-simplicial-complexes/v1/enrichments");
+    let version = if root
+        .join(format!("cohomology-f{prime}-v2/vertices-{vertices}"))
+        .exists()
+    {
+        2
+    } else {
+        1
+    };
+    load_cohomology_shell_version(data_root, vertices, prime, version)
+}
+
+/// Load exactly the selected immutable lane, even when other versions coexist.
+pub fn load_cohomology_shell_version(
+    data_root: &Path,
+    vertices: usize,
+    prime: u64,
+    version: u32,
+) -> Result<Vec<SimplicialComplexCohomologyRecord>> {
+    ensure!(
+        version == 2 || (version == 1 && prime == 3),
+        "unsupported cohomology version"
+    );
     let topology_directory = data_root
         .join("finite-simplicial-complexes")
         .join("v1")
@@ -516,23 +539,10 @@ pub fn load_cohomology_shell(
         .join("finite-simplicial-complexes")
         .join("v1")
         .join("enrichments");
-    let version_two = enrichment_root
-        .join(format!("cohomology-f{prime}-v2"))
-        .join(format!("vertices-{vertices}"));
-    let (directory, legacy) = if version_two.exists() {
-        (version_two, false)
-    } else {
-        ensure!(
-            prime == 3,
-            "missing selected version-two cohomology artifact"
-        );
-        (
-            enrichment_root
-                .join("cohomology-f3-v1")
-                .join(format!("vertices-{vertices}")),
-            true,
-        )
-    };
+    let directory = enrichment_root.join(format!(
+        "cohomology-f{prime}-v{version}/vertices-{vertices}"
+    ));
+    let legacy = version == 1;
     let manifest: CohomologyManifestRead =
         serde_json::from_reader(File::open(directory.join("manifest.json"))?)?;
     if legacy {

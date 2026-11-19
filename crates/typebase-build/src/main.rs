@@ -76,7 +76,7 @@ enum Command {
         /// Root containing the certified finite-Poset census for homotopy links.
         #[arg(long, env = "POSET_CENSUS_DATA_ROOT")]
         poset_data_root: PathBuf,
-        /// Optional immutable abstract automorphism-group enrichment JSONL.
+        /// Optional immutable abstract automorphism-group enrichment directory.
         #[arg(long)]
         group_identifications: Option<PathBuf>,
     },
@@ -129,6 +129,9 @@ enum Command {
         output_root: PathBuf,
         #[arg(long, default_value_t = 6)]
         maximum_vertices: usize,
+        /// Exact F3 enrichment lane; version 1 is retained for historical selections.
+        #[arg(long, default_value_t = 2)]
+        f3_cohomology_version: u32,
         #[arg(long, default_value_t = 256)]
         rows_per_detail_part: usize,
     },
@@ -279,12 +282,14 @@ fn main() -> Result<()> {
             data_root,
             output_root,
             maximum_vertices,
+            f3_cohomology_version,
             rows_per_detail_part,
         } => {
             let outcome = build_simplicial_complex_component(&SimplicialComplexBuildOptions {
                 data_root,
                 output_root,
                 maximum_vertices,
+                f3_cohomology_version,
                 rows_per_detail_part,
             })?;
             println!(

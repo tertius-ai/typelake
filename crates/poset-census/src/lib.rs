@@ -115,3 +115,20 @@ pub fn enrich_census_with_generator(
         complexes: complexes.into_values().collect(),
     })
 }
+
+/// Exact source identity of the producer, including uncommitted source bytes.
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct SourceIdentity {
+    pub revision: &'static str,
+    pub source_sha256: &'static str,
+    pub dirty: bool,
+}
+
+/// Source identity embedded at compile time, independent of the runtime checkout.
+pub fn source_identity() -> SourceIdentity {
+    SourceIdentity {
+        revision: env!("POSET_CENSUS_REVISION"),
+        source_sha256: env!("TYPELAKE_SOURCE_SHA256"),
+        dirty: env!("POSET_CENSUS_DIRTY") == "true",
+    }
+}

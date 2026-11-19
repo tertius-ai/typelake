@@ -107,4 +107,4 @@ The finite-Poset component may enter Volume I only when:
 - the label map is complete and unique;
 - the Parquet projection reproduces source row counts and selected values; and
 - a cold browser test proves that an exact-label lookup reads only bounded
-  range data rather than downloading an entire order.
+  one bounded detail part rather than downloading an entire order.

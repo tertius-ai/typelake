@@ -76,8 +76,10 @@ function getFilters(): Filters {
     lattice: elements.lattice.checked,
     homologyDegree:
       elements.homologyDegree.value === "" ? null : Number(elements.homologyDegree.value),
+    // No fixed cap: the K_{5,5} Poset of order 10 has beta_1 = 16. The bound
+    // only keeps the value an exact integer for the SQL filter.
     minimumBetti: Math.min(
-      10,
+      Number.MAX_SAFE_INTEGER,
       Math.max(0, Math.trunc(Number(elements.minimumBetti.value) || 0)),
     ),
     torsion:
@@ -243,7 +245,7 @@ async function openRecord(label: string): Promise<void> {
           <p class="accession">Finite Poset</p>
           <h3>${plural(poset.order, "point")}, dimension ${complex.dimension}</h3>
           <dl class="record__primary-facts">
-            <div><dt>Height</dt><dd>${poset.invariants.height}</dd></div>
+            <div><dt>Longest chain</dt><dd>${poset.invariants.height}</dd></div>
             <div><dt>Width</dt><dd>${poset.invariants.width}</dd></div>
             <div><dt>Cover relations</dt><dd>${poset.invariants.cover_count}</dd></div>
             <div><dt>Components</dt><dd>${poset.invariants.component_count}</dd></div>

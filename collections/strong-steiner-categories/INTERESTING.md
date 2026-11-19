@@ -1,7 +1,7 @@
 # Interesting strong Steiner categories
 
 This is the editorial register for the TypeBase Volume I “interesting” page.
-The builder resolves names to labels only after a complete label map exists.
+This register is a manual editorial guide. The builder selects recognized families, nontrivial homotopy-Poset cases, and four explicit small labels after constructing the complete label map; it does not parse this Markdown register.
 
 ## Initial cases
 
@@ -29,7 +29,7 @@ The builder resolves names to labels only after a complete label map exists.
 - The first nontrivial automorphism action and the first non-self-dual pair
   provide symmetry and duality cases for the catalogue.
 
-Named selection is curated, while the browser also includes the exact
+Named selection is curated, while the projection builder also includes the exact
 nontrivial-core criterion recorded in `PLAN.md`. Neither is a numerical
 “interestingness” score, and being listed does not enlarge the declared
 complete coverage region.

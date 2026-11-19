@@ -75,5 +75,5 @@ panels, and an exact-extent panel for every bounded integral row. Sparse-bar
 details additionally carry canonical cocycles and their full in-range product
 table. The reference routes are
 `/FiniteGroupCohomology/Source`, `/Completeness`, and `/Glossary`, all rendered
-from the selected manifest. The audited component is 991,948 bytes in 146
+from the selected manifest. The audited component is 992,187 bytes in 146
 files.

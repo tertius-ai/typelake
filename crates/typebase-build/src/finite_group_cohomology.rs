@@ -124,6 +124,7 @@ struct StandardNameRow {
 #[derive(Serialize)]
 struct ComponentManifest {
     component: &'static str,
+    builder_source: poset_census::SourceIdentity,
     status: &'static str,
     volume: u32,
     collection: &'static str,
@@ -290,13 +291,11 @@ pub fn build_finite_group_cohomology_component(
         options.integral_bar_entry_limit,
     );
     let inputs = vec![
-        inspect_file(
-            &PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
-                "../../collections/finite-group-cohomology/sources/standard-names-through-32.json",
-            ),
-            "finite-group-cohomology/sources/standard-names-through-32.json",
+        crate::static_component::artifact(
             "external_names",
+            "finite-group-cohomology/sources/standard-names-through-32.json",
             u64::try_from(standard_names.len())?,
+            STANDARD_NAMES_BYTES,
         )?,
         inspect_file(
             &source_directory.join("manifest.json"),
@@ -341,6 +340,7 @@ pub fn build_finite_group_cohomology_component(
     ];
     let manifest = ComponentManifest {
         component: COMPONENT,
+        builder_source: poset_census::source_identity(),
         status: "passed",
         volume: 1,
         collection: COLLECTION,

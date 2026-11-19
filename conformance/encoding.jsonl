@@ -11,3 +11,5 @@
 {"name": "float-rejected", "value": "1.5", "error": "CanonicalError"}
 {"name": "unsafe-int-rejected", "value": "9007199254740992", "error": "CanonicalError"}
 {"name": "nonstring-key-rejected", "value": "{1: 'a'}", "error": "CanonicalError"}
+{"name": "lone-surrogate-value-rejected", "value": "{'a': '\\ud800'}", "error": "CanonicalError"}
+{"name": "lone-surrogate-key-rejected", "value": "{'\\udfff': 1}", "error": "CanonicalError"}

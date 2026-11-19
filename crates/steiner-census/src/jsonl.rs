@@ -50,6 +50,9 @@ struct LayerRunReport<'a> {
     elapsed_milliseconds: u128,
     atomic_size: usize,
     noether_version: &'static str,
+    producer: poset_census::SourceIdentity,
+    noether_revision: &'static str,
+    mapping_model_algorithm: &'static str,
     #[serde(skip_serializing_if = "Option::is_none")]
     generator: Option<&'a str>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -99,6 +102,9 @@ struct RunReport {
     candidate_cap: u64,
     raw_candidate_count: u64,
     noether_version: &'static str,
+    producer: poset_census::SourceIdentity,
+    noether_revision: &'static str,
+    mapping_model_algorithm: &'static str,
     street_nerve_degree: usize,
     outputs: Vec<FileReport>,
     validation_sha256: String,
@@ -140,6 +146,9 @@ pub fn emit_identity_shell(
         elapsed_milliseconds: elapsed.as_millis(),
         atomic_size: census.atomic_size,
         noether_version: noether::VERSION,
+        producer: poset_census::source_identity(),
+        noether_revision: poset_census::NOETHER_REVISION,
+        mapping_model_algorithm: "full-cell-skeleton-bijection/v1",
         generator: Some(census.generator.id()),
         candidate_cap: Some(census.candidate_cap),
         enumeration: Some(&census.stats),
@@ -196,6 +205,9 @@ pub fn emit_light_shell(
         elapsed_milliseconds: elapsed.as_millis(),
         atomic_size: census.atomic_size,
         noether_version: noether::VERSION,
+        producer: poset_census::source_identity(),
+        noether_revision: poset_census::NOETHER_REVISION,
+        mapping_model_algorithm: "full-cell-skeleton-bijection/v1",
         generator: None,
         candidate_cap: None,
         enumeration: None,
@@ -266,6 +278,9 @@ pub fn emit_mapping_shell(
         elapsed_milliseconds: elapsed.as_millis(),
         atomic_size: census.atomic_size,
         noether_version: noether::VERSION,
+        producer: poset_census::source_identity(),
+        noether_revision: poset_census::NOETHER_REVISION,
+        mapping_model_algorithm: "full-cell-skeleton-bijection/v1",
         generator: None,
         candidate_cap: None,
         enumeration: None,
@@ -379,6 +394,9 @@ pub fn emit_rich_shell(
         elapsed_milliseconds: elapsed.as_millis(),
         atomic_size: census.atomic_size,
         noether_version: noether::VERSION,
+        producer: poset_census::source_identity(),
+        noether_revision: poset_census::NOETHER_REVISION,
+        mapping_model_algorithm: "full-cell-skeleton-bijection/v1",
         generator: None,
         candidate_cap: None,
         enumeration: None,
@@ -412,6 +430,7 @@ pub fn load_identity_shell(data_root: &Path, atomic_size: usize) -> Result<Loade
     let directory = data_root
         .join("census/identity-version=1")
         .join(format!("atomic-size={atomic_size}"));
+    verify_producer_outputs(&directory)?;
     let records_path = directory.join("identities.jsonl");
     let validation_path = directory.join("validation.json");
     let validation: IdentityValidationReport = read_json(&validation_path)?;
@@ -436,6 +455,7 @@ pub fn load_light_shell(data_root: &Path, atomic_size: usize) -> Result<LoadedLi
     let directory = data_root
         .join("enrichments/light-version=1")
         .join(format!("atomic-size={atomic_size}"));
+    verify_producer_outputs(&directory)?;
     let records_path = directory.join("light-enrichments.jsonl.zst");
     let validation_path = directory.join("validation.json");
     let validation: EnrichmentValidationReport = read_json(&validation_path)?;
@@ -463,6 +483,7 @@ pub fn load_mapping_shell(data_root: &Path, atomic_size: usize) -> Result<Loaded
     let directory = data_root
         .join("enrichments/mapping-version=1")
         .join(format!("atomic-size={atomic_size}"));
+    verify_producer_outputs(&directory)?;
     let records_path = directory.join("mapping-enrichments.jsonl.zst");
     let mappings_path = directory.join("mapping-categories.jsonl.zst");
     let validation_path = directory.join("validation.json");
@@ -810,6 +831,9 @@ pub fn emit_completed_shell(
         candidate_cap: census.candidate_cap,
         raw_candidate_count: census.raw_candidate_count,
         noether_version: noether::VERSION,
+        producer: poset_census::source_identity(),
+        noether_revision: poset_census::NOETHER_REVISION,
+        mapping_model_algorithm: "full-cell-skeleton-bijection/v1",
         street_nerve_degree: street_degree,
         outputs,
         validation_sha256,
@@ -913,6 +937,70 @@ fn unix_milliseconds(time: SystemTime) -> Result<u128> {
         .as_millis())
 }
 
+/// Reject modified sidecars before any downstream lane consumes them.
+pub fn verify_producer_outputs(directory: &Path) -> Result<()> {
+    let run: serde_json::Value = read_json(&directory.join("run.json"))?;
+    let outputs = run["outputs"]
+        .as_array()
+        .context("producer has no output inventory")?;
+    let required: &[&str] = match run["contract"].as_str() {
+        Some(IDENTITY_CONTRACT) => &["identities.jsonl", "validation.json", "coverage.json"],
+        Some(LIGHT_ENRICHMENT_CONTRACT) => &[
+            "light-enrichments.jsonl.zst",
+            "validation.json",
+            "coverage.json",
+        ],
+        Some(MAPPING_ENRICHMENT_CONTRACT) => &[
+            "mapping-enrichments.jsonl.zst",
+            "mapping-categories.jsonl.zst",
+            "validation.json",
+            "coverage.json",
+        ],
+        Some(CONTRACT) => &[
+            "categories.jsonl",
+            "mapping-categories.jsonl.zst",
+            "monomorphic-basepoints.jsonl.zst",
+            "homotopy-posets.jsonl.zst",
+            "categorical-homology.jsonl.zst",
+            "categorical-homotopy-posets.jsonl.zst",
+            "validation.json",
+        ],
+        _ => bail!("unsupported producer contract"),
+    };
+    for name in required {
+        anyhow::ensure!(
+            outputs
+                .iter()
+                .filter(|output| output["path"] == *name)
+                .count()
+                == 1,
+            "producer inventory must name {name} exactly once"
+        );
+    }
+    if let Some(revision) = run["noether_revision"].as_str() {
+        anyhow::ensure!(
+            revision == poset_census::NOETHER_REVISION,
+            "unsupported producer revision"
+        );
+    }
+    for output in outputs {
+        let name = output["path"].as_str().context("output has no path")?;
+        let path = Path::new(name);
+        anyhow::ensure!(
+            path.components()
+                .all(|part| matches!(part, std::path::Component::Normal(_))),
+            "unsafe producer artifact path"
+        );
+        let path = directory.join(path);
+        anyhow::ensure!(
+            output["byte_count"] == fs::metadata(&path)?.len()
+                && output["sha256"] == sha256_file(&path)?,
+            "producer artifact {name} hash mismatch"
+        );
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1009,7 +1097,6 @@ mod tests {
         assert!(coverage.invariants.iter().any(|claim| {
             claim.invariant == "mapping-categories" && claim.status == "not-materialized"
         }));
-
         let mappings = mapping_census(atomic_size, &loaded_identity.records).unwrap();
         let mapping_validation =
             validate_mapping_census(&mappings, &loaded_identity.records).unwrap();
@@ -1034,5 +1121,12 @@ mod tests {
         assert!(coverage.invariants.iter().any(|claim| {
             claim.invariant == "mapping-categories" && claim.status == "complete"
         }));
+        let mappings_path = scratch
+            .0
+            .join("enrichments/mapping-version=1/atomic-size=3/mapping-categories.jsonl.zst");
+        let mut bytes = fs::read(&mappings_path).unwrap();
+        bytes.push(b'!');
+        fs::write(mappings_path, bytes).unwrap();
+        assert!(load_mapping_shell(&scratch.0, 3).is_err());
     }
 }

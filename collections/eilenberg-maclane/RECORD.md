@@ -8,12 +8,12 @@ EilenbergMacLaneRecord {
   label                         # `8.2.2` or `Z.3`
   group {
     kind                        # finite | infinite_cyclic
-    invariant_factors           # canonical d1 | ... | dr
+    torsion_coefficients        # canonical d1 | ... | dr
     free_rank
     order?                      # finite only
     lmfdb_label?
     lmfdb_url?
-    gap_structure_description?
+    structure_description       # GAP StructureDescription, or `Z`
   }
   delooping_degree
   space_canonical_sha256
@@ -266,4 +266,4 @@ The immutable artifact contains canonical JSONL records and a manifest with:
 - group, delooping, and total-degree bounds;
 - object count and per-invariant available/pending counts;
 - artifact byte count, row count, and SHA256;
-- independent validation booleans and parity-oracle versions.
+- independent validation booleans and native validation coverage (external parity-oracle versions are not stored).

@@ -6,8 +6,9 @@ use std::{
 
 use noether::{combin::Poset, topology::SimplicialComplex};
 use poset_census::{
+    Generator,
     enrich::complex_key,
-    enrich_census,
+    enrich_census, enrich_census_with_generator,
     enumerate::{orderly_representatives, reference_representatives},
     jsonl::emit_completed_order,
     records::PosetKey,
@@ -125,6 +126,26 @@ fn order_four_clears_counts_and_contains_the_minimal_finite_circle() {
     let expected_complex = serde_json::from_str(MINIMAL_CIRCLE_COMPLEX).unwrap();
     assert!(census.posets.contains(&expected_poset));
     assert!(census.complexes.contains(&expected_complex));
+}
+
+#[test]
+fn reference_key_flag_records_whether_validation_ran_the_oracle() {
+    let (candidate_count, representatives) = reference_representatives(5, 1_024).unwrap();
+    let census = enrich_census(5, 1_024, candidate_count, representatives).unwrap();
+    let report = validate_census(&census).unwrap();
+    assert!(report.checks.reference_key_set_complete);
+
+    let (stats, representatives) = orderly_representatives(6, 1_000_000).unwrap();
+    let census = enrich_census_with_generator(
+        Generator::HereditaryOrderly,
+        6,
+        1_000_000,
+        stats.downset_count,
+        representatives,
+    )
+    .unwrap();
+    let report = validate_census(&census).unwrap();
+    assert!(!report.checks.reference_key_set_complete);
 }
 
 #[test]

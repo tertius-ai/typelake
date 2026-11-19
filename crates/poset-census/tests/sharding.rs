@@ -57,14 +57,50 @@ fn sharded_output_matches_monolithic_and_resume_is_byte_identical() {
             "certified publication {file} differs from the monolithic reference"
         );
     }
-    assert!(
-        fs::read_to_string(published.join("validation.json"))
-            .unwrap()
-            .contains("\"full_record_reconstruction\": true")
-    );
+    let validation = fs::read_to_string(published.join("validation.json")).unwrap();
+    assert!(validation.contains("\"full_record_reconstruction\": true"));
+    for unrun in [
+        "core_replay_and_idempotence",
+        "euler_and_integral_homology",
+        "core_homology_invariance",
+    ] {
+        assert!(validation.contains(&format!("\"{unrun}\": true")));
+    }
 
     fs::remove_dir_all(uninterrupted).unwrap();
     fs::remove_dir_all(resumed).unwrap();
+}
+
+#[test]
+fn publication_rejects_a_shard_manifest_changed_after_the_merge() {
+    let root = temporary_root("changed-manifest");
+    prepare_completed_order_four(&root);
+    run_all_shards(&root, None);
+    let manifest = root.join(
+        "work/finite-posets/resume-equivalence/shards/order=5-shard=00000-of-00003/manifest.json",
+    );
+    let mut bytes = fs::read(&manifest).unwrap();
+    bytes.push(b'\n');
+    fs::write(&manifest, bytes).unwrap();
+    for shard_id in 0..3 {
+        certify_orderly_shard(&CertificationOptions {
+            data_root: root.clone(),
+            run_id: "resume-equivalence".to_owned(),
+            target_order: 5,
+            shard_id,
+            shard_count: 3,
+        })
+        .unwrap();
+    }
+    let error = publish_certified_merge(&PublishOptions {
+        data_root: root.clone(),
+        run_id: "resume-equivalence".to_owned(),
+        target_order: 5,
+        shard_count: 3,
+    })
+    .unwrap_err();
+    assert!(error.to_string().contains("merge consumed"));
+    fs::remove_dir_all(root).unwrap();
 }
 
 fn certify_and_publish(data_root: &Path) -> PathBuf {

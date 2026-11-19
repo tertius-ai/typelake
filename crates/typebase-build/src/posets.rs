@@ -5,7 +5,6 @@ use std::{
     fs::{self, File},
     io::{BufRead, BufReader, BufWriter, Read, Write},
     path::{Path, PathBuf},
-    process,
     sync::Arc,
 };
 
@@ -153,6 +152,7 @@ struct ComponentChecks {
 #[derive(Debug, Serialize)]
 struct ComponentManifest {
     component: &'static str,
+    builder_source: poset_census::SourceIdentity,
     status: &'static str,
     volume: u32,
     collection: &'static str,
@@ -236,22 +236,8 @@ pub fn build_poset_component(options: &PosetBuildOptions) -> Result<PosetBuildOu
     let (group_identifications, source_group_identifications) =
         load_group_identifications(options.group_identifications.as_deref(), &labels)?;
 
-    let parent = options
-        .output_root
-        .parent()
-        .context("TypeBase output has no parent")?;
-    fs::create_dir_all(parent)?;
-    let file_name = options
-        .output_root
-        .file_name()
-        .context("TypeBase output has no file name")?
-        .to_string_lossy();
-    let staging = parent.join(format!(".{file_name}.tmp-{}", process::id()));
-    ensure!(
-        !staging.exists(),
-        "TypeBase staging directory already exists"
-    );
-    fs::create_dir(&staging)?;
+    let staging_guard = crate::static_component::StagingDirectory::new(&options.output_root)?;
+    let staging = staging_guard.path.clone();
 
     let mut outputs = Vec::new();
     let mut landing_rows = Vec::with_capacity(LANDING_ROW_COUNT);
@@ -380,6 +366,7 @@ pub fn build_poset_component(options: &PosetBuildOptions) -> Result<PosetBuildOu
         .collect::<Vec<_>>();
     let manifest = ComponentManifest {
         component: COMPONENT,
+        builder_source: poset_census::source_identity(),
         status: "passed",
         volume: 1,
         collection: "finite-posets/v1",
@@ -408,8 +395,7 @@ pub fn build_poset_component(options: &PosetBuildOptions) -> Result<PosetBuildOu
     };
     write_json(&staging.join("manifest.json"), &manifest)?;
     sync_directory(&staging)?;
-    fs::rename(&staging, &options.output_root)?;
-    sync_directory(parent)?;
+    staging_guard.install()?;
     Ok(PosetBuildOutcome {
         directory: options.output_root.clone(),
         poset_count: total_rows,
@@ -433,6 +419,42 @@ fn inspect_source_order(directory: &Path, order: usize) -> Result<SourceOrder> {
     ensure!(validation["order"] == order);
     ensure!(validation["status"] == "passed");
     ensure!(validation["isomorphism_scope"]["status"] == "complete");
+    let run: serde_json::Value =
+        serde_json::from_reader(File::open(directory.join("run.json")).with_context(|| {
+            format!(
+                "opening producer report in {} (expected a Poset collection root)",
+                directory.display()
+            )
+        })?)?;
+    let revision = run["revisions"]["noether"]["revision"]
+        .as_str()
+        .context("producer omits its Noether revision")?;
+    ensure!(
+        [
+            poset_census::NOETHER_REVISION,
+            poset_census::LEGACY_NOETHER_REVISION
+        ]
+        .contains(&revision),
+        "unsupported Poset producer revision"
+    );
+    let outputs = run["outputs"]
+        .as_array()
+        .context("producer output inventory missing")?;
+    for name in [
+        "posets.jsonl",
+        "simplicial-complexes.jsonl",
+        "validation.json",
+    ] {
+        let reported = outputs
+            .iter()
+            .find(|item| item["path"] == name)
+            .with_context(|| format!("producer omits {name}"))?;
+        let (bytes, hash) = hash_file(&directory.join(name))?;
+        ensure!(
+            reported["byte_count"] == bytes && reported["sha256"] == hash,
+            "Poset source {name} differs from producer report"
+        );
+    }
     Ok(SourceOrder {
         order,
         posets: inspect_source_artifact(

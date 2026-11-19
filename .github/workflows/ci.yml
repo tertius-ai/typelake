@@ -31,6 +31,7 @@ jobs:
         run: |
           scitype emit
           git diff --exit-code published conformance
+          test -z "$(git status --porcelain published conformance)"
       - name: Conformance corpus
         run: pytest -q
       - name: CLI smoke test
@@ -54,3 +55,29 @@ jobs:
           cache-dependency-path: web/typebase/package-lock.json
       - run: npm --prefix web/typebase ci
       - run: npm --prefix web/typebase run build
+
+  rust:
+    name: Rust and independent enumeration checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      FLINT_PREFIX: ${{ github.workspace }}/.noether-native/.deps/flint
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install native build prerequisites
+        run: sudo apt-get update && sudo apt-get install -y build-essential m4 pkg-config curl
+      - name: Install the tested Rust toolchain
+        run: |
+          rustup toolchain install 1.95.0 --profile minimal --component clippy --component rustfmt
+          rustup override set 1.95.0
+      - name: Build the pinned native dependencies
+        run: |
+          git clone https://github.com/tertius-ai/noether.git .noether-native
+          git -C .noether-native checkout 4c92c269c59da02a4d32c833c2ee093407f8e22f
+          bash .noether-native/scripts/install-flint.sh
+      - run: make check
+      - run: make lint
+      - run: make test
+      - run: make test-oracles

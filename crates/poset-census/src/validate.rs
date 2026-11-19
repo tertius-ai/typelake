@@ -7,11 +7,15 @@ use serde::{Deserialize, Serialize};
 use crate::{
     Census,
     enrich::{complex_key, complex_record, enrich_poset},
+    enumerate::reference_representatives,
     records::PosetKey,
 };
 
 const ACCEPTED_COUNTS: &str =
     include_str!("../../../collections/finite-posets/validation/counts.json");
+/// Largest order at which validation reruns the redundant reference generator.
+/// Its candidate space at this order is 2^10 = 1,024 relation subsets.
+const MAX_REFERENCE_ORDER: usize = 5;
 
 #[derive(Debug, Deserialize)]
 struct CountTable {
@@ -187,14 +191,9 @@ pub fn validate_census(census: &Census) -> Result<ValidationReport> {
             "Poset record fields did not reconstruct"
         );
 
+        // `canonical.verify` above checks each generator of this group as an
+        // order automorphism of `poset`; completeness rests on the labeled count.
         let group = canonical.automorphism_group();
-        ensure!(
-            group
-                .generators()
-                .iter()
-                .all(|generator| group.contains(generator).unwrap_or(false)),
-            "automorphism generator failed group membership"
-        );
         ensure!(
             group.order().to_decimal() == record.automorphism_group.order,
             "group order changed"
@@ -278,6 +277,18 @@ pub fn validate_census(census: &Census) -> Result<ValidationReport> {
         labeled == expected_labeled,
         "labeled/unlabeled identity mismatch"
     );
+    let reference_key_set_complete = if census.order <= MAX_REFERENCE_ORDER {
+        let (_, reference) = reference_representatives(census.order, 1_024)?;
+        ensure!(
+            reference
+                .keys()
+                .eq(census.posets.iter().map(|record| &record.key)),
+            "reference key-set mismatch"
+        );
+        true
+    } else {
+        false
+    };
 
     let checks = ValidationChecks {
         unlabeled_posets: count_check(expected_unlabeled, observed_unlabeled),
@@ -286,7 +297,7 @@ pub fn validate_census(census: &Census) -> Result<ValidationReport> {
         labeled_posets_from_automorphisms: count_check(expected_labeled, labeled),
         poset_keys_unique_and_sorted: true,
         complex_keys_unique_and_sorted: true,
-        reference_key_set_complete: true,
+        reference_key_set_complete,
         record_shapes: true,
         canonical_keys_and_covers: true,
         automorphism_generators_and_orbits: true,
@@ -320,7 +331,7 @@ pub fn validate_census(census: &Census) -> Result<ValidationReport> {
     })
 }
 
-fn homology_signature(
+pub(crate) fn homology_signature(
     groups: &[crate::records::IntegralHomologyRecord],
 ) -> BTreeMap<usize, (usize, Vec<String>)> {
     groups
@@ -335,7 +346,7 @@ fn homology_signature(
         .collect()
 }
 
-fn check_complex(record: &crate::records::ComplexRecord) -> Result<()> {
+pub(crate) fn check_complex(record: &crate::records::ComplexRecord) -> Result<()> {
     ensure!(
         complex_key(record.vertex_count, &record.facets)? == record.key,
         "complex key did not reconstruct"

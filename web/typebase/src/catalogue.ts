@@ -250,7 +250,7 @@ export class Catalogue {
   }
 
   private matches(row: SearchRow, filters: Filters): boolean {
-    if (filters.label && !row.label.startsWith(filters.label)) return false;
+    if (filters.label && !(row.label === filters.label || row.label.startsWith(`${filters.label}.`))) return false;
     if (filters.order !== null && row.order !== filters.order) return false;
     if (filters.dimension !== null && row.dimension !== filters.dimension) return false;
     if (filters.connected && !row.is_connected) return false;
@@ -303,7 +303,7 @@ export class Catalogue {
       if (!/^\d+(?:\.-?\d+)?(?:\.\d+)?$/.test(filters.label)) {
         throw new Error("Labels contain two or three numbers separated by periods");
       }
-      clauses.push(`${column("label")} LIKE ${quote(`${filters.label}%`)}`);
+      clauses.push(`(${column("label")} = ${quote(filters.label)} OR ${column("label")} LIKE ${quote(`${filters.label}.%`)})`);
     }
     if (filters.order !== null) clauses.push(`${column('"order"')} = ${filters.order}`);
     if (filters.dimension !== null) clauses.push(`${column("dimension")} = ${filters.dimension}`);

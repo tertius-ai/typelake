@@ -359,7 +359,7 @@ pub fn mapping_records(
     for source in &objects {
         for target in &objects {
             let mapping = category.mapping_category(source, target)?;
-            let mapping_model = mapping.strong_steiner_model().with_context(|| {
+            let mapping_model = crate::mapping_model::verified_mapping_model(&mapping).with_context(|| {
                 format!(
                     "recovering Steiner model for mapping category of {key:?} from {source:?} to {target:?}"
                 )

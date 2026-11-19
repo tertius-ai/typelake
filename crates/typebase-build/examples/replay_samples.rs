@@ -56,7 +56,9 @@ fn main() -> Result<()> {
             "finite-posets/census/record-version=1/order={order}/posets.jsonl"
         ));
         let selected = indices(length);
+        let mut observed = 0;
         for (index, line) in BufReader::new(File::open(path)?).lines().enumerate() {
+            observed += 1;
             let line = line?;
             if !selected.contains(&index) {
                 continue;
@@ -72,6 +74,10 @@ fn main() -> Result<()> {
             same(&old, &new, &format!("poset order {order}, row {index}"))?;
             count += 1;
         }
+        ensure!(
+            observed == length,
+            "Poset shell row count differs from accepted counts"
+        );
     }
     counts.insert("finite-posets".to_owned(), json!(count));
     eprintln!("replayed {count} posets");
@@ -82,6 +88,7 @@ fn main() -> Result<()> {
             "strong-steiner-categories/census/record-version=1/atomic-size={size}/categories.jsonl"
         ));
         let rows: Vec<steiner_census::records::SteinerCategoryRecord> = read(&path)?;
+        ensure!(!rows.is_empty(), "empty Steiner source shell");
         for index in indices(rows.len()) {
             let old = &rows[index];
             let identity = steiner_census::records::SteinerIdentityRecord {
@@ -178,6 +185,7 @@ fn main() -> Result<()> {
         let homotopy = jsonl::load_homotopy_shell(&options.data_root, total, dimension)?;
         let f2 = jsonl::load_cohomology_shell(&options.data_root, total, dimension, 2)?;
         let f3 = jsonl::load_cohomology_shell(&options.data_root, total, dimension, 3)?;
+        let odd = jsonl::load_steenrod_operations_shell(&options.data_root, total, dimension, 3)?;
         for index in indices(identities.len()) {
             let identity = &identities[index];
             same(
@@ -197,6 +205,11 @@ fn main() -> Result<()> {
                 &enrich::homotopy_record(identity)?,
                 "simplicial set homotopy",
             )?;
+            same(
+                &odd[index],
+                &enrich::steenrod_operations_record(identity, &f3[index], &FiniteField::prime(3)?)?,
+                "simplicial set odd-primary operations",
+            )?;
             for (prime, rows) in [(2, &f2), (3, &f3)] {
                 same(
                     &rows[index],
@@ -213,7 +226,9 @@ fn main() -> Result<()> {
         serde_json::to_vec_pretty(&json!({
             "status": "passed", "noether_version": noether::VERSION,
             "noether_revision": eilenberg_maclane_build::NOETHER_REVISION,
-            "sampling": "first, middle, and last row in each installed shell",
+            "sampling": "first, middle, and last row of each selected Poset, Steiner, simplicial-complex and simplicial-set shell",
+            "included_sidecars": ["categorical homology", "simplicial topology and cohomology", "simplicial-set horn collapses and F3 operations"],
+            "omitted_collections": ["finite-group-cohomology", "eilenberg-maclane"],
             "sampled_objects": counts, "full_mathematical_recomputation": false,
             "full_artifact_hash_verification": "scripts/volume-one.py verify",
         }))?,

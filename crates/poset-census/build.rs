@@ -1,4 +1,5 @@
-use std::{env, path::Path, process::Command};
+use sha2::{Digest, Sha256};
+use std::{env, fs, path::Path, process::Command};
 
 fn command_output(program: &str, args: &[&str], directory: &Path) -> Option<String> {
     let output = Command::new(program)
@@ -28,6 +29,27 @@ fn main() {
     let target = env::var("TARGET").unwrap_or_else(|_| "unknown".to_owned());
     let profile = env::var("PROFILE").unwrap_or_else(|_| "unknown".to_owned());
 
+    let mut source = Sha256::new();
+    if let Some(paths) = command_output(
+        "git",
+        &["ls-files", "--cached", "--others", "--exclude-standard"],
+        &repository,
+    ) {
+        for path in paths.lines() {
+            let file = repository.join(path);
+            if let Ok(bytes) = fs::read(&file) {
+                source.update(path.as_bytes());
+                source.update([0]);
+                source.update((bytes.len() as u64).to_le_bytes());
+                source.update(bytes);
+                println!("cargo:rerun-if-changed={}", file.display());
+            }
+        }
+    }
+    println!(
+        "cargo:rustc-env=TYPELAKE_SOURCE_SHA256={:x}",
+        source.finalize()
+    );
     println!("cargo:rustc-env=POSET_CENSUS_REVISION={revision}");
     println!("cargo:rustc-env=POSET_CENSUS_DIRTY={dirty}");
     println!("cargo:rustc-env=POSET_CENSUS_RUSTC={rustc}");
